@@ -1,0 +1,232 @@
+syntax = "proto3";
+
+import "comm/errors.proto";
+import "google/api/annotations.proto";
+import "bean/types.proto";
+
+package api.space_work_version.v1;
+
+option go_package = "go-cs/api/space_work_version/v1;v1";
+option java_multiple_files = true;
+option java_package = "api.space.space_work_version.v1";
+
+service space_work_version {
+
+    rpc CreateSpaceWorkVersion (CreateSpaceWorkVersionRequest) returns (CreateSpaceWorkVersionReply) {
+        option (google.api.http) = {
+            post: "/my/space/work_version/create",
+            body: "*",
+        };
+    }
+
+    rpc SpaceWorkVersionList (SpaceWorkVersionListRequest) returns (SpaceWorkVersionListReply) {
+        option (google.api.http) = {
+            post: "/my/space/work_version/list",
+            body: "*",
+        };
+    }
+
+    rpc SpaceWorkVersionById (SpaceWorkVersionByIdRequest) returns (SpaceWorkVersionByIdReply) {
+        option (google.api.http) = {
+            post: "/my/space/work_version/by_id",
+            body: "*",
+        };
+    }
+
+
+    rpc ModifySpaceWorkVersionName (ModifySpaceWorkVersionNameRequest) returns (ModifySpaceWorkVersionNameReply) {
+        option (google.api.http) = {
+            post: "/my/space/work_version/modify/name",
+            body: "*",
+        };
+    }
+
+    rpc DelSpaceWorkVersion (DelSpaceWorkVersionRequest) returns (DelSpaceWorkVersionReply) {
+        option (google.api.http) = {
+            post: "/my/space/work_version/del",
+            body: "*",
+        };
+    }
+
+
+    rpc SetSpaceWorkVersionOrder (SetWorkVersionOrderRequest) returns (SetWorkVersionOrderReply) {
+        option (google.api.http) = {
+            post: "/my/space/work_version/set_order",
+            body: "*",
+        };
+    }
+
+
+    rpc SpaceWorkVersionRelationCount (SpaceWorkVersionRelationCountRequest) returns (SpaceWorkVersionRelationCountReply) {
+        option (google.api.http) = {
+            post: "/my/space/work_version/relation_count",
+            body: "*",
+        };
+    }
+
+    rpc SetSpaceWorkVersionRanking (SetSpaceWorkVersionRankingRequest) returns (SetSpaceWorkVersionRankingReply) {
+        option (google.api.http) = {
+          post: "/my/space/work_version/ranking/set",
+          body: "*",
+        };
+      }
+}
+
+
+
+//---设置工作流排序
+message SetSpaceWorkVersionRankingRequest {
+
+    message List {
+      int64 id = 2;
+      int64 ranking = 3;
+    }
+  
+    int64 space_id = 1;
+    repeated List list =  2;
+  }
+  
+  message SetSpaceWorkVersionRankingReply {
+    oneof result {
+      comm.ErrorInfo error = 1;
+      string data = 2;
+    }
+  }
+  
+
+message SetWorkVersionOrderRequest {
+    int64 spaceId = 1;
+    int64 versionId = 2;
+    int64 fromIdx = 3;
+    int64 toIdx = 4;
+}
+
+message SetWorkVersionOrderReply {
+    oneof result {
+        comm.ErrorInfo error = 1;
+    }
+}
+
+
+// 创建 项目空间-工作项版本
+message CreateSpaceWorkVersionRequest {
+    string version_name = 1;  //版本名称
+    sint64 space_id = 2; //用户id
+    string scene = 3; // 场景类型 work_item
+    CreateSpaceWorkVersionRequestWorkItemSceneData  work_item_scene = 5;
+}
+
+message CreateSpaceWorkVersionRequestWorkItemSceneData {
+    sint64 work_item_id = 1;  // 项目空间名称
+}
+
+message CreateSpaceWorkVersionReply {
+    oneof result {
+        comm.ErrorInfo error = 1;
+        server_go_base.bean.SpaceWorkVersion  data = 2;
+    }
+}
+
+//工作项版本-列表
+message SpaceWorkVersionByIdRequest {
+    sint64 space_id = 1;
+    repeated sint64 ids = 2;
+}
+
+message SpaceWorkVersionByIdReply {
+    oneof result {
+        comm.ErrorInfo error = 1;
+        SpaceWorkVersionByIdReplyData  data = 2;
+    }
+}
+
+message SpaceWorkVersionByIdReplyData {
+    repeated SpaceWorkVersionByIdReplyData_Item  list = 1;
+}
+
+message SpaceWorkVersionByIdReplyData_Item {
+    sint64 id = 1;
+    sint64 space_id = 2; //空间id
+    string version_key = 10;//版本KEY
+    string version_name = 3;//版本名称
+    int64  version_status = 4; //版本状态
+    string remark = 5; //备注
+    sint64 ranking = 6; //排序
+    sint64 created_at = 7;//创建时间
+    sint64 updated_at = 8;//更新时间
+}
+
+//工作项版本-列表
+message SpaceWorkVersionListRequest {
+    sint64 space_id = 1;
+}
+
+message SpaceWorkVersionListReply {
+    oneof result {
+        comm.ErrorInfo error = 1;
+        SpaceWorkVersionListReplyData  data = 2;
+    }
+}
+
+message SpaceWorkVersionListReplyData {
+    repeated SpaceWorkVersionListReplyData_Item  list = 1;
+}
+
+message SpaceWorkVersionListReplyData_Item {
+    sint64 id = 1;
+    sint64 space_id = 2; //空间id
+    string version_key = 10;//版本KEY
+    string version_name = 3;//版本名称
+    int64  version_status = 4; //版本状态
+    string remark = 5; //备注
+    sint64 ranking = 6; //排序
+    sint64 created_at = 7;//创建时间
+    sint64 updated_at = 8;//更新时间
+}
+  
+
+//工作项版本-名称修改
+message ModifySpaceWorkVersionNameRequest {
+    sint64 version_id =1 ;
+    string version_name =2 ;
+    string scene = 3; // 场景类型 work_item
+    ModifySpaceWorkVersionNameRequestWorkItemSceneData  work_item_scene = 5;
+}
+
+message ModifySpaceWorkVersionNameRequestWorkItemSceneData {
+    sint64 work_item_id = 1;  // 项目空间名称
+}
+
+message ModifySpaceWorkVersionNameReply {
+    oneof result {
+        comm.ErrorInfo error = 1;
+        string  data = 2;
+    }
+}
+
+//工作项版本-删除
+message DelSpaceWorkVersionRequest {
+    sint64 version_id =1 ;
+    sint64 to_version_id = 2;
+}
+
+message DelSpaceWorkVersionReply {
+    oneof result {
+        comm.ErrorInfo error = 1;
+        string  data = 2;
+    }
+}
+
+
+//工作项版本-已关联的数量
+message SpaceWorkVersionRelationCountRequest {
+    sint64 space_id = 1;
+    sint64 version_id = 2;
+}
+
+message SpaceWorkVersionRelationCountReply {
+    oneof result {
+        comm.ErrorInfo error = 1;
+        sint64  data = 2;
+    }
+}

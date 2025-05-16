@@ -1,0 +1,108 @@
+syntax = "proto3";
+package rsp;
+option go_package = "go-cs/internal/bean/vo/rsp;rsp";
+
+message SimpleUserInfo {
+  sint64 id = 1;
+  sint64 user_id = 2;//用户id
+  string user_name = 3; //用户名
+  string user_nickname = 4;//用户昵称
+  string avatar = 5;//用户头像
+}
+
+message SpaceMemberInfo {
+  sint64 id = 1;
+  sint64 member_id = 2; //项目空间成员id
+  sint64 space_id = 3; //项目空间id
+  sint64 user_id = 4; //用户id
+  sint32 role_id = 5; //项目空间成员权限
+  string user_name = 6;//用户名
+  string mobile = 7;//中国手机不带国家代码，国际手机号格式为：国家代码-手机号
+  string user_nickname = 8;//用户昵称
+  string user_pinyin = 9;//用户昵称拼音
+  sint32 user_status = 10;//用户状态;0:禁用,1:正常,2:未验证
+  string avatar = 11;//用户头像
+}
+
+message MyInfo {
+  sint64 id = 1;
+  string user_name = 2;//用户名
+  string mobile = 3;//中国手机不带国家代码，国际手机号格式为：国家代码-手机号
+  string user_nickname = 4;//用户昵称
+  string user_pinyin = 5;//用户昵称拼音
+  sint32 user_status = 8;//用户状态;0:禁用,1:正常,2:未验证
+  string user_email = 9;//用户登录邮箱
+  sint32 sex = 10;//性别;0:保密,1:男,2:女
+  string avatar = 11;//用户头像
+  string remark = 12;//备注
+  string describe = 13;//描述信息
+  string last_login_ip = 14;//最后登录ip
+  sint64 last_login_time = 15;//最后登录时间
+  sint64 created_at = 16;//创建时间
+  sint64 updated_at = 17;//更新时间
+  sint64 deleted_at = 18;//删除时间
+  bool can_set_nick_name = 19; //能否修改昵称
+  int64 role = 21; //用户角色;0:普通用户,50:管理员,100:超级管理员
+
+  message ThirdPartyInfo {
+    int64 id = 1;
+    int32 pf_code = 2; //第三方平台唯一标识
+    string pf_name = 3;
+    string pf_user_name = 4; //第三方平台用户名
+    int64 pf_user_id = 5; //第三方平台用户id
+    string pf_user_account = 6; //第三方平台用户账号
+    int32 notify = 7;
+  }
+
+  repeated ThirdPartyInfo bindAccounts = 20;
+
+  map<string, string> config = 22;
+}
+
+
+
+
+//用户基本信息
+message ViewUserInfo {
+  sint64 id = 1;
+  string user_name = 2;//用户名
+  string mobile = 3;//中国手机不带国家代码，国际手机号格式为：国家代码-手机号
+  string user_nickname = 4;//用户昵称
+  string user_pinyin = 5;//用户昵称拼音
+  sint32 user_status = 8;//用户状态;0:禁用,1:正常,2:未验证
+  string user_email = 9;//用户登录邮箱
+  sint32 sex = 10;//性别;0:保密,1:男,2:女
+  string avatar = 11;//用户头像
+  string remark = 12;//备注
+  string describe = 13;//描述信息
+  string last_login_ip = 14;//最后登录ip
+  sint64 last_login_time = 15;//最后登录时间
+  sint64 created_at = 16;//创建时间
+  sint64 updated_at = 17;//更新时间
+  sint64 deleted_at = 18;//删除时间
+  bool can_set_nick_name = 19; //能否修改昵称
+}
+
+
+
+//用户+所在项目空间信息
+message ViewUserWithSpaceInfo {
+  sint64 id = 1;
+  string user_name = 2;//用户名
+  string mobile = 3;//中国手机不带国家代码，国际手机号格式为：国家代码-手机号
+  string user_nickname = 4;//用户昵称
+  string user_pinyin = 5;//用户昵称拼音
+  sint32 user_status = 8;//用户状态;0:禁用,1:正常,2:未验证
+  string user_email = 9;//用户登录邮箱
+  sint32 sex = 10;//性别;0:保密,1:男,2:女
+  string avatar = 11;//用户头像
+  string remark = 12;//备注
+  string describe = 13;//描述信息
+  string last_login_ip = 14;//最后登录ip
+  sint64 last_login_time = 15;//最后登录时间
+  sint64 space_id = 16; //项目空间id
+  sint64 space_memeber_id = 17; //项目空间成员id
+  sint32 space_memeber_role_id = 18; //项目空间成员权限
+  sint64 user_id = 19; //用户id
+}
+

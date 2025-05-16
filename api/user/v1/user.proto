@@ -1,0 +1,589 @@
+syntax = "proto3";
+import "comm/errors.proto";
+import "comm/enum.proto";
+import "google/api/annotations.proto";
+import "google/protobuf/type.proto";
+import "bean/types.proto";
+import "bean/vo/rsp/user.proto";
+package api.user.v1;
+
+option go_package = "/api/user/v1;v1";
+option java_multiple_files = true;
+option java_package = "api.user.v1";
+
+service User {
+  rpc GetUser (GetUserRequest) returns (GetUserReply) {
+    option (google.api.http) = {
+      get: "/user/get/{id}",
+    };
+  }
+
+  rpc CheckUserName (CheckUserNameRequest) returns (CheckUserNameReply) {
+    option (google.api.http) = {
+      post: "/user/check_name",
+      body: "*"
+    };
+  }
+
+  rpc SearchUserList (SearchUserListRequest) returns (SearchUserListReply) {
+    option (google.api.http) = {
+      post: "my/user/list/search",
+      body: "*"
+    };
+  }
+
+  rpc ListUser (ListUserRequest) returns (ListUserReply){
+    option (google.api.http) = {
+      get: "/user/list",
+    };
+  }
+
+  rpc RegUser (RegUserRequest) returns (comm.CommonReply){
+    option (google.api.http) = {
+      post: "/user/reg",
+      body: "*"
+    };
+  }
+
+  rpc SetMyAvatar (SetMyAvatarRequest) returns (SetMyAvatarReply) {
+    option (google.api.http) = {
+      post: "/my/avatar/set",
+      body: "*"
+    };
+  }
+
+  rpc GetMyUserInfo (GetMyUserInfoRequest) returns (GetMyUserInfoReply) {
+    option (google.api.http) = {
+      post: "/my/info",
+      body: "*"
+    };
+  }
+
+  rpc SetMyNickName (SetMyNickNameRquest) returns (SetMyNickNameReply) {
+    option (google.api.http) = {
+      post: "/my/nickname/set",
+      body: "*"
+    };
+  }
+
+  rpc ChangeMyPwd (ChangeMyPwdRequest) returns (ChangeMyPwdReply) {
+    option (google.api.http) = {
+      post: "/my/pwd/change",
+      body: "*"
+    };
+  }
+
+
+  rpc GetMySpaceMemberInfo (GetMySpaceMemberInfoRequest) returns (GetMySpaceMemberInfoReply) {
+    option (google.api.http) = {
+      post: "/my/space_memeber/info",
+      body: "*",
+    };
+  }
+
+  rpc Bind (BindRequest) returns (BindReply) {
+    option (google.api.http) = {
+      post: "/my/bind",
+      body: "*",
+    };
+  }
+
+  rpc Unbind (UnbindRequest) returns (UnbindReply) {
+    option (google.api.http) = {
+      post: "/my/unbind",
+      body: "*",
+    };
+  }
+
+  rpc Cancel (CancelRequest) returns (CancelReply) {
+    option (google.api.http) = {
+      post: "/my/cancel",
+      body: "*",
+    };
+  }
+
+  rpc SetSpaceNotify (SetSpaceNotifyRequest) returns (SetSpaceNotifyReply) {
+    option (google.api.http) = {
+      post: "/my/set_space_notify",
+      body: "*",
+    };
+  }
+
+  rpc SetSpaceOrder (SetSpaceOrderRequest) returns (SetSpaceOrderReply) {
+    option (google.api.http) = {
+      post: "/my/set_space_order",
+      body: "*",
+    };
+  }
+
+  rpc MyPendingWorkItem (MyPendingWorkItemRequest) returns (MyPendingWorkItemReply) {
+    option (google.api.http) = {
+      post: "/my/pending_work_item",
+      body: "*",
+    };
+  }
+
+  rpc MyRelatedComment (MyRelatedCommentRequest) returns (MyRelatedCommentReply) {
+    option (google.api.http) = {
+      post: "/my/related_comment_ids",
+      body: "*",
+    };
+  }
+
+  rpc MyRelatedCommentByIds (MyRelatedCommentByIdsRequest) returns (MyRelatedCommentByIdsReply) {
+    option (google.api.http) = {
+      post: "/my/related_comment_by_ids",
+      body: "*",
+    };
+  }
+
+  rpc NotifyCount (NotifyCountRequest) returns (NotifyCountReply) {
+    option (google.api.http) = {
+      post: "/my/notify_count",
+      body: "*",
+    };
+  }
+
+  rpc GetTempConfig (GetTempConfigRequest) returns (GetTempConfigReply) {
+    option (google.api.http) = {
+      post: "/my/get_temp_config",
+      body: "*",
+    };
+  }
+
+  rpc SetTempConfig (SetTempConfigRequest) returns (SetTempConfigReply) {
+    option (google.api.http) = {
+      post: "/my/set_temp_config",
+      body: "*",
+    };
+  }
+
+  rpc DelTempConfig (DelTempConfigRequest) returns (DelTempConfigReply) {
+    option (google.api.http) = {
+      post: "/my/del_temp_config",
+      body: "*",
+    };
+  }
+
+  rpc AllSpaceProfile (AllSpaceProfileRequest) returns (AllSpaceProfileReply) {
+    option (google.api.http) = {
+      post: "/user/all_space_profile",
+      body: "*"
+    };
+  }
+
+  rpc GetUserConfig (GetUserConfigRequest) returns (GetUserConfigReply) {
+    option (google.api.http) = {
+      post: "/my/get_user_config",
+      body: "*",
+    };
+  }
+
+  rpc SetUserConfig (SetUserConfigRequest) returns (SetUserConfigReply) {
+    option (google.api.http) = {
+      post: "/my/set_user_config",
+      body: "*",
+    };
+  }
+
+  rpc SetThirdPlatformNotify (SetThirdPlatformNotifyRequest) returns (SetThirdPlatformNotifyReply) {
+    option (google.api.http) = {
+      post: "/my/set_third_platform_notify",
+      body: "*",
+    };
+  }
+}
+
+message SetThirdPlatformNotifyRequest{
+  comm.ThirdPlatformCode platformCode = 1;
+  int32 notify = 2;
+}
+
+message SetThirdPlatformNotifyReply{
+  comm.ErrorInfo error = 1;
+}
+
+message GetUserConfigRequest {
+
+}
+
+message GetUserConfigReply {
+  comm.ErrorInfo error = 1;
+  map<string, string> data = 2;
+}
+
+message SetUserConfigRequest {
+  string key = 1;
+  string value = 2;
+}
+
+message SetUserConfigReply {
+  comm.ErrorInfo error = 1;
+}
+
+message AllSpaceProfileRequest {
+  int64 userId = 1;
+}
+
+message AllSpaceProfileReply {
+  message Data {
+    message SpaceProfile {
+      int64 spaceId = 1;
+      string spaceName = 2;
+      int64 relatedWorkItemNum = 3;
+      int64 spaceRole = 4;
+      int64 memberNum = 5;
+    }
+
+    repeated SpaceProfile list = 1;
+  }
+
+  comm.ErrorInfo error = 1;
+  Data data = 2;
+}
+
+message GetTempConfigRequest {
+  repeated string keys = 1; //keys
+}
+
+message GetTempConfigReply {
+  comm.ErrorInfo error = 1;
+  map<string, string> data = 2;
+}
+
+message SetTempConfigRequest {
+  map<string, string> configs = 2;
+}
+
+message SetTempConfigReply {
+  comm.ErrorInfo error = 1;
+}
+
+message DelTempConfigRequest {
+  repeated string keys = 1; //keys
+}
+
+message DelTempConfigReply {
+  comm.ErrorInfo error = 1;
+}
+
+message NotifyCountRequest {
+
+}
+
+message NotifyCountReply{
+  oneof result {
+    comm.ErrorInfo error = 1;
+    NotifyCountReplyData data = 2;
+  }
+}
+
+message NotifyCountReplyData {
+  int64 pending = 1;
+  //  int64 comment = 2;
+}
+
+
+message MyRelatedCommentByIdsRequest {
+  repeated  int64 ids = 1;
+}
+
+message MyRelatedCommentByIdsReply{
+  oneof result {
+    comm.ErrorInfo error = 1;
+    MyRelatedCommentByIdsReplyData data = 2;
+  }
+}
+
+message MyRelatedCommentByIdsReplyData{
+  message Item {
+    int64 id = 1;
+    string doc = 2;
+  }
+
+  repeated Item items = 1;
+}
+
+message MyRelatedCommentRequest {
+  int64 pos = 1;
+  int64 size = 2;
+}
+
+message MyRelatedCommentReply{
+  oneof result {
+    comm.ErrorInfo error = 1;
+    MyRelatedCommentReplyData data = 2;
+  }
+}
+
+message MyRelatedCommentReplyData{
+  repeated int64 items = 1;
+  bool hasNext = 2;
+  int64 nextPos = 3;
+}
+
+message MyPendingWorkItemRequest {
+
+}
+
+message MyPendingWorkItemReply{
+  oneof result {
+    comm.ErrorInfo error = 1;
+    MyPendingWorkItemReplyData data = 2;
+  }
+}
+
+message MyPendingWorkItemReplyData{
+  repeated int64 items = 1;
+}
+
+message SetSpaceOrderRequest {
+  int64 fromIdx = 1;
+  int64 toIdx = 2;
+}
+message SetSpaceOrderReply {
+  oneof result {
+    comm.ErrorInfo error = 1;
+  }
+}
+message SetSpaceNotifyRequest{
+  int64 spaceId = 1;
+  int32 notify = 2;
+}
+
+message SetSpaceNotifyReply{
+  oneof result {
+    comm.ErrorInfo error = 1;
+  }
+}
+
+message CancelRequest {
+  int64 userId = 1;
+}
+
+message CancelReply {
+  oneof result {
+    comm.ErrorInfo error = 1;
+  }
+}
+
+message UnbindRequest {
+  enum Type {
+    None = 0;
+    //    Email = 1;
+    //    Mobile = 2;
+    IM = 3;
+    Ql = 4;
+    Halala = 5;
+  }
+
+  Type type = 1;
+}
+
+message UnbindReply {
+  oneof result {
+    comm.ErrorInfo error = 1;
+  }
+}
+
+message BindRequest {
+  enum Type {
+    None = 0;
+    //    Email = 1;
+    //    Mobile = 2;
+    IM = 3;
+    Ql = 4;
+    Halala = 5;
+  }
+
+  Type type = 1;
+  string key = 2; //邮箱/手机号/第三方账号用户唯一标识
+  string name = 3; //第三方账号昵称
+  int64 userId = 4;// 第三方账号用户id
+  string account = 5;// 第三方账号用户账号
+  string pf_name = 6; // 第三方账号平台名称
+}
+
+message BindReply {
+  oneof result {
+    comm.ErrorInfo error = 1;
+  }
+}
+
+message GetUserRequest {
+  sint64 id = 1;
+}
+message GetUserReply {
+  oneof result {
+    comm.ErrorInfo error = 1;
+    server_go_base.bean.User data = 2;
+  }
+}
+
+message ListUserRequest {}
+
+message ListUserReply {
+
+  message ListUserReplyData {
+    int32 count = 1;
+    repeated rsp.ViewUserInfo list = 2;
+  }
+
+  oneof result {
+    comm.ErrorInfo error = 1;
+    ListUserReplyData data = 2;
+  }
+}
+
+message RegUserRequest{
+  enum Way {
+    Pwd = 0;
+    IM = 3;
+    QL = 4;
+    Halala = 5;
+  }
+
+  Way way = 1;
+  string user_name = 2;
+  string nick_name = 3;
+  string password = 4;
+  string avatar = 5;
+  string pf_token = 6;
+  string pf_name = 7;
+}
+
+
+message SearchUserByPyRequest {
+  string py = 1;
+  int32 fliterType = 2;
+  sint64 spaceId = 3;
+}
+
+message SearchUserByPyReply {
+  oneof result {
+    comm.ErrorInfo error = 1;
+    SearchUserByPyReplyData data = 2;
+  }
+}
+
+
+
+//---检查用户名
+message CheckUserNameRequest {
+  string name = 1;
+}
+
+message CheckUserNameReply {
+  oneof result {
+    comm.ErrorInfo error = 1;
+    string data = 2;
+  }
+}
+
+
+message SearchUserByPyReplyData {
+  repeated rsp.ViewUserWithSpaceInfo list = 1;
+}
+
+
+message SearchUserListRequest {
+  string py = 1;
+  repeated int64 spaceIds = 3;
+  repeated int64 userIds = 4;
+}
+
+message SearchUserListReply {
+  oneof result {
+    comm.ErrorInfo error = 1;
+    SearchUserListReplyData data = 2;
+  }
+}
+
+message SearchUserListReplyData {
+  repeated rsp.SimpleUserInfo list = 1;
+}
+
+//---头像设置----
+message SetMyAvatarRequest {
+  string avatar = 1;
+}
+
+message SetMyAvatarReply {
+  oneof result {
+    comm.ErrorInfo error = 1;
+    SetMyAvatarReplyData data = 2;
+  }
+}
+
+message SetMyAvatarReplyData {
+}
+
+//---修改密码---
+message ChangeMyPwdRequest {
+  enum typ {
+    by_old_pwd = 0;
+    //    by_email = 1;
+    //    by_mobile = 2;
+    by_forceUpdate = 10; //强行更新
+  }
+
+  typ type = 1;
+  string username = 2;
+  string pwd = 3;
+  string new_pwd = 4;
+}
+
+message ChangeMyPwdReply {
+  oneof result {
+    comm.ErrorInfo error = 1;
+    ChangeMyPwdReplyData data = 2;
+  }
+}
+
+message ChangeMyPwdReplyData {
+
+}
+
+//---设置昵称
+
+message SetMyNickNameRquest {
+  string nick_name = 1;
+}
+
+message SetMyNickNameReply {
+  oneof result {
+    comm.ErrorInfo error = 1;
+    SetMyNickNameReplyData data = 2;
+  }
+}
+
+message SetMyNickNameReplyData {
+}
+
+// -- 获取当前用户信息
+
+message GetMyUserInfoRequest {
+
+}
+
+message GetMyUserInfoReply {
+  oneof result {
+    comm.ErrorInfo error = 1;
+    rsp.MyInfo data = 2;
+  }
+}
+
+
+
+//-- 获取当前登录会员的成员信息
+message GetMySpaceMemberInfoRequest {
+  sint64 space_id = 1;
+}
+
+message GetMySpaceMemberInfoReply {
+  oneof result {
+    comm.ErrorInfo error = 1;
+    rsp.SpaceMemberInfo data = 2;
+  }
+}
+

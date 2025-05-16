@@ -1,0 +1,154 @@
+[system]
+lang = "zh-CN"
+
+[info]
+msg_success = "成功"
+msg_fail    = "失败"
+
+[error]
+#Test
+ERROR_MSG_TEST                  = "这是ErrorCode i18n测试!"
+ERROR_MSG_FORMAT_TEST           = "这是ErrorCode i18n字串变数测试: %s"
+
+#Global
+ERROR_BUSINESS                  = "%s"
+ERROR_INTERNAL                  = "内部错误"
+
+#Chat
+CHAT_NOT_FOUND                  = "聊天会话不存在"
+CHAT_FULL                       = "已达聊天人数上限"
+CHAT_GET_FAIL                   = "读取聊天会话失败"
+CHAT_CREATE_FAIL                = "创建聊天会话失败"
+CHAT_DELETE_FAIL                = "删除聊天会话失败"
+CHAT_DELETE_USER_CHAT_FAIL      = "删除用户聊天会话失败"
+CHAT_SET_SORT_FAIL              = "设置排序失败"
+CHAT_SET_MUTE_FAIL              = "设置免打扰失败"
+CHAT_SET_AUTO_CLEAN_FAIL        = "设置自动清理消息失败"
+CHAT_SET_DEVELOP_FAIL           = "设置调适模式失败"
+
+#Message
+MESSAGE_INVALID_CONTENT         = "消息内容不合法"
+MESSAGE_MSG_QUERY_FAIL          = "获取消息失败"
+MESSAGE_MSG_SEND_FAIL           = "发送消息失败"
+MESSAGE_MSG_LIST_FAIL           = "获取消息列表失败"
+MESSAGE_MSG_DELETE_FAIL         = "删除消息失败"
+MESSAGE_MSG_EDIT_FAIL           = "编辑消息失败"
+MESSAGE_MSG_RECALL_FAIL         = "撤回消息失败"
+MESSAGE_MSG_FORWARD_FAIL        = "转发消息失败"
+MESSAGE_NOT_IN_CHAT_FAIL        = "您不在聊天会话中, 无法发送讯息"
+
+#User
+USER_GET_FAIL = "查詢用戶信息失敗"
+USER_LIST_FAIL = "查詢用戶列表失敗"
+USER_NAME_IS_EXIST = "账号已存在"
+USER_NICKNAME_IS_EXIST = "昵称已存在"
+USER_WORONG_CONFIG_PASSWORD = "二次验证密码错误"
+USER_WRONG_RULE_USERNAME = "用户名格式错误"
+USER_WRONG_RULE_PASSWORD = "密码格式不正确"
+USER_WRONG_RULE_NICKNAME = "昵称格式不正确"
+
+#注册类
+REG_USER_NAME_INVAILD = "用户名格式不正确"
+REG_USER_NICK_NAME_INVAILD = "用户昵称不合法"
+
+
+#登入類
+LOGIN_FAIL                      = "登入失败"
+LOGIN_USER_NOT_LOGIN            = "用户未登入"
+LOGIN_WRONG_ACCOUNT_OR_PASSWORD = "用户名或密码错误"
+LOGIN_WRONG_VERIFICATION_CODE   = "验证码错误"
+LOGIN_ACCOUNT_ALREADY_EXISTS    = "用户名已存在"
+LOGIN_ACCOUNT_NOT_EXISTS        = "用户不存在"
+LOGIN_ACCOUNT_DISABLED          = "用户已被禁用"
+LOGIN_ACCOUNT_NOT_ACTIVATED     = "帐号尚未启用"
+LOGIN_STATUS_EXPIRED            = "登入状态已过期"
+LOGIN_INIT_FAIL                 = "初始化信息失敗"
+LOGIN_WRONG_FORMAT              = "格式错误"
+LOGIN_MOBILE_USED               = "手机号码已被使用"
+LOGIN_EMAIL_USED                = "邮箱地址已被使用"
+LOGIN_EXCEED_MAX_LOGIN_TIMES    = "超过最大登入尝试次数"
+LOGIN_OPERATION_FREQUENTLY      = "操作过于频繁，请稍后重试"
+LOGIN_OPERATION_TIMEOUTS        = "操作超时，请重新尝试"
+LOGIN_NEED_BIND_BOIN_DUN        = "请找上级绑定波音盾"
+#權限類
+PERMISSION_INSUFFICIENT_PERMISSIONS      = "权限不足"
+PERMISSION_ILLEGAL_OPERATION             = "非法操作"
+PERMISSION_INSUFFICIENT_DATA_PERMISSIONS = "数据权限不足"
+PERMISSION_NOT_IN_IP_WHITELIST           = "ip白名单不通过"
+PERMISSION_USER_SPEAK_FORBIDDEN          = "用户被禁言"
+PERMISSION_USER_BANNED                   = "用户被黑名单"
+PERMISSION_USER_PERMISSIONS_UNUSUAL      = "用户权限异常"
+#DB錯誤
+DB_ADD_FAIL    = "添加失败"
+DB_QUERY_FAIL  = "查询失败"
+DB_MODIFY_FAIL = "修改失败"
+DB_DELETE_FAIL = "删除失败"
+#File&Upload
+FILE_UPLOAD_FAIL        = "上传档案失败"
+FILE_SIZE_EXCEED_LIMIT  = "档案大小超过限制"
+FILE_TYPE_NOT_SUPPORTED = "档案类型不支援"
+FILE_FILENAME_TOO_LONG  = "档案名称过长"
+FILE_OPEN_FAIL          = "档案开启失败"
+FILE_GET_INFO_FAIL      = "取得档案资讯失败"
+#通用業務類
+COMMON_USER_NOT_EXIST       = "用户不存在"
+COMMON_CHANNEL_NOT_EXIST    = "商户不存在"
+COMMON_WRONG_TIME_INTERVAL  = "参数错误，请检查时间区间"
+COMMON_EXCEED_TIME_SPAN     = "时间跨度太大"
+COMMON_EXCEED_STRING_LENGTH = "字串过长"
+COMMON_WRONG_PARAMETER      = "参数错误"
+COMMON_WRONG_PARAMETER_FMT  = "参数错误: %v"
+COMMON_WRONG_HTTP_METHOD    = "Http method错误"
+#Folder
+FOLDER_CREATE_FAIL           = "新增作品失敗"
+FOLDER_UPDATE_FAIL           = "編輯作品失敗"
+FOLDER_UPDATE_FAIL_NOT_EXIST = "編輯作品失敗，作品已不存在"
+FOLDER_DELETE_FAIL           = "刪除作品失敗"
+FOLDER_VIEW_FAIL             = "檢視作品失敗"
+FOLDER_LIST_FAIL             = "讀取作品清單失敗"
+
+#SPACE
+SPACE_CREATE_FAIL = "项目创建失败"
+SPACE_NAME_EXIST = "项目名称已存在"
+SPACE_CREATOR_WRONG = "项目创建者信息错误"
+SPACE_INFO_WRONG = "项目信息错误"
+SPACE_NAME_CHECK_WRONG = "项目名称校验错误"
+SPACE_DEL_FAIL = "项目删除失败"
+SPACE_MEMBER_WRONG = "项目成员信息错误"
+SPACE_MEMBER_EXSIT = "项目成员信息错误"
+SPACE_MEMBER_ADD_FAIL = "项目成员添加失败"
+SPACE_MEMBER_REMOVE_FAIL = "项目成员移除失败"
+SPACE_WORK_OBJECT_CREATE_FAIL = "模块创建失败"
+SPACE_WORK_OBJECT_CREATOR_WRONG = "模块创建者信息错误"
+SPACE_WORK_OBJECT_NAME_EXIST = "模块名称重复"
+SPACE_WORK_OBJECT_INFO_WRONG = "模块信息错误"
+SPACE_WORK_OBJECT_NAME_RULE_WRONG = "模块名长度为2-50个字符"
+
+#SPACE_TAG
+SPACE_TAG_NAME_IS_EXIST = "标签名称重复"
+SPACE_TAG_CREATE_FAIL = "标签名创建失败"
+SPACE_TAG_INFO_WRONG = "标签信息错误"
+SPACE_TAG_DEL_FAIL = "标签删除失败"
+SPACE_TAG_RELATION_EXIST = "标签已添加"
+SPACE_TAG_RELATION_NOT_EXIST = "标签不存在"
+
+#SPACE_WORK_ITEM
+SPACE_WORK_ITEM_CREATE_FAIL = "任务创建失败"
+SPACE_WORK_ITEM_DIRECTOR_WRONG = "任务指定负责人信息错误"
+SPACE_WORK_TASK_DIRECTOR_WRONG = "子任务指定负责人信息错误"
+SPACE_WORK_SET_DIRECTOR_FAIL  = "设置任务负责人失败"
+SPACE_WORK_DIRECTOR_EXIST  = "任务负责人已存在"
+SPACE_WORK_DIRECTOR_NOT_EXIST  = "任务负责人不存在"
+SPACE_WORK_SET_TAG_FAIL  = "任务标签设置失败"
+SPACE_WORK_ITEM_TAG_WRONG = "任务设置的标签不存在"
+SPACE_WORK_SET_DIRECTOR_MUST_HASONE = "任务负责人不能为空"
+SPACE_WORK_ITEM_NAME_RULE_WRONG = "任务长度为2-200个字符"
+
+#SPACE_WORK_FLOW
+WORK_FLOW_STATUS_NOT_ENABLE = "当前任务流程已被禁用"
+
+[test]
+msg_i18n_test  = "这是i18n测试!"
+msg_i18n_test2 = "这是i18n测试2!"
+msg_i18n_test3 = "这是i18n测试字串变数: %s"
+msg_i18n_test5 = "这是i18n测试浮点数变数: %f"

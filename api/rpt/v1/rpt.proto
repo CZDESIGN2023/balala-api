@@ -1,0 +1,300 @@
+syntax = "proto3";
+
+import "comm/errors.proto";
+import "google/api/annotations.proto";
+import "bean/vo/rsp/user.proto";
+
+package api.rpt.v1;
+
+option go_package = "go-cs/api/rpt/v1;v1";
+option java_multiple_files = true;
+option java_package = "api.rpt.v1";
+
+service rpt {
+
+  rpc SearchRptVersionWitem (SearchRptVersionWitemRequest) returns (SearchRptVersionWitemReply) {
+    option (google.api.http) = {
+      post: "/v1/my/rpt/space/verion_witem",
+      body: "*",
+    };
+  }
+
+
+  rpc SearchRptMemberWitem (SearchRptMemberWitemRequest) returns (SearchRptMemberWitemReply) {
+    option (google.api.http) = {
+      post: "/v1/my/rpt/space/member_witem",
+      body: "*",
+    };
+  }
+
+  rpc DashboardRptSpaceWitem (DashboardRptSpaceWitemRequest) returns (DashboardRptSpaceWitemReply) {
+    option (google.api.http) = {
+      post: "/v1/my/rpt/dashboard/space_witem",
+      body: "*",
+    };
+  }
+
+  rpc DashboardRptMemberWitem (DashboardRptMemberWitemRequest) returns (DashboardRptMemberWitemReply) {
+    option (google.api.http) = {
+      post: "/v1/my/rpt/dashboard/member_witem",
+      body: "*",
+    };
+  }
+
+  rpc DashboardSpaceList (DashboardSpaceListRequest) returns (DashboardSpaceListReply) {
+    option (google.api.http) = {
+      post: "/v1/my/rpt/dashboard/space_list",
+      body: "*",
+    };
+  }
+
+  rpc DashboardSpaceIncrWitem (DashboardSpaceIncrWitemRequest) returns (DashboardSpaceIncrWitemReply) {
+    option (google.api.http) = {
+      post: "/v1/my/rpt/dashboard/space_incr_witem",
+      body: "*",
+    };
+  }
+
+  rpc DashboardMemberIncrWitem (DashboardMemberIncrWitemRequest) returns (DashboardMemberIncrWitemReply) {
+    option (google.api.http) = {
+      post: "/v1/my/rpt/dashboard/member_incr_witem",
+      body: "*",
+    };
+  }
+}
+
+
+message SearchRptVersionWitemRequest {
+
+  message TimeRange {
+    string start_date = 1; // "2011-01-01 00:00:00"
+    string end_date = 2; // "2011-01-01 00:00:00"
+  }
+
+  string time_split_type = 1; // Hour, Day, Week, Month
+  TimeRange time_range = 2;
+  int64 space_id = 3;
+  int64 version_id = 4;
+  int64 status_id = 5;
+}
+
+message SearchRptVersionWitemReply {
+  oneof result {
+    comm.ErrorInfo error = 1;
+    SearchRptVersionWitemReplyData  data = 2;
+  }
+}
+
+message SearchRptVersionWitemReplyData {
+  message DataItem {
+    int64 space_id = 1;
+    int64 version_id = 3;
+    int64 num = 7;
+    int64  expire_num = 8;
+    int64  todo_num = 9;
+    int64 close_num = 10;
+    int64 abort_num = 11;
+    int64 complete_num = 12;
+    string start_date = 13;  // "2011-01-01 00:00:00"
+    string end_date = 14; // "2011-01-01 00:00:00"
+  }
+
+  int64 total = 1;
+  repeated DataItem list = 2;
+}
+
+
+
+message SearchRptMemberWitemRequest {
+
+  message TimeRange {
+    string start_date = 1; // "2011-01-01 00:00:00"
+    string end_date = 2; // "2011-01-01 00:00:00"
+  }
+
+  string time_split_type = 1; // Hour, Day, Week, Month
+  TimeRange time_range = 2;
+  int64 space_id = 3;
+  int64 user_id = 4;
+}
+
+message SearchRptMemberWitemReply {
+  oneof result {
+    comm.ErrorInfo error = 1;
+    SearchRptMemberWitemReplyData  data = 2;
+  }
+}
+
+message SearchRptMemberWitemReplyData {
+  message DataItem {
+    int64 space_id = 1;
+    int64 user_id = 3;
+    int64 num = 6;
+    int64  expire_num = 7;
+    int64  todo_num = 8;
+    int64 close_num = 9;
+    int64 abort_num = 10;
+    int64 complete_num = 11;
+    string start_date = 12;  // "2011-01-01 00:00:00"
+    string end_date = 13; // "2011-01-01 00:00:00"
+  }
+
+  int64 total = 1;
+  repeated DataItem list = 2;
+}
+
+
+message DashboardRptSpaceWitemRequest {
+
+  message TimeRange {
+    string start_date = 1; // "2011-01-01 00:00:00"
+    string end_date = 2; // "2011-01-01 00:00:00"
+  }
+
+  string time_split_type = 1; // Hour, Day, Week, Month
+  TimeRange time_range = 2;
+  repeated int64 space_ids = 3;
+}
+
+message DashboardRptSpaceWitemReply {
+  oneof result {
+    comm.ErrorInfo error = 1;
+    DashboardRptSpaceWitemReplyData  data = 2;
+  }
+}
+
+message DashboardRptSpaceWitemReplyData {
+  message DataItem {
+    int64 space_id = 1;
+    int64 num = 6;
+    int64  expire_num = 7;
+    int64  todo_num = 8;
+    int64 close_num = 9;
+    int64 abort_num = 10;
+    int64 complete_num = 11;
+    string start_date = 12;  // "2011-01-01 00:00:00"
+    string end_date = 13; // "2011-01-01 00:00:00"
+  }
+
+  int64 total = 1;
+  repeated DataItem list = 2;
+}
+
+message DashboardRptMemberWitemRequest {
+
+  message TimeRange {
+    string start_date = 1; // "2011-01-01 00:00:00"
+    string end_date = 2; // "2011-01-01 00:00:00"
+  }
+
+  string time_split_type = 1; // Hour, Day, Week, Month
+  TimeRange time_range = 2;
+  repeated int64 space_ids = 3;
+}
+
+message DashboardRptMemberWitemReply {
+  oneof result {
+    comm.ErrorInfo error = 1;
+    DashboardRptMemberWitemReplyData  data = 2;
+  }
+}
+
+message DashboardRptMemberWitemReplyData {
+  message DataItem {
+    int64 space_id = 1;
+    int64 user_id = 2;
+    int64 num = 6;
+    int64  expire_num = 7;
+    int64  todo_num = 8;
+    int64 close_num = 9;
+    int64 abort_num = 10;
+    int64 complete_num = 11;
+    string start_date = 12;  // "2011-01-01 00:00:00"
+    string end_date = 13; // "2011-01-01 00:00:00"
+  }
+
+  int64 total = 1;
+  repeated DataItem list = 2;
+}
+
+message DashboardSpaceListRequest {
+
+}
+
+message DashboardSpaceListReply {
+  message Data {
+    message Item {
+      int64 id = 1;
+      string name = 2;
+      repeated int64 members = 3;
+      int64 createdAt = 4;
+    }
+
+    repeated Item list = 1;
+    int64 updatedAt = 2;
+    repeated rsp.SimpleUserInfo users = 3;
+    int64 systemInitAt = 4;
+  }
+
+  Data data = 1;
+  comm.ErrorInfo error = 2;
+}
+
+message DashboardSpaceIncrWitemRequest {
+
+  message TimeRange {
+    string start_date = 1; // "2011-01-01 00:00:00"
+    string end_date = 2; // "2011-01-01 00:00:00"
+  }
+
+  string time_split_type = 1; // Hour, Day, Week, Month
+  TimeRange time_range = 2;
+  repeated int64 space_ids = 3;
+
+  string type = 4;
+}
+
+message DashboardSpaceIncrWitemReply {
+  message Data {
+    message Item {
+      int64 space_id = 1;
+      string start_date = 2;  // "2011-01-01 00:00:00"
+      int64 num = 3;
+    }
+
+    repeated Item list = 1;
+  }
+
+  Data data = 1;
+  comm.ErrorInfo error = 2;
+}
+
+message DashboardMemberIncrWitemRequest {
+
+  message TimeRange {
+    string start_date = 1; // "2011-01-01 00:00:00"
+    string end_date = 2; // "2011-01-01 00:00:00"
+  }
+
+  string time_split_type = 1; // Hour, Day, Week, Month
+  TimeRange time_range = 2;
+  repeated int64 space_ids = 3;
+
+  string type = 4;
+}
+
+message DashboardMemberIncrWitemReply {
+  message Data {
+    message Item {
+      int64 space_id = 1;
+      int64 user_id = 2;
+      string start_date = 3;  // "2011-01-01 00:00:00"
+      int64 num = 4;
+    }
+
+    repeated Item list = 1;
+  }
+
+  Data data = 1;
+  comm.ErrorInfo error = 2;
+}

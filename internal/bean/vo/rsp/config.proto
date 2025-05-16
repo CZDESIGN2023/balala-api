@@ -1,0 +1,11 @@
+syntax = "proto3";
+package rsp;
+option go_package = "go-cs/internal/bean/vo/rsp;rsp";
+
+// 配置
+message ViewConfigInfo {
+  sint64 id = 1;
+  string config_name = 2;
+  string config_key = 3;
+  string config_value = 4;
+}

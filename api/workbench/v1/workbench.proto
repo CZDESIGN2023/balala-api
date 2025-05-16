@@ -1,0 +1,230 @@
+syntax = "proto3";
+import "comm/errors.proto";
+import "google/api/annotations.proto";
+import "search/v1/search.proto";
+package api.workbench.v1;
+
+option go_package = "/api/workbench/v1;v1";
+option java_multiple_files = true;
+option java_package = "api.workbench.v1";
+
+service Workbench {
+
+  rpc GetWorkBenchCount (GetWorkBenchCountRequest) returns (GetWorkBenchCountReply) {
+    option (google.api.http) = {
+      post: "/v2/my/workbench/count",
+      body: "*"
+    };
+  }
+
+  rpc GetSpaceWorkBenchCount (GetSpaceWorkBenchCountRequest) returns (GetSpaceWorkBenchCountReply) {
+    option (google.api.http) = {
+      post: "v2/my/workbench/space/count",
+      body: "*"
+    };
+  }
+
+  rpc GetSpaceWorkBenchCount2 (GetSpaceWorkBenchCountRequest2) returns (GetSpaceWorkBenchCountReply2) {
+    option (google.api.http) = {
+      post: "v2/my/workbench/space/count2",
+      body: "*"
+    };
+  }
+
+  rpc GetSpaceWorkObjectCountByIds (GetSpaceWorkObjectCountRequest) returns (GetSpaceWorkObjectCountReply) {
+    option (google.api.http) = {
+      post: "/v2/my/workbench/space/work_object/count/by_ids",
+      body: "*"
+    };
+  }
+
+  rpc GetSpaceVersionCount (GetSpaceVersionCountRequest) returns (GetSpaceVersionCountReply) {
+    option (google.api.http) = {
+      post: "/my/workbench/space/version/count",
+      body: "*"
+    };
+  }
+
+  rpc GetSpaceUserCount (GetSpaceUserCountRequest) returns (GetSpaceUserCountReply) {
+    option (google.api.http) = {
+      post: "/my/workbench/space/user/count",
+      body: "*"
+    };
+  }
+}
+
+message GetSpaceUserCountRequest {
+  int64 spaceId = 1;
+  string startTime = 3;
+  string endTime = 4;
+}
+
+message GetSpaceUserCountReply {
+  oneof result {
+    comm.ErrorInfo error = 1;
+    GetSpaceUserCountReplyData data = 2;
+  }
+}
+
+message GetSpaceUserCountReplyData {
+  message PriorityInfo {
+    string priority = 1;
+    int64 count = 2;
+  }
+
+  message Item {
+    int64 id = 1;
+    int64 completed = 2;
+    int64 processing = 3;
+    int64 weekProcessing = 4;
+    int64 expired = 5;
+    int64 closedOrTerminated = 6;
+    int64 completeRate = 7;
+    int64 total = 8;
+    repeated PriorityInfo priorityInfos = 9;
+  }
+
+  repeated Item list = 1;
+}
+
+message GetSpaceVersionCountRequest {
+  int64 spaceId = 1;
+  string startTime = 3;
+  string endTime = 4;
+}
+
+message GetSpaceVersionCountReply {
+  oneof result {
+    comm.ErrorInfo error = 1;
+    GetSpaceVersionCountReplyData data = 2;
+  }
+}
+
+message GetSpaceVersionCountReplyData {
+  message PriorityInfo {
+    string priority = 1;
+    int64 count = 2;
+  }
+
+  message Item {
+    int64 id = 1;
+    int64 completed = 2;
+    int64 processing = 3;
+    int64 weekProcessing = 4;
+    int64 expired = 5;
+    int64 closedOrTerminated = 6;
+    int64 completeRate = 7;
+    int64 total = 8;
+    repeated PriorityInfo priorityInfos = 9;
+  }
+
+  repeated Item list = 1;
+}
+
+message GetWorkBenchCountRequest {
+
+}
+
+message GetWorkBenchCountReply {
+  oneof result {
+    comm.ErrorInfo error = 1;
+    GetWorkBenchCountReplyData data = 2;
+  }
+}
+
+message GetWorkBenchCountReplyData {
+  int64 processing = 1;
+  int64 completed = 2;
+  int64 weekProcessing = 3;
+  int64 weekCompleted = 4;
+  int64 followed = 5;
+  int64 created = 6;
+  int64 participatedProcessing = 7;
+
+
+  search.v1.ConditionGroup processingConditionGroup = 9;
+  search.v1.ConditionGroup weekProcessingConditionGroup = 10;
+  search.v1.ConditionGroup participatedProcessingConditionGroup = 11;
+  search.v1.ConditionGroup doneConditionGroup = 12;
+  search.v1.ConditionGroup weekDoneConditionGroup = 13;
+
+  search.v1.ConditionGroup createdConditionGroup = 14;
+  search.v1.ConditionGroup followedConditionGroup = 15;
+}
+
+message GetSpaceWorkBenchCountRequest {
+  int64 spaceId = 1;
+}
+
+message GetSpaceWorkBenchCountReply {
+  oneof result {
+    comm.ErrorInfo error = 1;
+    GetSpaceWorkBenchCountReplyData data = 2;
+  }
+}
+
+message GetSpaceWorkBenchCountReplyData {
+  int64 processing = 1;
+  int64 completed = 2;
+  int64 completeRate = 3;
+  int64 total = 4;
+  int64 followed = 5;
+  int64 processingAndExpiredCount = 6; // 进行中但逾期的任务数
+  int64 processingAndExpiredRate = 7; // 进行中但逾期的任务数/任务总数
+  search.v1.ConditionGroup doneConditionGroup = 8;
+  search.v1.ConditionGroup processingConditionGroup = 9;
+  search.v1.ConditionGroup  followedConditionGroup = 10;
+}
+
+message GetSpaceWorkBenchCountRequest2 {
+  int64 spaceId = 1;
+  repeated search.v1.ConditionGroup conditionGroups = 2;
+}
+
+message GetSpaceWorkBenchCountReply2 {
+  message Data {
+    message Item {
+      int64 value = 1;
+    }
+
+    repeated Item results = 2;
+  }
+
+  comm.ErrorInfo error = 1;
+  Data data = 2;
+}
+
+message GetSpaceWorkObjectCountRequest {
+  int64 space_id = 1;
+  repeated int64 ids = 2;
+  string startTime = 3;
+  string endTime = 4;
+}
+
+message GetSpaceWorkObjectCountReply {
+  oneof result {
+    comm.ErrorInfo error = 1;
+    GetSpaceWorkObjectCountReplyData data = 2;
+  }
+}
+
+message GetSpaceWorkObjectCountReplyData {
+  message PriorityInfo {
+    string priority = 1;
+    int64 count = 2;
+  }
+
+  message Item {
+    int64 id = 1;
+    int64 completed = 2;
+    int64 processing = 3;
+    int64 weekProcessing = 4;
+    int64 expired = 5;
+    int64 closedOrTerminated = 6;
+    int64 completeRate = 7;
+    int64 total = 8;
+    repeated PriorityInfo priorityInfos = 9;
+  }
+
+  repeated Item list = 1;
+}

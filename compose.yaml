@@ -1,0 +1,42 @@
+version: '3'
+
+services:
+  mysql:
+    build:
+      context: ./sql
+      dockerfile: Dockerfile
+    networks:
+      - my-net
+    ports:
+      - '3306:3306'
+    environment:
+      MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD}" # root账号密码
+    volumes:
+      - mysql_data:/var/lib/mysql # 挂载mysql数据
+  redis:
+    image: redis:7.2.3
+    networks:
+      - my-net
+    volumes:
+      - redis_data:/data # /挂载redis数据
+  api:
+    build: .
+    restart: always
+    environment:
+      TZ: Asia/Shanghai # 指定时区
+    networks:
+      - my-net
+    volumes:
+      - upload_files:/app/upload_files/ #挂载用户上传的文件
+    command: [ '-c', './configs/config.yaml' ] #指定配置文件
+    depends_on: # 在 mysql，redis 之后启动
+      - mysql
+      - redis
+networks:
+  my-net:
+    driver: bridge
+
+volumes:
+  mysql_data:
+  redis_data:
+  upload_files:

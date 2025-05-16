@@ -1,0 +1,183 @@
+syntax = "proto3";
+package kratos.api;
+
+option go_package = "server_go_base/internal/conf;conf";
+
+import "google/protobuf/duration.proto";
+
+message Bootstrap {
+  string env = 1;
+  Server server = 2;
+  Data data = 3;
+  Log log = 4;
+  I18n i18n = 5;
+  Etcd etcd = 6;
+  Jwt jwt = 7;
+  FileConfig file_config = 8;
+  Dwh dwh = 9;
+  TeaIm tea_im = 10;
+  TeaIm ql = 11;
+  TeaIm halala = 12;
+}
+
+message Server {
+  message HTTP {
+    string network = 1;
+    string addr = 2;
+    google.protobuf.Duration timeout = 3;
+    repeated string cors_origins = 4;
+  }
+  message GRPC {
+    string network = 1;
+    string addr = 2;
+    google.protobuf.Duration timeout = 3;
+  }
+  HTTP http = 1;
+  GRPC grpc = 2;
+  bool is_timer = 3;
+}
+
+message Etcd {
+  repeated string endpoints = 1;
+  google.protobuf.Duration timeout = 2;
+}
+
+message Data {
+  message Database {
+    string dsn = 2;
+    bool debug = 3;
+  }
+  message Redis {
+    string network = 1;
+    string addr = 2;
+    string password = 3;
+    int32 db_index = 4;
+    int32 pool_size = 5;
+    int32 read_timeout = 10;
+    int32 write_timeout = 11;
+  }
+  message IPC {
+    repeated string source = 1;
+    repeated string pull_url = 2;
+    repeated string push_url = 3;
+  }
+  message KAFKA {
+    repeated string source = 1;
+  }
+  message Qqwry {
+    string dat_path = 1;
+  }
+  message MongoDB {
+    string dsn = 1;
+    string caFilePath = 2;
+  }
+
+  message Es {
+    repeated string addresses = 1;
+    string username = 2;
+    string password = 3;
+    bool enable_debug_logger = 4;
+    string certificate_fingerprint = 5;
+    string index = 6;// 索引名
+  }
+
+  message Sessions {
+    message Cookie {
+      string path = 1;
+      string domain = 2;
+      // MaxAge=0 means no Max-Age attribute specified and the cookie will be
+      // deleted after the browser session ends.
+      // MaxAge<0 means delete cookie immediately.
+      // MaxAge>0 means Max-Age attribute present and given in seconds.
+      int32 max_age = 3;
+      bool http_only = 5;
+      //SameSiteDefaultMode = 1
+      //SameSiteLaxMode = 2
+      //SameSiteStrictMode = 3
+      //SameSiteNoneMode = 4
+      int32 corss_mode = 6 ;
+      bool secure = 7;
+    }
+
+    string driver = 1; //redis|cookie
+    string session_secure = 2;
+    Cookie cookie = 3;
+    Redis redis = 4;
+  }
+
+  Database database = 1;
+  Database database_ro = 2;
+  Redis redis = 3;
+  Sessions sessions = 4;
+  Qqwry qqwry = 5;
+
+  Database server3database = 6;//无用
+  Redis server3redis = 7;//无用
+  IPC ipc = 8;//无用
+  KAFKA kafka = 9; //无用
+  MongoDB mongo = 10; //无用
+  Es es = 11;
+}
+
+message Dwh {
+  message Database {
+    string dsn = 2;
+    bool debug = 3;
+  }
+
+  message ExternalDataSource {
+    Database database = 1;
+  }
+
+  Database database = 1;
+  ExternalDataSource external_data_source = 2;
+}
+
+
+message Jwt {
+  string key = 1;
+  bool dev_mode = 2;
+}
+
+message Log {
+  string log_path = 1;
+  string log_filename = 2;
+  string log_level = 3;
+  float trace_sampling = 4;
+  string trace_export_addr = 5;
+  bool trace_skip_tls = 6;
+  string log_format = 7;
+}
+
+message I18n {
+  string i18n_path = 1;
+}
+
+//对外地址
+message OpenApiUrl {
+  string server_api_url = 1;
+  string gg_api_url = 2;
+}
+
+//檔案上傳配置
+message FileConfig {
+  //  string sign_key = 1;
+  //  int32 server_typ = 2;
+  //  string dfs_url = 3;
+  //  string dfs_upload_url = 4;
+  //  string dfs_delete_url = 5;
+  string local_path = 6;
+}
+
+//系统默认超级管理员
+message SupperManager {
+  int64 userid = 1;
+  string password = 2;
+  bool enable = 3;
+}
+
+message TeaIm {
+  string domain = 1;
+  string private_key = 2;
+  string platform_code = 3;
+}

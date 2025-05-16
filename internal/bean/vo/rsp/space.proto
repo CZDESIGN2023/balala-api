@@ -1,0 +1,50 @@
+syntax = "proto3";
+package rsp;
+option go_package = "go-cs/internal/bean/vo/rsp;rsp";
+
+message Space {
+  int64 id = 1;
+  int64 userId = 2;
+  string spaceName = 3;//空间名称
+  int64 roleId = 4; //当前用户角色
+  int32 notify = 5; //用户个人配置：是否开启消息通
+  int64 ranking = 6; //排序值
+  string workingDay = 7; //工作日
+  int64 memberNum = 8; // 成员数
+  int64 createdAt = 9;
+  bool isMember = 10;
+}
+
+message SpaceDetail {
+  int64 id = 1;
+  int64 userId = 2;
+  string spaceName = 3;//空间名称
+  string describe = 4;
+
+  int64 notify = 5; //项目配置：是否开启消息通
+  string workingDay = 6; //工作日
+  int64 commentDeletable = 7;//是否可删除评论
+  int64 commentDeletableWhenArchived = 8;//任务归档后是否可删除评论
+  int64 commentShowPos = 9;//评论展示位置
+
+  int64 roleId = 10; //当前用户角色
+  int64 createdAt = 11;
+  bool isMember = 12;
+}
+
+
+message SpaceMemberCategoryDetail {
+
+  message Member {
+    sint64 user_id = 2;//用户id
+    string user_name = 3; //用户名
+    string user_nickname = 4;//用户昵称
+    string user_pinyin = 9;//用户昵称拼音
+    string avatar = 5;//用户头像
+  }
+
+  int64 id = 1;
+  int64 space_id = 2;
+  string name = 3;
+  repeated Member members = 4;
+}

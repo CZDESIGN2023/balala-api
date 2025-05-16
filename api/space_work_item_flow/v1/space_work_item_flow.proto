@@ -1,0 +1,166 @@
+syntax = "proto3";
+
+import "comm/errors.proto";
+import "google/api/annotations.proto";
+package api.space_work_item_flow.v1;
+option go_package = "go-cs/api/space_work_item_flow/v1;v1";
+option java_multiple_files = true;
+option java_package = "api.space.space_work_item_flow.v1";
+
+service space_work_item_flow {
+
+   rpc SetSpaceWorkItemFlowDirector (SetSpaceWorkItemFlowDirectorRequest) returns (SetSpaceWorkItemFlowDirectorReply) {
+     option (google.api.http) = {
+       post: "/v2/my/space/work_item/work_flow/director/set",
+       body: "*",
+     };
+   }
+
+  rpc SetSpaceWorkItemFlowPlanTime (SetSpaceWorkItemFlowPlanTimeRequest) returns (SetSpaceWorkItemFlowPlanTimeReply) {
+    option (google.api.http) = {
+      post: "/my/space/work_item/work_flow/plan_time/set",
+      body: "*",
+    };
+  }
+
+
+  rpc UpgradeWorkItemFlow (UpgradeTaskWorkFlowRequest) returns (UpgradeTaskWorkFlowReply) {
+    option (google.api.http) = {
+      post: "/my/space/work_item/work_flow/upgrade",
+      body: "*",
+    };
+  }
+
+  rpc BatUpgradeWorkItemFlowPrepare (BatUpgradeWorkItemFlowPrepareRequest) returns (BatUpgradeWorkItemFlowPrepareReply) {
+    option (google.api.http) = {
+      post: "/my/space/work_item/work_flow/bat_upgrade/prepar",
+      body: "*",
+    };
+  }
+
+  rpc BatchUpgradeWorkItemFlow (BatchUpgradeTaskWorkFlowRequest) returns (BatchUpgradeTaskWorkFlowReply) {
+    option (google.api.http) = {
+      post: "/my/space/work_item/work_flow/bat_upgrade/by_id",
+      body: "*",
+    };
+  }
+}
+
+//--批量升级,准备信息--
+
+message BatUpgradeWorkItemFlowPrepareRequest {
+  int64 spaceId = 1;
+  int64 flowId = 2;
+}
+
+message BatUpgradeWorkItemFlowPrepareReply {
+  oneof result {
+    comm.ErrorInfo error = 1;
+    BatUpgradeWorkItemFlowPrepareReplyData data = 2;
+  }   
+}
+
+message BatUpgradeWorkItemFlowPrepareReplyData {
+  repeated int64 ids = 1;
+}
+
+
+//-- 批量升级工作项流程--
+message BatchUpgradeTaskWorkFlowRequest {
+
+  message RoleDirector {
+     int64 roleId = 1;
+     string roleKey =2;
+     repeated string directors = 3;
+  }
+
+  int64 spaceId = 1;
+  int64 flowId = 2;
+  repeated int64 workItemIds = 4;
+  repeated RoleDirector roleDirectors = 3;
+}
+
+message BatchUpgradeTaskWorkFlowReply {
+  oneof result {
+    comm.ErrorInfo error = 1;
+    BatchUpgradeTaskWorkFlowReplyData data = 2;
+  }
+}
+
+message BatchUpgradeTaskWorkFlowReplyData {
+    message Result {
+      int64 workItemId = 1;
+      int64 code = 2; // 200 表示成功
+      string message = 3;
+    }
+    repeated Result result = 1;
+}
+
+//--升级工作项流程--
+message UpgradeTaskWorkFlowRequest {
+
+  message RoleDirector {
+     int64 roleId = 1;
+     string roleKey =2;
+     repeated string directors = 3;
+  }
+
+  int64 spaceId = 1;
+  int64 workItemId = 2;
+  repeated RoleDirector roleDirectors = 3;
+}
+
+message UpgradeTaskWorkFlowReply {
+  oneof result {
+    comm.ErrorInfo error = 1;
+    UpgradeTaskWorkFlowReplyData data = 2;
+  }
+}
+
+message UpgradeTaskWorkFlowReplyData {
+    message Result {
+      int64 workItemId = 1;
+      int64 code = 2; // 200 表示成功
+      string message = 3;
+    }
+    repeated Result result = 1;
+}
+
+//--设置节点排期时间--
+message SetSpaceWorkItemFlowPlanTimeRequest {
+  int64 spaceId = 1;
+  int64 workItemId = 2;
+  string workFlowNodeCode = 3;
+
+  message PlanTimeAt {
+    string start = 1;
+    string complete = 2;
+  }
+
+  PlanTimeAt plan_time_at = 4;
+}
+
+message SetSpaceWorkItemFlowPlanTimeReply {
+  oneof result {
+    comm.ErrorInfo error = 1;
+    string data = 2;
+  }
+}
+
+//--设置节点负责人--
+message SetSpaceWorkItemFlowDirectorRequest {
+  int64 spaceId = 1;
+  int64 workItemId = 2;
+  string workFlowNodeCode = 3;
+  comm.BatchParams director = 4;
+}
+
+message SetSpaceWorkItemFlowDirectorReply {
+  oneof result {
+    comm.ErrorInfo error = 1;
+    SetSpaceWorkItemFlowDirectorData data = 2;
+  }
+}
+message SetSpaceWorkItemFlowDirectorData{
+
+}

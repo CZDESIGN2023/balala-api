@@ -1,0 +1,85 @@
+g, 0, normal_user
+g, 1, space_manager
+g, 2, space_editor
+g, 3, space_watcher
+
+g, space_manager, space_editor
+g, space_editor, space_watcher
+g, space_watcher, normal_user
+
+p,  space_watcher, /api.config.v1.Config/GetSiteConfigList, *
+
+p,  space_watcher, /api.message.v1.Message/SendMessage, *
+p,  space_watcher, /api.message.v1.Message/RecallMessage, *
+p,  space_watcher, /api.message.v1.Message/EditMessage, *
+p,  space_watcher, /api.message.v1.Message/ForwardMessage, *
+p,  space_watcher, /api.message.v1.Message/DeleteMessage, *
+p,  space_watcher, /api.message.v1.Message/GetMessage, *
+p,  space_watcher, /api.message.v1.Message/ListMessage, *
+p,  space_watcher, /api.message.v1.Message/SetRead, *
+
+p,  normal_user, /api.login.v1.Login/Init, *
+p,  normal_user, /api.login.v1.Login/Login, *
+p,  normal_user, /api.login.v1.Login/Logout, *
+
+p,  space_watcher, /api.search.v1.search/SearchMySpaceWorkItemGroupInfo, *
+p,  space_watcher, /api.search.v1.search/SearchMySpaceWorkItemsById, *
+
+p,  normal_user, /api.space.v1.space/CreateSpace, *
+p,  space_manager, /api.space.v1.space/SetSpaceDescribe, *
+p,  space_manager, /api.space.v1.space/SetSpaceBaseInfo, *
+p,  space_watcher, /api.space.v1.space/GetSpaceInfo, *
+p,  normal_user, /api.space.v1.space/SpaceList, *
+p,  space_manager, /api.space.v1.space/DelSpace, *
+p,  space_watcher, /api.space.v1.space/QuitMySpace, *
+
+p,  space_manager, /api.space_member.v1.space_member/AddSpaceMember, *
+p,  space_manager, /api.space_member.v1.space_member/RemoveSpaceMember, *
+p,  space_watcher, /api.space_member.v1.space_member/SpaceMemberList, *
+p,  space_manager, /api.space_member.v1.space_member/SetSpaceMemberRole, *
+p,  space_watcher, /api.space_member.v1.space_member/GetSpaceMemberWorkItemCount, *
+
+p,  space_editor, /api.space.v1.space_tag/CreateSpaceTag, *
+p,  space_manager, /api.space.v1.space_tag/ModifySpaceTagName, *
+p,  space_manager, /api.space.v1.space_tag/DelSpaceTag, *
+p,  space_watcher, /api.space.v1.space_tag/GetSpaceTagList, *
+
+p,  space_watcher, /api.space_work_item.v1.space_work_item/GetWorkItemDetail, *
+p,  space_watcher, /api.space_work_item.v1.space_work_item/CreateWorkItem, *
+p,  space_watcher, /api.space_work_item.v1.space_work_item/SetWorkItemDirector, *
+p,  space_watcher, /api.space_work_item.v1.space_work_item/SetWorkItemToNewWorkObject, *
+p,  space_watcher, /api.space_work_item.v1.space_work_item/SetWorkItemTag, *
+p,  space_watcher, /api.space_work_item.v1.space_work_item/ModifyWorkItemName, *
+p,  space_watcher, /api.space_work_item.v1.space_work_item/ModifyWorkItemStatus, *
+p,  space_watcher, /api.space_work_item.v1.space_work_item/ModifyWorkItemPlanTime, *
+p,  space_watcher, /api.space_work_item.v1.space_work_item/ModifyWorkItemProcessRate, *
+p,  space_watcher, /api.space_work_item.v1.space_work_item/ModifyWorkItemPriority, *
+p,  space_watcher, /api.space_work_item.v1.space_work_item/ModifyWorkItemDescribe, *
+p,  space_watcher, /api.space_work_item.v1.space_work_item/SetSpaceWorkItemFileInfo, *
+p,  space_watcher, /api.space_work_item.v1.space_work_item/DelSpaceWorkItem, *
+
+p, space_manager, /api.space_work_object.v1.space_work_object/CreateSpaceWorkObject, *
+p, space_watcher, /api.space_work_object.v1.space_work_object/SpaceWorkObjectList, *
+p, space_manager, /api.space_work_object.v1.space_work_object/ModifySpaceWorkObjectName, *
+p, space_manager, /api.space_work_object.v1.space_work_object/DelSpaceWorkObject, *
+p, space_manager, /api.space_work_object.v1.space_work_object/DelSpaceWorkObject2, *
+
+p,  space_watcher, /api.upload.v1.Upload/TryAddFile, *
+p,  space_watcher, /api.upload.v1.Upload/GetUploadProgress, *
+p,  space_watcher, /api.upload.v1.Upload/UpdateFileStatus, *
+p,  space_watcher, /api.upload.v1.Upload/GetFileInfo, *
+
+p,  normal_user, /api.user.v1.User/GetUser, *
+p,  normal_user, /api.user.v1.User/SearchUserByPy, *
+p,  normal_user, /api.user.v1.User/SearchUserList, *
+p,  normal_user, /api.user.v1.User/ListUser, *
+p,  normal_user, /api.user.v1.User/RegUser, *
+p,  normal_user, /api.user.v1.User/SetMyAvatar, *
+p,  normal_user, /api.user.v1.User/GettMyUserInfo, *
+p,  normal_user, /api.user.v1.User/SetMyNickName, *
+p,  normal_user, /api.user.v1.User/ChangeMyPwd, *
+p,  normal_user, /api.user.v1.User/GetMySpaceMemberInfo, *
+
+p,  normal_user, /api.workbench.v1.Workbench/GetWorkBenchCount, *
+p,  normal_user, /api.workbench.v1.Workbench/GetSpaceWorkBenchCount, *
+p,  space_watcher, /api.workbench.v1.Workbench/GetSpaceWorkBenchWorkObjectCountByIds, *

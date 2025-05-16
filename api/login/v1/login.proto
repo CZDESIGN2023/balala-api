@@ -1,0 +1,85 @@
+syntax = "proto3";
+
+import "comm/errors.proto";
+import "google/api/annotations.proto";
+import "bean/types.proto";
+
+package api.login.v1;
+
+option go_package = "go-cs/api/login/v1;v1";
+option java_multiple_files = true;
+option java_package = "api.login.v1";
+
+service Login {
+
+  rpc Login (LoginRequest) returns (LoginReply) {
+    option (google.api.http) = {
+      post: "/login",
+      body: "*",
+    };
+  }
+
+  rpc GetLoginValidCode (GetLoginValidCodeRequest) returns (GetLoginValidCodeReply) {
+    option (google.api.http) = {
+      post: "/get_login_vaild_code",
+      body: "*",
+    };
+  }
+
+  rpc Logout (DoLogoutRequest) returns (comm.CommonReply) {
+    option (google.api.http) = {
+      post: "/logout",
+      body: "*",
+    };
+  }
+}
+
+// 自行測試使用
+message LoginRequest {
+  enum Way {
+    Pwd = 0; //密码
+    IM = 3; //IM
+    Ql = 4;
+    Halala = 5;
+  }
+
+  Way way = 1; //登录方式
+  string user_name = 2;  // 用户名
+  string password = 3;    // 密码
+  string pf_token = 4; //
+  string verificationCode = 5;
+}
+
+message LoginReply {
+  oneof result {
+    comm.ErrorInfo error = 1;
+    LoginReplyData data = 2;
+  }
+}
+
+message LoginReplyData {
+  string token = 1;       // 傳入的token
+  string jwtToken = 2;    // 產生的token
+  server_go_base.bean.User user = 3;
+  bool need_register = 4; //是否需要注册
+  bool need_update_pwd = 5; //是否需要修改密码
+  string pfUserInfo = 6; //第三方用户信息
+  int64 role = 7;
+}
+
+
+message DoLogoutRequest {
+
+}
+
+
+message GetLoginValidCodeRequest {
+
+}
+
+message GetLoginValidCodeReply {
+  oneof result {
+    comm.ErrorInfo error = 1;
+    string data = 2;
+  }
+}

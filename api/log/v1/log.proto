@@ -1,0 +1,167 @@
+syntax = "proto3";
+
+import "comm/errors.proto";
+import "google/api/annotations.proto";
+import "bean/types.proto";
+
+package api.log.v1;
+
+option go_package = "go-cs/api/log/v1;v1";
+option java_multiple_files = true;
+option java_package = "api.log.v1";
+
+service Log {
+
+  rpc LoginLogList (LoginLogListRequest) returns (LoginLogListReply) {
+    option (google.api.http) = {
+      post: "/log/login/list",
+      body : "*"
+    };
+  };
+
+  rpc OpLogList (OpLogListRequest) returns (OpLogListReply) {
+    option (google.api.http) = {
+      post: "/log/op/list",
+      body : "*"
+    };
+  };
+
+  rpc SpaceOpLogList (SpaceOpLogListRequest) returns (SpaceOpLogListReply) {
+    option (google.api.http) = {
+      post: "/log/space/op/list",
+      body : "*"
+    };
+  };
+
+  rpc SystemOpLogList (SystemOpLogListRequest) returns (SystemOpLogListReply) {
+    option (google.api.http) = {
+      post: "/log/system/op/list",
+      body : "*"
+    };
+  };
+
+  rpc PersonalOpLogList (PersonalOpLogListRequest) returns (PersonalOpLogListReply) {
+    option (google.api.http) = {
+      post: "/log/personal/op/list",
+      body : "*"
+    };
+  };
+}
+
+message PersonalOpLogListRequest {
+  int64 pos = 5;
+  int64 size = 6;
+}
+
+message PersonalOpLogListReply {
+  comm.ErrorInfo error = 1;
+  PersonalOpLogListReplyData data = 2;
+}
+
+message PersonalOpLogListReplyData {
+  message Item {
+    server_go_base.bean.OperLog info = 1;
+  }
+
+  repeated Item items = 1;
+  bool hasNext = 2;
+  int64 nextPos = 3;
+}
+
+message SystemOpLogListRequest {
+  int64 pos = 5;
+  int64 size = 6;
+}
+
+message SystemOpLogListReply {
+  comm.ErrorInfo error = 1;
+  SystemOpLogListReplyData data = 2;
+}
+
+message SystemOpLogListReplyData {
+  message Item {
+    server_go_base.bean.OperLog info = 1;
+  }
+
+  repeated Item items = 1;
+  bool hasNext = 2;
+  int64 nextPos = 3;
+}
+
+
+message LoginLogListRequest {
+  int64 pos = 1;
+  int64 size = 2;
+}
+
+message LoginLogListReply {
+  oneof result {
+    comm.ErrorInfo error = 1;
+    LoginLogListReplyData data = 2;
+  }
+}
+
+message LoginLogListReplyData {
+  message Item {
+    server_go_base.bean.UserLoginLog info = 1;
+  }
+
+  repeated Item items = 1;
+  bool hasNext = 2;
+  int64 nextPos = 3;
+}
+
+message OpLogListRequest {
+  int64 spaceId = 1;
+  int64 moduleType = 2;
+  int64 moduleId = 3;
+  int64 operId = 4;
+  int64 pos = 5;
+  int64 size = 6;
+}
+
+message OpLogListReply {
+  oneof result {
+    comm.ErrorInfo error = 1;
+    OpLogListReplyData data = 2;
+  }
+}
+
+message OpLogListReplyData {
+  message Item {
+    server_go_base.bean.OperLog info = 1;
+  }
+
+  repeated Item items = 1;
+  bool hasNext = 2;
+  int64 nextPos = 3;
+}
+
+
+
+message SpaceOpLogListRequest {
+  int64 spaceId = 1;
+  int64 moduleType = 2;
+  int64 moduleId = 3;
+  int64 operId = 4;
+  int64 pos = 5;
+  int64 size = 6;
+  string scene = 7;
+}
+
+message SpaceOpLogListReply {
+  oneof result {
+    comm.ErrorInfo error = 1;
+    SpaceOpLogListReplyData data = 2;
+  }
+}
+
+message SpaceOpLogListReplyData {
+  message Item {
+    server_go_base.bean.OperLog info = 1;
+  }
+
+  repeated Item items = 1;
+  bool hasNext = 2;
+  int64 nextPos = 3;
+}

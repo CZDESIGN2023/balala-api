@@ -1,0 +1,595 @@
+syntax = "proto3";
+
+import "comm/errors.proto";
+import "google/api/annotations.proto";
+import "bean/types.proto";
+import "bean/vo/rsp/space.proto";
+
+package api.space.v1;
+
+option go_package = "go-cs/api/space/v1;v1";
+option java_multiple_files = true;
+option java_package = "api.space.v1";
+
+service space {
+  // 在space後初始化使用 (長連接模擬短連接請求)
+  rpc CreateSpace (CreateSpaceRequest) returns (CreateSpaceReply) {
+    option (google.api.http) = {
+      post: "/my/space/create",
+      body: "*",
+    };
+  }
+
+  rpc SetSpaceDescribe (SetSpaceDescribeRequest) returns (SetSpaceDescribeReply) {
+    option (google.api.http) = {
+      post: "/my/space/set/describe",
+      body: "*",
+    };
+  }
+
+  rpc SetSpaceBaseInfo (SetSpaceBaseInfoRequest) returns (SetSpaceBaseInfoReply) {
+    option (google.api.http) = {
+      post: "/my/space/set/base_info",
+      body: "*",
+    };
+  }
+
+  rpc GetSpaceInfo (GetSpaceInfoRequest) returns (GetSpaceInfoReply) {
+    option (google.api.http) = {
+      post: "/my/space/info",
+      body: "*",
+    };
+  }
+
+
+  rpc SpaceList (SpaceListRequest) returns (SpaceListReply) {
+    option (google.api.http) = {
+      post: "/my/space/list",
+      body: "*",
+    };
+  }
+
+  rpc DelSpace (DelSpaceRequest) returns (DelSpaceReply) {
+    option (google.api.http) = {
+      post: "/my/space/del",
+      body: "*",
+    };
+  }
+
+  rpc QuitMySpace (QuitMySpaceRequest) returns (QuitMySpaceReply) {
+    option (google.api.http) = {
+      post: "/my/space/quit",
+      body: "*",
+    };
+  }
+
+
+  rpc TransferSpaceOwnership (TransferSpaceOwnershipRequest) returns (TransferSpaceOwnershipReply) {
+    option (google.api.http) = {
+      post: "/my/space/transfer_ownership",
+      body: "*",
+    };
+  }
+
+  rpc SetNotify (SetNotifyRequest) returns (SetNotifyReply) {
+    option (google.api.http) = {
+      post: "/my/space/set_notify",
+      body: "*",
+    };
+  }
+
+
+  rpc CreateMemberCategory (CreateMemberCategoryRequest) returns (CreateMemberCategoryReply) {
+    option (google.api.http) = {
+      post: "/my/space/member_category/create",
+      body: "*",
+    };
+  }
+
+  rpc ModifyMemberCategoryInfo (ModifyMemberCategoryRequest) returns (ModifyMemberCategoryReply) {
+    option (google.api.http) = {
+      post: "/my/space/member_category/modify_info",
+      body: "*",
+    };
+  }
+
+  rpc SetMemberToMemberCategory (SetMemberToMemberCategoryRequest) returns (SetMemberToMemberCategoryReply) {
+    option (google.api.http) = {
+      post: "/my/space/member_category/set_member",
+      body: "*",
+    };
+  }
+
+  rpc SetWorkingDay (SetWorkingDayRequest) returns (SetWorkingDayReply) {
+    option (google.api.http) = {
+      post: "/my/space/set_working_day",
+      body: "*",
+    };
+  }
+
+  rpc SetCommentDeletable (SetCommentDeletableRequest) returns (SetCommentDeletableReply) {
+    option (google.api.http) = {
+      post: "/my/space/set_comment_deletable",
+      body: "*",
+    };
+  }
+
+  rpc GetMemberCategoryDetailList (GetMemberCategoryDetailListRequest) returns (GetMemberCategoryDetailListReply) {
+    option (google.api.http) = {
+      post: "/my/space/member_category/detail_list",
+      body: "*",
+    };
+  }
+
+  rpc DeleteMemberCategory (DeleteMemberCategoryRequest) returns (DeleteMemberCategoryReply) {
+    option (google.api.http) = {
+      post: "/my/space/member_category/del",
+      body: "*",
+    };
+  }
+  rpc SetName (SetNameRequest) returns (SetNameReply) {
+    option (google.api.http) = {
+      post: "/my/space/set/name",
+      body: "*",
+    };
+  }
+
+  rpc SearchWorkItem (SearchWorkItemRequest) returns (SearchWorkItemReply) {
+    option (google.api.http) = {
+      post: "/my/space/search/work_item",
+      body: "*",
+    };
+  }
+
+  rpc SortWorkItemType (SortWorkItemTypeRequest) returns (SortWorkItemTypeReply) {
+    option (google.api.http) = {
+      post: "/my/space/work_item_type/sort",
+      body: "*",
+    };
+  }
+
+  rpc GetWorkItemTypes (GetWorkItemTypesRequest) returns (GetWorkItemTypesReply) {
+    option (google.api.http) = {
+      post: "/my/space/work_item_types",
+      body: "*",
+    };
+  }
+
+  rpc GetTempConfig (GetTempConfigRequest) returns (GetTempConfigReply) {
+    option (google.api.http) = {
+      post: "/my/space/get_temp_config",
+      body: "*",
+    };
+  }
+
+  rpc SetTempConfig (SetTempConfigRequest) returns (SetTempConfigReply) {
+    option (google.api.http) = {
+      post: "/my/space/set_temp_config",
+      body: "*",
+    };
+  }
+
+  rpc DelTempConfig (DelTempConfigRequest) returns (DelTempConfigReply) {
+    option (google.api.http) = {
+      post: "/my/space/del_temp_config",
+      body: "*",
+    };
+  }
+
+  rpc Copy (CopyRequest) returns (CopyReply) {
+    option (google.api.http) = {
+      post: "/my/space/copy",
+      body: "*",
+    };
+  }
+
+  rpc SetCommentDeletableWhenArchived (SetCommentDeletableWhenArchivedRequest) returns (SetCommentDeletableWhenArchivedReply) {
+    option (google.api.http) = {
+      post: "/my/space/set_comment_deletable_when_archived",
+      body: "*",
+    };
+  }
+
+  rpc SetCommentShowPos (SetCommentShowPosRequest) returns (SetCommentShowPosReply) {
+    option (google.api.http) = {
+      post: "/my/space/set_comment_show_pos",
+      body: "*",
+    };
+  }
+}
+
+message SetCommentDeletableWhenArchivedRequest {
+  int64 spaceId = 1;
+  int64 value = 2;
+}
+
+message SetCommentDeletableWhenArchivedReply {
+  comm.ErrorInfo error = 1;
+}
+
+message SetCommentShowPosRequest {
+  int64 spaceId = 1;
+  int64 value = 2;
+}
+
+message SetCommentShowPosReply {
+  comm.ErrorInfo error = 1;
+}
+
+message SetTempConfigRequest {
+  int64 spaceId = 1;
+  map<string, string> configs = 2;
+}
+
+message SetTempConfigReply {
+  comm.ErrorInfo error = 1;
+}
+
+
+message GetTempConfigRequest {
+  int64 spaceId = 1;
+  repeated string keys = 2;
+}
+
+message GetTempConfigReply {
+  comm.ErrorInfo error = 1;
+  map<string, string> data = 2;
+}
+
+message DelTempConfigRequest {
+  int64 spaceId = 1;
+  repeated string keys = 2; //keys
+}
+
+message DelTempConfigReply {
+  comm.ErrorInfo error = 1;
+}
+
+message CopyRequest {
+  int64 srcSpaceId = 1;
+  string spaceName = 2;
+  string spaceDescribe = 3;
+}
+
+message CopyReply {
+  message Data {
+    int64 spaceId = 1;
+  }
+  comm.ErrorInfo error = 1;
+  Data data = 2;
+}
+
+message GetWorkItemTypesRequest {
+  int64 spaceId = 1;
+}
+
+message GetWorkItemTypesReplyData {
+  message Item {
+    int64 id = 1;
+    int64 spaceId = 2;
+    string name = 3;
+    string key = 4;
+    string flow_mode = 5;
+    sint64 ranking = 6;
+  }
+
+  repeated Item list = 1;
+}
+
+message GetWorkItemTypesReply {
+  oneof result {
+    comm.ErrorInfo error = 1;
+    GetWorkItemTypesReplyData data = 2;
+  }
+}
+
+
+message SearchWorkItemRequest {
+  int64 spaceId = 1;
+  string keyword = 2;
+}
+
+message SearchWorkItemReplyData {
+  message Item {
+    int64 id = 1;
+    string name = 2;
+  }
+
+  repeated Item items = 1;
+}
+
+message SearchWorkItemReply {
+  oneof result {
+    comm.ErrorInfo error = 1;
+    SearchWorkItemReplyData data = 2;
+  }
+}
+
+message SetNameRequest{
+  int64 spaceId = 1;
+  string spaceName = 2;
+}
+
+message SetNameReply{
+  oneof result {
+    comm.ErrorInfo error = 1;
+  }
+}
+
+
+message SetNotifyRequest{
+  int64 spaceId = 1;
+  int64 notify = 2;
+}
+
+message SetNotifyReply{
+  oneof result {
+    comm.ErrorInfo error = 1;
+  }
+}
+
+message TransferSpaceOwnershipRequest {
+  int64 spaceId = 1;
+  int64 srcUserId = 2;
+  int64 userId = 3;
+}
+
+message TransferSpaceOwnershipReply {
+  oneof result {
+    comm.ErrorInfo error = 1;
+  }
+}
+
+// 创建项目空间
+message CreateSpaceRequest {
+  string space_name = 1;  // 项目空间名称
+  string describe = 2;    // 描述
+  repeated CreateSpaceRequestDataUsers users = 3; //用户id
+}
+
+message CreateSpaceRequestDataUsers {
+  sint64 user_id = 1;
+  int32 role_id = 2;
+}
+
+message CreateSpaceReply {
+  oneof result {
+    comm.ErrorInfo error = 1;
+    server_go_base.bean.Space data = 2;
+  }
+}
+
+
+//设置项目基础信息
+message SetSpaceBaseInfoRequest {
+  sint64 space_id = 1;
+  string describe = 2;    // 描述
+  string space_name = 3; //名称
+}
+
+message SetSpaceBaseInfoReply {
+  oneof result {
+    comm.ErrorInfo error = 1;
+    SetSpaceBaseInfoReplyData data = 2;
+  }
+}
+
+message SetSpaceBaseInfoReplyData {
+
+}
+
+//设置项目描述
+message SetSpaceDescribeRequest {
+  sint64 space_id = 1;
+  string describe = 2;    // 描述
+}
+
+message SetSpaceDescribeReply {
+  oneof result {
+    comm.ErrorInfo error = 1;
+    SetSpaceDescribeReplyData data = 2;
+  }
+}
+message SetSpaceDescribeReplyData {
+
+}
+
+//获取参与的项目空间列表
+message SpaceListRequest {
+
+}
+
+message SpaceListReply {
+  oneof result {
+    comm.ErrorInfo error = 1;
+    SpaceListReplyData data = 2;
+  }
+}
+
+message SpaceListReplyData {
+  repeated rsp.Space list = 1;
+}
+
+//获取项目空间基本信息
+message GetSpaceInfoRequest {
+  sint64 space_id = 1;
+}
+
+message GetSpaceInfoReply {
+  oneof result {
+    comm.ErrorInfo error = 1;
+    rsp.SpaceDetail  data = 2;
+  }
+}
+
+
+//删除
+message DelSpaceRequest {
+  int64 space_id = 1;
+  string scene = 2;
+}
+
+message DelSpaceReply {
+  oneof result {
+    comm.ErrorInfo error = 1;
+    server_go_base.bean.Space  data = 2;
+  }
+}
+
+
+// -- 退出项目
+message QuitMySpaceRequest {
+  sint64 spaceId = 1;
+  sint64 userId = 2;
+  sint64 targetUserId = 3; //任务转交给该用户
+}
+
+message  QuitMySpaceReply {
+  oneof result {
+    comm.ErrorInfo error = 1;
+    QuitMySpaceReplyData data = 2;
+  }
+}
+
+message QuitMySpaceReplyData {
+}
+
+// -- 创建成员分类
+message CreateMemberCategoryRequest {
+  sint64 space_id = 1;
+  string category_name = 2;
+  repeated sint64 add_user_ids = 3;
+}
+
+message  CreateMemberCategoryReply {
+  oneof result {
+    comm.ErrorInfo error = 1;
+    CreateMemberCategoryReplyData data = 2;
+  }
+}
+
+message CreateMemberCategoryReplyData {
+
+}
+
+
+// -- 修改成员分类信息
+
+message ModifyMemberCategoryRequest {
+
+  enum Type {
+    None = 0;
+    Name = 1;
+  }
+
+  sint64 space_id = 1;
+  sint64 category_id = 2;
+  Type typ = 4;
+  string val = 3;
+}
+
+message  ModifyMemberCategoryReply {
+  oneof result {
+    comm.ErrorInfo error = 1;
+    ModifyMemberCategoryReplyData data = 2;
+  }
+}
+
+message ModifyMemberCategoryReplyData {
+
+}
+
+//-- 设置用户至成员分类
+message SetMemberToMemberCategoryRequest {
+  sint64 space_id = 1;
+  sint64 category_id = 2;
+  string category_name = 3;
+  repeated sint64 add_user_ids = 4;
+  repeated sint64 remove_user_ids = 5;
+}
+
+message  SetMemberToMemberCategoryReply {
+  oneof result {
+    comm.ErrorInfo error = 1;
+    SetMemberToMemberCategoryReplyData data = 2;
+  }
+}
+
+message SetMemberToMemberCategoryReplyData {
+
+}
+
+//-- 设置工作日
+message SetWorkingDayRequest{
+  int64 spaceId = 1;
+  repeated int64 weekDays = 2; //周工作日
+}
+
+message SetWorkingDayReply{
+  oneof result {
+    comm.ErrorInfo error = 1;
+  }
+}
+
+message SetCommentDeletableRequest{
+  int64 spaceId = 1;
+  int64 commentDeletable = 2;
+}
+
+message SetCommentDeletableReply{
+  oneof result {
+    comm.ErrorInfo error = 1;
+  }
+}
+
+
+//-- 获取成员分类列表(含成员详细信息)
+message GetMemberCategoryDetailListRequest {
+  int64 spaceId = 1;
+}
+
+
+message GetMemberCategoryDetailListReply {
+  oneof result {
+    comm.ErrorInfo error = 1;
+    GetMemberCategoryDetailListReplyData data = 2;
+  }
+}
+
+message GetMemberCategoryDetailListReplyData {
+  repeated rsp.SpaceMemberCategoryDetail list = 1;
+}
+
+//-- 删除成员分组
+message DeleteMemberCategoryRequest {
+  int64 spaceId = 1;
+  int64 categoryId = 2;
+}
+
+message DeleteMemberCategoryReply {
+  oneof result {
+    comm.ErrorInfo error = 1;
+    DeleteMemberCategoryReplyData data = 2;
+  }
+}
+
+message DeleteMemberCategoryReplyData {
+
+}
+
+//--排序任务类型
+message SortWorkItemTypeRequest {
+  message sortItem {
+    int64 itemId = 1;
+    int32 ranking = 2;
+  }
+  int64 spaceId = 1;
+  repeated sortItem items = 2;
+}
+
+message SortWorkItemTypeReply {
+  oneof result {
+    comm.ErrorInfo error = 1;
+    string data = 2;
+  }
+}

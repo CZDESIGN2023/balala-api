@@ -1,0 +1,137 @@
+syntax = "proto3";
+
+import "comm/errors.proto";
+import "google/api/annotations.proto";
+import "bean/vo/rsp/user.proto";
+import "bean/vo/rsp/work_flow.proto";
+
+package api.admin.v1;
+
+option go_package = "go-cs/api/admin/v1;v1";
+option java_multiple_files = true;
+option java_package = "api.admin.v1";
+
+service admin {
+
+  rpc SearchUser (SearchUserRequest) returns (SearchUserReply) {
+    option (google.api.http) = {
+      post: "/admin/search_user",
+      body: "*",
+    };
+  }
+
+  rpc SetRole (SetRoleRequest) returns (SetRoleReply) {
+    option (google.api.http) = {
+      post: "/admin/set_role",
+      body: "*",
+    };
+  }
+
+  rpc ResetPwd (ResetPwdRequest) returns (ResetPwdReply) {
+    option (google.api.http) = {
+      post: "/admin/reset_pwd",
+      body: "*",
+    };
+  }
+
+  rpc SetNickname (SetNicknameRequest) returns (SetNicknameReply) {
+    option (google.api.http) = {
+      post: "/admin/set_nickname",
+      body: "*",
+    };
+  }
+
+  rpc AddUser (AddUserRequest) returns (AddUserReply) {
+    option (google.api.http) = {
+      post: "/admin/add_user",
+      body: "*",
+    };
+  }
+}
+
+message AddUserRequest {
+  string username = 1;
+  string nickname = 2;
+  string password = 3;
+}
+
+message AddUserReply {
+  oneof result {
+    comm.ErrorInfo error = 1;
+  }
+}
+
+message SetNicknameRequest {
+  sint64 userId = 1;
+  string value = 2;
+}
+
+message SetNicknameReply {
+  oneof result {
+    comm.ErrorInfo error = 1;
+  }
+}
+
+message SearchUserRequest {
+  message OrderBy {
+    string field = 1;
+    string order = 2;
+  }
+
+  string keyword = 1;
+  int64 pos = 2;
+  int64 size = 3;
+
+  repeated OrderBy sorts = 4;
+}
+
+message SearchUserReply {
+  oneof result {
+    comm.ErrorInfo error = 1;
+    SearchUserReplyData data = 2;
+  }
+}
+
+message SearchUserReplyData {
+  message User {
+    int64 id = 1;
+    string userName = 2;
+    string userNickname = 3;
+    string avatar = 4;
+    int64 role = 5;
+    int64 lastLoginTime = 6;
+    int64 createdAt = 7;
+  }
+
+  repeated User items = 2;
+  int64 total = 1;
+  int64 nextPos = 3;
+  bool hasNext = 4;
+}
+
+message SetRoleRequest {
+  int64 userId = 1;
+  int64 role = 2; //角色 0普通成员 10系统管理员 100超级管理员
+}
+
+
+message SetRoleReply {
+  oneof result {
+    comm.ErrorInfo error = 1;
+  }
+}
+
+message ResetPwdRequest {
+  int64 userId = 1;
+}
+
+message ResetPwdReply {
+  oneof Result {
+    comm.ErrorInfo error = 1;
+    ResetPwdReplyData data = 2;
+  }
+}
+
+message ResetPwdReplyData {
+  string newPwd = 1;
+}

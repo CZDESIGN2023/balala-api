@@ -1,0 +1,16 @@
+syntax = "proto3";
+package rsp;
+option go_package = "go-cs/internal/bean/vo/rsp;rsp";
+
+
+message FileInfo {
+  sint64 id = 1;
+  sint64 space_id = 2;
+  sint64 file_info_id = 3;//文件资源id
+  string file_name = 4;//文件名称
+  sint64 file_size = 5; //文件大小
+  string file_uri = 6;//文件uri路径
+  string file_cover = 7; //封面
+  string file_meta = 8;
+  sint64 created_at = 9;//创建时间
+}

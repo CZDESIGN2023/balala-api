@@ -1,0 +1,107 @@
+syntax = "proto3";
+
+import "comm/errors.proto";
+import "google/api/annotations.proto";
+import "bean/vo/rsp/search.proto";
+import "bean/vo/rsp/user.proto";
+import "bean/vo/rsp/work_flow.proto";
+
+package api.search.v1;
+
+option go_package = "go-cs/api/search/v1;v1";
+option java_multiple_files = true;
+option java_package = "api.search.v1";
+
+service search {
+
+  rpc SearchMySpaceWorkItemGroupInfoV2 (SearchSpaceWorkItemGroupInfoRequestV2) returns (SearchSpaceWorkItemGroupInfoReplyV2) {
+    option (google.api.http) = {
+      post: "/v2/my/search/space/work_item/group_info",
+      body: "*",
+    };
+  }
+
+  rpc SearchMySpaceWorkItemsByIdV2 (SearchMySpaceWorkItemsByIdRequest) returns (SearchMySpaceWorkItemsByIdReplyV2) {
+    option (google.api.http) = {
+      post: "/v2/my/search/space/work_items/by_id",
+      body: "*",
+    };
+  }
+}
+
+message Condition {
+  string field = 1;
+  repeated string values = 2;
+  string operator = 3;
+  int64 spaceId = 4;
+  map<string, string> attrs = 5;
+}
+
+message ConditionGroup {
+  string conjunction = 1;
+  repeated Condition conditions = 2;
+  repeated ConditionGroup condition_group = 3;
+}
+
+message Sort {
+  string field = 1;
+  string order = 2;
+}
+
+message GroupBy {
+  string field = 1;
+}
+
+message GroupInfo {
+  string fieldKey = 1;
+  string displayName = 2;
+  string fieldId = 3;
+}
+
+message GroupItem {
+  repeated GroupInfo groupInfo = 1;
+  repeated WorkItem workItems = 2;
+}
+
+message WorkItem {
+  int64 workItemId = 1;
+  repeated WorkItem workItems = 2;
+}
+
+message SearchSpaceWorkItemGroupInfoRequestV2 {
+  int64 space_id = 1;
+  ConditionGroup condition_group = 2;
+  repeated Sort sorts = 3;
+  repeated GroupBy groups = 4;
+}
+
+message SearchSpaceWorkItemGroupInfoReplyV2 {
+  oneof result {
+    comm.ErrorInfo error = 1;
+    SearchSpaceWorkItemGroupInfoReplyV2Data  data = 2;
+  }
+}
+
+message SearchSpaceWorkItemGroupInfoReplyV2Data {
+  repeated GroupItem list = 1;
+  int32 totalNum = 2;
+}
+
+message SearchMySpaceWorkItemsByIdRequest {
+  sint64 space_id = 1;
+  sint64 user_id = 2;
+  repeated sint64 ids = 3;
+  sint32 search_type = 4;
+}
+
+message SearchMySpaceWorkItemsByIdReplyV2 {
+  oneof result {
+    comm.ErrorInfo error = 1;
+    SearchMySpaceWorkItemsByIdReplyV2Data  data = 2;
+  }
+}
+
+message SearchMySpaceWorkItemsByIdReplyV2Data {
+  repeated rsp.SearchWorkItemInfo list = 1 ;
+  sint32 total_num = 2;
+}

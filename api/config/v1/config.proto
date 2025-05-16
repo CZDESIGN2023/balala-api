@@ -1,0 +1,56 @@
+syntax = "proto3";
+
+import "comm/errors.proto";
+import "google/api/annotations.proto";
+import "bean/types.proto";
+import "bean/vo/rsp/config.proto";
+
+package api.config.v1;
+
+option go_package = "go-cs/api/config/v1;v1";
+option java_multiple_files = true;
+option java_package = "api.config.v1";
+
+service Config {
+  
+  // 列出前端使用的系统配置
+  rpc List (ListRequest) returns (ListReply) {
+    option (google.api.http) = {
+      post: "/config/site",
+      body : "*"
+    };
+  };
+
+  rpc Update (UpdateRequest) returns (UpdateReply) {
+    option (google.api.http) = {
+      post: "/config/update",
+      body : "*"
+    };
+  };
+}
+
+message UpdateRequest {
+  string key = 1;
+  string value = 2;
+}
+
+message UpdateReply {
+  oneof result {
+    comm.ErrorInfo error = 1;
+  }
+}
+
+
+message ListRequest {
+}
+
+message ListReply {
+  oneof result {
+    comm.ErrorInfo error = 1;
+    ListReplyData data = 2;
+  }
+}
+
+message ListReplyData {
+  repeated rsp.ViewConfigInfo  config = 1;
+}

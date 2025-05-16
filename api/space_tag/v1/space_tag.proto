@@ -1,0 +1,114 @@
+syntax = "proto3";
+
+import "comm/errors.proto";
+import "google/api/annotations.proto";
+import "bean/types.proto";
+import "bean/vo/rsp/tag.proto";
+
+package api.space.v1;
+
+option go_package = "go-cs/api/space_tag/v1;v1";
+option java_multiple_files = true;
+option java_package = "api.space.tag.v1";
+
+service space_tag {
+  rpc CreateSpaceTag (CreateSpaceTagRequest) returns (CreateSpaceTagReply) {
+    option (google.api.http) = {
+      post: "/my/space/tag/create",
+      body: "*",
+    };
+  }
+
+  rpc ModifySpaceTagName (ModifySpaceTagNameRequest) returns (ModifySpaceTagNameReply) {
+    option (google.api.http) = {
+      post: "/my/space/tag/modify/name",
+      body: "*",
+    };
+  }
+
+  rpc DelSpaceTag (DelSpaceTagRequest) returns (DelSpaceTagReply) {
+    option (google.api.http) = {
+      post: "/my/space/tag/del",
+      body: "*",
+    };
+  }
+
+  rpc GetSpaceTagListV2 (GetSpaceTagListRequestV2) returns (GetSpaceTagListReplyV2) {
+    option (google.api.http) = {
+      post: "/v2/my/space/tag/list",
+      body: "*",
+    };
+  }
+
+  rpc SetSpaceTagOrder (SetSpaceTagOrderRequest) returns (SetSpaceTagOrderReply) {
+    option (google.api.http) = {
+      post: "/v2/my/space/tag/set_order",
+      body: "*",
+    };
+  }
+}
+
+message SetSpaceTagOrderRequest {
+  int64 spaceId = 1;
+  int64 fromIdx = 2;
+  int64 toIdx = 3;
+}
+
+message SetSpaceTagOrderReply {
+  oneof result {
+    comm.ErrorInfo error = 1;
+  }
+}
+
+message CreateSpaceTagRequest {
+  string tag_name = 1;
+  sint64 space_id = 2;
+}
+
+message CreateSpaceTagReply {
+  oneof result {
+    comm.ErrorInfo error = 1;
+    server_go_base.bean.SpaceTag data = 2;
+  }
+}
+
+
+message ModifySpaceTagNameRequest {
+  string tag_name = 1;
+  sint64 space_id = 2;
+  sint64 tag_id = 3;
+}
+
+message ModifySpaceTagNameReply {
+  oneof result {
+    comm.ErrorInfo error = 1;
+    server_go_base.bean.SpaceTag data = 2;
+  }
+}
+
+message DelSpaceTagRequest {
+  sint64 space_id = 1;
+  sint64 tag_id = 2;
+}
+
+message DelSpaceTagReply {
+  oneof result {
+    comm.ErrorInfo error = 1;
+    server_go_base.bean.SpaceTag data = 2;
+  }
+}
+
+message GetSpaceTagListRequestV2 {
+  sint64 space_id = 1;
+}
+
+message GetSpaceTagListReplyV2 {
+  oneof result {
+    comm.ErrorInfo error = 1;
+    GetSpaceTagListReplyV2Data data = 2;
+  }
+}
+
+message GetSpaceTagListReplyV2Data {
+  repeated rsp.TagInfo list = 1;
+}

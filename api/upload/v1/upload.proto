@@ -1,0 +1,77 @@
+syntax = "proto3";
+
+import "comm/errors.proto";
+import "google/api/annotations.proto";
+import "bean/types.proto";
+
+package api.upload.v1;
+
+option go_package = "go-cs/api/upload/v1;v1";
+option java_multiple_files = true;
+option java_package = "api.upload.v1";
+
+// 上传状态
+enum UploadStatus {
+    UPLOAD_STATUS_UNKNOWN = 0;    // 未定義
+    UPLOAD_STATUS_INIT = 1;       // 初始化
+    UPLOAD_STATUS_UPLOADING = 2;  // 上传中
+    UPLOAD_STATUS_SUCCESS = 3;    // 成功
+    UPLOAD_STATUS_FAILD = 4;      // 失败
+    UPLOAD_STATUS_MACHINING = 5;  // 处理中（转码等）
+    UPLOAD_STATUS_WILL_DEL = 6;   // 待删
+}
+
+// 文件类型
+enum FileType {
+    FILE_TYPE_UNKNOWN = 0;    // 未定義
+    FILE_TYPE_PIC = 1;        // 图片
+    FILE_TYPE_VIDEO = 2;      // 视频
+    FILE_TYPE_AUDIO = 3;      // 音频
+    FILE_TYPE_TEXT = 4;       // 文本
+}
+
+message AddFileInfo{
+    string hash = 1;
+    string name = 2;
+    int32 size = 3;
+    string unique = 4;    // 上传标识
+}
+
+message AddFileReply{
+    sint64 id = 1;          // 上传后的资源id
+    int32 status = 2;       // 上传状态
+    string upload_url = 3;  // 上传路径
+    string unique = 4;      // 上传标识
+}
+
+
+message GetFileInfoRequest { 
+    repeated sint64 ids = 1;              // 资源id
+}
+
+message GetFileInfoReplyData {
+    repeated server_go_base.bean.FileInfo fileInfo = 1;
+}
+
+message GetFileInfoReply {
+    oneof result {
+        comm.ErrorInfo error = 1;
+        GetFileInfoReplyData data = 2;
+    }
+}
+
+// 上傳檔案回應資料格式
+message UploadFileReplyDataRow {
+    string id = 1;      // fileId
+    string hash = 2;
+    int32 status = 3;   // 上传状态, 參考UploadStatus
+}
+message UploadFileReplyData {
+    repeated UploadFileReplyDataRow list = 1;
+}
+message UploadFileReply {
+    oneof result {
+        comm.ErrorInfo error = 1;
+        UploadFileReplyData data = 2;
+    }
+}

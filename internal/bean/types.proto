@@ -1,0 +1,594 @@
+syntax = "proto3";
+package server_go_base.bean;
+option go_package = "go-cs/internal/bean;bean";
+
+
+//////////////////////////////////////////////////////
+// 以下为数据库表结构定义
+
+
+// 更新的表枚举,从1000起步, 其他项目可以从2000起, 一个项目保留1000够用了
+enum Table {
+  UNKNOWN = 0;
+  USER = 1000;
+  CONFIG = 1001;
+  ASSETS = 1012;
+  FILE_INFO = 1013;
+  SPACE = 1014;
+  SPACE_MEMBER = 1015;
+  SPACE_WORK_OBJECT = 1016;
+  // SPACE_WORK_ITEM = 1017;
+  // SPACE_WORK_PATH = 1018;
+  SPACE_TAG = 1019;
+  // SPACE_TAG_RELATION = 1020;
+  // SPACE_WORK_TASK = 1021;
+  // SPACE_WORK_DIRECTOR_RELATION = 1022;
+  SPACE_FILE_INFO = 1023;
+  USER_LOGIN_LOG = 1024;
+  OPER_LOG = 1025;
+  SPACE_WORK_ITEM_V_2 = 1026;
+  // SPACE_WORK_FLOW = 1027;
+  SPACE_WORK_ITEM_FLOW_V_2 = 1028;
+  SPACE_WORK_ITEM_DOC_V_2 = 1029;
+  SPACE_WORK_ITEM_COMMENT = 1030;
+  THIRD_PF_ACCOUNT = 1031;
+  USER_SECURE_ACCOUNT = 1032;
+  NOTIFY = 1033;
+  SPACE_WORK_VERSION = 1034;
+  MEMBER_CATEGORY = 1035;
+  SPACE_MEMBER_CATEGORY = 1036;
+  SPACE_CONFIG = 1037;
+  WORK_ITEM_TYPE = 1038;
+  WORK_ITEM_STATUS = 1039;
+  WORK_FLOW = 1040;
+  WORK_FLOW_TEMPLATE = 1041;
+  WORK_ITEM_ROLE = 1042;
+  SPACE_WORK_ITEM_FLOW_ROLE_V_2 = 1043;
+  SPACE_GLOBAL_VIEW = 1044;
+  SPACE_USER_VIEW = 1045;
+  USER_CONFIG = 1046;
+}
+
+
+//[db] 工作项类型-工作流
+message WorkItemRole {
+  sint64 id = 1;
+  string uuid = 13;
+  sint64 user_id = 14;
+  sint64 space_id = 2; //空间id
+  sint64 work_item_type_id = 10; //工作项类型id
+  string key = 3;
+  string name = 4; //名称
+  sint64 status = 5; ////状态;0:禁用,1:正常
+  sint64 ranking = 6; //排序
+  sint32 is_sys = 11; //是否系统预设
+  sint64 created_at = 7;//创建时间
+  sint64 updated_at = 8;//更新时间
+  sint64 deleted_at = 9;//删除时间
+  string flow_scope = 15; //应用流程范围
+}
+
+//[db] 工作项类型-工作流
+message WorkFlow {
+  sint64 id = 1;
+  string uuid = 13;
+  sint64 user_id = 14;
+  sint64 space_id = 2; //空间id
+  sint64 work_item_type_id = 10; //工作项类型id
+  string name = 3; //名称
+  string key = 4;
+  string flow_mode = 11;//流程模式
+  sint32 version = 12;//版本
+  sint64 last_template_id = 15; //最大流程模版id
+  sint64 status = 5; ////状态;0:禁用,1:正常
+  sint64 ranking = 6; //排序
+  sint64 created_at = 7;//创建时间
+  sint64 updated_at = 8;//更新时间
+  sint64 deleted_at = 9;//删除时间
+  sint32 is_sys = 16; //是否系统预设
+}
+
+//[db] 工作项类型-工作流模版
+message WorkFlowTemplate {
+  sint64 id = 1;
+  string uuid = 13;
+  sint64 user_id = 3;
+  sint64 space_id = 2; //空间id
+  sint64 work_item_type_id = 10; //工作项类型id
+  sint64 work_flow_id = 12; //工作流id
+  string flow_mode = 11;//流程模式
+  sint32 version = 15;//版本
+  string setting = 14;//设置
+  sint64 status = 5; ////状态;0:禁用,1:正常
+  sint64 created_at = 7;//创建时间
+  sint64 updated_at = 8;//更新时间
+  sint64 deleted_at = 9;//删除时间
+}
+
+//[db] 任务类型
+message WorkItemType {
+  sint64 id = 1;
+  string uuid = 13;
+  sint64 user_id = 14;
+  sint64 space_id = 2; //空间id
+  string name = 3; //名称
+  string key = 4; //编码
+  string flow_mode = 10;//流程模式
+  sint64 ranking = 6; //排序
+  sint64 status = 5; ////状态;0:禁用,1:正常
+  sint64 created_at = 7;//创建时间
+  sint64 updated_at = 8;//更新时间
+  sint64 deleted_at = 9;//删除时间
+  sint32 is_sys = 11; //是否系统预设
+}
+
+//[db]工作项状态
+message WorkItemStatus {
+  sint64 id = 1;
+  string uuid = 13;
+  sint64 user_id = 15;
+  sint64 space_id = 2; //空间id
+  sint64 work_item_type_id = 10; //工作项类型id
+  string name = 3; //名称
+  string key = 4; //工作项状态key
+  string val = 11; //工作项状态值
+  sint32 status_type = 12; //工作项状态类型 1:起始 2:过程 3:归档
+  sint64 ranking = 6; //排序
+  sint64 status = 5; //状态;0:禁用,1:正常
+  sint64 created_at = 7;//创建时间
+  sint64 updated_at = 8;//更新时间
+  sint64 deleted_at = 9;//删除时间
+  sint32 is_sys = 14; //是否系统预设
+  string flow_scope = 16; //应用流程范围
+}
+
+//[db] user
+message User {
+  sint64 id = 1;
+  string user_name = 2;//用户名
+  string mobile = 3;//中国手机不带国家代码，国际手机号格式为：国家代码-手机号
+  string user_nickname = 4;//用户昵称
+  string user_pinyin = 5;//用户昵称拼音
+  string user_password = 6;//登录密码;cmf_password加密
+  string user_salt = 7;//加密盐
+  sint32 user_status = 8;//用户状态;0:禁用,1:正常,2:未验证
+  string user_email = 9;//用户登录邮箱
+  sint32 sex = 10;//性别;0:保密,1:男,2:女
+  string avatar = 11;//用户头像
+  string remark = 12;//备注
+  string describe = 13;//描述信息
+  string last_login_ip = 14;//最后登录ip
+  sint64 last_login_time = 15;//最后登录时间
+  sint64 role = 16;//用户角色;0:普通用户,50:管理员,100:超级管理员
+  sint64 created_at = 17;//创建时间
+  sint64 updated_at = 18;//更新时间
+  sint64 deleted_at = 19;//删除时间
+}
+
+//[db] 配置
+message Config {
+  sint64 id = 1;
+  string config_name = 2;
+  string config_key = 3;
+  string config_value = 4;
+  string config_status = 5;
+  string remark = 6;
+  sint64 created_at = 7;//创建时间
+  sint64 updated_at = 8;//更新时间
+  sint64 deleted_at = 9;//删除时间
+}
+
+//[db] 项目空间
+message Space {
+  sint64 id = 1;
+  sint64 user_id = 2;//创建用户id
+  string space_guid = 3;//空间Guid
+  string space_name = 4;//空间名称
+  sint32 space_status = 5;//空间状态;0:禁用,1:正常,2:未验证
+  string remark = 6;//备注
+  string describe = 7;//描述信息
+  sint64 notify = 8;//是否开启通知;0:否,1:是
+  sint64 created_at = 9;//创建时间
+  sint64 updated_at = 10;//更新时间
+  sint64 deleted_at = 11;//删除时间
+}
+
+//[db] 项目配置
+message SpaceConfig {
+  sint64 id = 1;
+  sint64 space_id = 2;//空间id
+  string working_day = 3; //工作日配置
+  sint32 comment_deletable = 4; // 评论是否可删除;0:否,1:是
+  sint32 comment_deletable_when_archived = 5; // 任务归档时评论是否可删除;0:否,1:是
+  sint32 comment_show_pos = 6; // 评论展示位置;0:底部,1:单独tab
+  sint64 created_at = 9;//创建时间
+  sint64 updated_at = 10;//更新时间
+  sint64 deleted_at = 11;//删除时间
+}
+
+//[db] 项目空间-成员
+message SpaceMember {
+  sint64 id = 1;
+  sint64 user_id = 2;//创建用户id
+  sint64 space_id = 3;//空间Guid
+  sint64 role_id = 4;//空间名称
+  string remark = 5;//备注
+  int64 ranking = 6;//排序值
+  int32 notify = 7;//是否通知;0:否,1:是
+  sint64 created_at = 8;//创建时间
+  sint64 updated_at = 9;//更新时间
+  sint64 deleted_at = 10;//删除时间
+  sint64 history_role_id = 11;//空间名称
+}
+
+//[db] 项目空间-工作项(工作模块)
+message SpaceWorkObject {
+  sint64 id = 1;
+  sint64 space_id = 2;//空间id
+  sint64 user_id = 3;//创建用户id
+  string work_object_guid = 4;//空间Guid
+  string work_object_name = 5;//空间名称
+  sint32 work_object_status = 6;//空间状态;0:禁用,1:正常,2:未验证
+  string remark = 7;//备注
+  string describe = 8;//描述信息
+  int64 ranking = 9;//排序值
+  sint64 created_at = 10;//创建时间
+  sint64 updated_at = 11;//更新时间
+  sint64 deleted_at = 12;//删除时间
+}
+
+//[db] 项目空间-工作项-用例
+// message SpaceWorkItem {
+//   sint64 id = 1;
+//   sint64 space_id = 2;//空间id
+//   sint64 user_id = 3;//创建用户id
+//   sint64 work_object_id = 4;//工作项id
+//   string work_item_guid = 5;//空间Guid
+//   string work_item_name = 6;//空间名称
+//   sint32 work_item_status = 7;//空间状态;0:禁用,1:正常
+//   sint64 plan_start_at = 8; //计划任务开始时间
+//   sint64 plan_complete_at = 9; //计划任务完成时间
+//   int32  process_rate = 10; //完成进度比例
+//   string remark = 11;//备注
+//   string describe = 12;//描述信息
+//   sint64 created_at = 13;//创建时间
+//   sint64 updated_at = 14;//更新时间
+//   sint64 deleted_at = 15;//删除时间
+//   string priority = 16; //优先级
+//   sint64 pid = 17; //上级任务id, >0 表示当前为子任务
+//   sint64 restart_at = 18; //重启时间
+//   sint32 last_status = 19; //状态切换前的历史状态
+//   sint32 work_item_type = 20; //任务类型
+//   string flow_mode = 23; //模式类型
+//   string flow_mode_version = 24; //模式版本
+//   string flow_mode_code = 25; //模式编码
+// }
+
+//[db] 项目空间-工作项-用例
+message SpaceWorkItemV2 {
+  sint64 id = 1;
+  sint64 pid = 2; //上级任务id, >0 表示当前为子任务
+  sint64 space_id = 3;//空间id
+  sint64 user_id = 4;//创建用户id
+  sint32 work_item_type = 5; //原任务类型,已废弃
+  sint64 work_object_id = 6;//模块id
+  string work_item_guid = 7;//任务Guid
+  string work_item_name = 8;//任务名称
+  sint64 created_at = 10;//创建时间
+  sint64 updated_at = 11;//更新时间
+  sint64 deleted_at = 12;//删除时间
+  string doc = 13;//
+  int32 is_restart = 19; //是否为重启任务
+  int64 restart_at = 20; //重启时间
+  uint32 icon_flags = 21;//图标标记
+  int64 restart_user_id = 22;
+  int32 comment_num = 23;//评论数
+  int64 resume_at = 24; //恢复时间
+  sint64 version_id = 25; //版本id -> 版本表
+  sint64 work_item_type_id = 27;//工作项类型Id
+  string work_item_type_key = 28; //工作项类型key
+  sint64 flow_template_id = 26;//流程模板id
+  sint64 flow_template_version = 29;//流程模板版本
+  sint64 flow_id = 30;//流程Id
+  string flow_key = 31;//流程key
+  string flow_mode = 14; //模式类型
+  string flow_mode_version = 15; //[已废弃]模式版本
+  string flow_mode_code = 16; //[已废弃]模式编码
+  string work_item_status = 9;//任务状态
+  string work_item_status_key = 32; //工作项状态key
+  int64 work_item_status_id = 33; //工作项状态id
+  sint64 last_status_at = 17; //历史状态更新时间
+  string last_status = 18; //历史状态
+  string last_status_key = 36; //最后一次状态key
+  int64 last_status_id = 35; //最后一次状态id
+  sint32 child_num = 37; //子任务数量
+  sint64  work_item_flow_id = 38;//流程Id
+  string  work_item_flow_key = 39;//流程key
+  string reason = 40;
+  int64 count_at = 41;
+}
+
+
+//[db] 项目空间-工作项-用例
+message SpaceWorkItemDocV2 {
+  sint64 plan_start_at = 1; //计划任务开始时间
+  sint64 plan_complete_at = 2; //计划任务完成时间
+  int32  process_rate = 3; //完成进度比例
+  string remark = 4;//备注
+  string describe = 5;//描述信息
+  string priority = 6; //优先级
+  string tags = 7;
+  string directors = 8;
+  string followers = 9;
+  string participators = 10;
+  string node_directors = 11;
+}
+
+//[db] 项目空间-标签
+message SpaceTag {
+  sint64 id = 1;
+  sint64 space_id = 2;//空间id
+  string tag_guid = 3;//tag唯一标识符
+  string tag_name = 4;//tag名称
+  int32 tag_status = 5;//Tag状态;0:禁用,1:正常
+  sint64 created_at = 6;//创建时间
+  sint64 updated_at = 7;//更新时间
+  sint64 deleted_at = 8;//删除时间
+}
+
+
+//[db] 文件信息
+message FileInfo {
+  sint64 id = 1;
+  string hash = 2;
+  string name = 3;
+  sint32 typ = 4;             // 文件類型 (1-图片，2-视频，3-音频，4-文本)
+  sint64 size = 5;
+  string uri = 6;             // 前端讀取檔案用, 動態產生: /path/name?sign=hmac-sha256簽名(附加過期timestamp)
+  string pwd = 7;
+  string cover = 17; //封面，仅为视频文件生成
+  sint32 status = 8; // 0-未定義, 1-初始化, 2-上传中, 3-成功, 4-失败, 5-处理中（转码等）, 6-待删
+  sint64 owner = 9; // 上傳者id
+  string meta = 18; // 元数据
+  sint64 created_at = 10;//创建时间
+  sint64 updated_at = 11;//更新时间
+  sint64 deleted_at = 12;//删除时间
+
+  // 以下欄位不應回傳到前端, 於api返回值清空
+  sint32 upload_typ = 13;     // 上傳服務器類型 (0-local 1-fastdfs，2-s3)
+  string upload_domain = 14;  // 上傳服務器
+  string upload_md5 = 15;     // 上傳完成md5
+  string upload_path = 16;    // 上傳完成檔案路徑
+}
+
+//[db] 项目空间-文件关联
+message SpaceFileInfo {
+  sint64 id = 1;
+  sint64 space_id = 2;//空间id
+  sint64 file_info_id = 3;//标签id
+  string file_name = 4;//标签id
+  string file_uri = 5;//标签id
+  sint64 file_size = 6; //文件大小
+  sint32 status = 8; //状态 0-未定义 1-使用中 2-已删除
+  sint64 source_id = 9;//关联id
+  int32  source_type = 10;//关联类型 1:任务
+  sint64 created_at = 11;//创建时间
+  sint64 updated_at = 12;//更新时间
+  sint64 deleted_at = 13;//删除时间
+}
+
+//[db] 用户登录日志
+message UserLoginLog {
+  sint64 id = 1;
+  sint64 login_user_id = 2;//登录用户id
+  string login_user_name = 3;//登录用户名
+  string login_user_nickname = 4;//登录用户昵称
+  string ipaddr = 5;//ip
+  string login_location = 6; //ip地区
+  string browser = 7; //浏览器
+  string os = 8;//设备系统
+  int32  status = 9;//状态 0:成功  1:失败
+  string msg = 10;//描述
+  sint64 login_at = 11;//登录时间
+  sint64 created_at = 12;//创建时间
+  sint64 updated_at = 13;//更新时间
+  sint64 deleted_at = 14;//删除时间
+}
+
+//[db] 用户操作日志
+message OperLog {
+  sint64 id = 1;
+  string title = 2;//模块标题
+  int32 business_type = 3;//业务类型（0其它 1新增 2修改 3删除）
+  string method = 4;//方法名称
+  string request_method = 5;//请求方式
+  int32  module_type = 6;
+  sint64 module_id = 7;
+  int32 operator_type = 8; //操作类别（0其它 1后台用户 2手机端用户）
+  sint64 oper_id = 9; //操作人id
+  string oper_name = 10;//操作人员
+  string oper_nickname = 11;//操作人员昵称
+  string oper_url = 12;//请求URL
+  string oper_ip = 13;//主机地址
+  string oper_location = 14;//操作地点
+  string oper_param = 15;//请求参数
+  string oper_msg = 16;//错误消息
+  sint64 oper_time_at = 17;//操作时间
+  sint64 created_at = 18;//创建时间
+  sint64 updated_at = 19;//更新时间
+  sint64 deleted_at = 20;//删除时间
+  sint64 space_id = 21;// 空间id
+  int32 show_type = 22;// 显示类型
+  string space_name = 23;// 空间名称
+  sint64 module_flag = 24; // 模块位标记
+}
+
+//[db] 工作节点V2
+message SpaceWorkItemFlowV2 {
+  sint64 id = 1;
+  sint64 work_item_id = 2; //任务id
+  sint64 work_item_role_id = 25;
+  string work_item_role_key = 26;
+  string flow_node_uuid = 3; //节点uuid
+  sint32 flow_node_status = 4; //节点状态; 0:未定义 , 1: 未开启 2: 进行中 3:已完成
+  string flow_node_code = 5; //节点编码
+  sint32 flow_node_passed = 6; //节点是否通过
+  sint32 flow_node_reached = 7; //节点是否到达
+  string flow_mode_version = 9; //[已废弃]模式版本
+  string flow_mode_code = 10; //[已废弃]模式编码
+  sint64 start_at = 11; //开始时间
+  sint64 finish_at = 12; //结束时间
+  string directors = 13; //节点负责人
+  sint64 created_at = 14; //创建时间
+  sint64 updated_at = 15; //更新时间
+  sint64 deleted_at = 16; //删除时间
+  sint64 space_id = 17; //空间id 
+  sint64 plan_start_at = 18; //计 划开始时间
+  sint64 plan_complete_at = 19; //计划结束时间
+
+  sint64 flow_id = 20;//流程Id
+  string flow_key = 21;//流程key
+  string flow_mode = 22; //模式类型
+  int64 flow_template_id = 23; //模式版本
+  int64 flow_template_version = 24; //模式编码
+}
+
+
+//[db] 工作节点角色负责人
+message SpaceWorkItemFlowRoleV2 {
+  sint64 id = 1;
+  sint64 space_id = 17; //空间id 
+  sint64 work_item_id = 2; //任务id
+  sint64 flow_id = 20;//流程Id
+  int64 flow_template_id = 23; //模式版本
+  sint64 work_item_role_id = 25;
+  string work_item_role_key = 26;
+  string directors = 13; //节点负责人
+  sint64 created_at = 14; //创建时间
+  sint64 updated_at = 15; //更新时间
+  sint64 deleted_at = 16; //删除时间
+
+}
+
+
+//[db] 项目空间-工作项-评论
+message SpaceWorkItemComment {
+  sint64 id = 1;
+  sint64 user_id = 2;//创建用户id
+  sint64 work_item_id = 3; //工作项id
+  string content = 4; //评论内容
+  string refer_user_ids = 5; //@的用户id列表
+  sint64 reply_comment_id = 6; // 回复评论id
+  string emojis = 7; // 表情
+  sint64 created_at = 8;//创建时间
+  sint64 updated_at = 9;//更新时间
+  sint64 deleted_at = 10;//删除时间
+}
+
+//[db] 第三方平台用户关联表
+message ThirdPfAccount  {
+  sint64 id = 1;
+  sint64 user_id = 2;//创建用户id
+  string pf_name = 3; //平台名称
+  int32 pf_code = 4; //平台枚举 1IM
+  string pf_user_key = 5; //平台用户唯一标识符
+  string pf_user_name = 6; //平台用户名
+  sint64 pf_user_id = 7; //平台用户id
+  string pf_user_account = 8; //平台用户账号
+  int32 notify = 9; //通知开关
+  sint64 created_at = 10;//创建时间
+  sint64 updated_at = 11;//更新时间
+  sint64 deleted_at = 12;//删除时间
+}
+
+
+//[db] 通知快照
+message Notify  {
+  sint64 id = 1;
+  sint64 space_id = 2; //空间id
+  sint64 user_id = 3;//创建用户id
+  int64 typ = 4; //类型枚举
+  string doc = 5; //快照内容  
+  sint64 created_at = 7;//创建时间
+  sint64 updated_at = 8;//更新时间
+  sint64 deleted_at = 9;//删除时间
+}
+
+//[db] 任务版本
+message SpaceWorkVersion {
+  sint64 id = 1;
+  sint64 space_id = 2; //空间id
+  string version_key = 10;//版本KEY
+  string version_name = 3;//版本名称
+  int64  version_status = 4; //版本状态
+  string remark = 5; //备注
+  sint64 ranking = 6; //排序
+  sint64 created_at = 7;//创建时间
+  sint64 updated_at = 8;//更新时间
+  sint64 deleted_at = 9;//删除时间
+}
+
+
+//[db] 成员分类
+message MemberCategory {
+  sint64 id = 1;
+  sint64 space_id = 2; //空间id
+  string name = 3; //名称
+  sint64 ranking = 6; //排序
+  sint64 created_at = 7;//创建时间
+  sint64 updated_at = 8;//更新时间
+  sint64 deleted_at = 9;//删除时间
+}
+
+
+//[db] 空间成员分类
+message SpaceMemberCategory {
+  sint64 id = 1;
+  sint64 category_id = 2; //分类id
+  sint64 space_id = 3; //空间id
+  sint64 user_id = 4; //用户id
+  sint64 ranking = 6; //排序
+  sint64 created_at = 7;//创建时间
+  sint64 updated_at = 8;//更新时间
+  sint64 deleted_at = 9;//删除时间
+}
+
+//[db] 空间视图
+message SpaceGlobalView {
+  sint64 id = 1;
+  sint64 space_id = 2; //空间id
+  string key = 3; //用户id
+  string name = 4;
+  sint64 type = 5; // 1系统 2公告 3个人
+  string query_config = 6;
+  string table_config = 7;
+  sint64 created_at = 8;//创建时间
+  sint64 updated_at = 9;//更新时间
+}
+
+//[db] 用户视图
+message SpaceUserView {
+  sint64 id = 1;
+  sint64 space_id = 2;
+  sint64 user_id = 3;
+  string key = 4;
+  string name = 5;
+  sint64 type = 6; // 1系统 2公告 3个人
+  sint64 outer_id = 7;
+  string query_config = 8;
+  string table_config = 9;
+  sint64 ranking = 10;
+  sint64 status = 11;
+  sint64 created_at = 12;//创建时间
+  sint64 updated_at = 13;//更新时间
+}
+
+//[db] 用户配置
+message UserConfig {
+  sint64 id = 1;
+  sint64 user_id = 2;
+  string key = 3;
+  string value = 4;
+  sint64 created_at = 5;
+  sint64 updated_at = 6;
+}

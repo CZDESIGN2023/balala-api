@@ -1,0 +1,220 @@
+syntax = "proto3";
+package rsp;
+option go_package = "go-cs/internal/bean/vo/rsp;rsp";
+
+
+
+message OwnerConf {
+  bool force_owner = 1;
+  string usage_mode = 2;
+  string value = 3;
+  repeated OwnerConf_Role owner_role = 4;
+}
+
+message OwnerConf_Role {
+  int64 id = 1;
+  string key = 2;
+  string uuid = 3;
+}
+
+
+message SpaceWorkFlowList {
+
+  message Node {
+    string code = 1;
+    string name = 2;
+  }
+
+  message Connection {
+    string start = 1;
+    string end = 2;
+  }
+
+
+  message TemplateConf {
+    repeated Node nodes = 1;
+    repeated Connection connections = 2;
+  }
+
+
+  message ListItem {
+    int64 id = 1;
+    int64 work_item_type_id = 2;
+    int64 space_id = 3;
+    string name = 4;
+    int64 ranking = 5;
+    int32 version = 7;
+    int64 created_at = 8;
+    int64 updated_at = 9;
+    string flow_mode = 10;
+    int32 status = 11;
+
+    int64 template_id = 12;
+    TemplateConf template_conf = 13;
+  }
+
+  repeated ListItem list = 1;
+}
+
+
+message WorkFlowInfo {
+  int64 id = 1;
+  int64 work_item_type_id = 2;
+  int64 space_id = 3;
+  string name = 4;
+  int64 ranking = 5;
+  int32 version = 7;
+  int64 created_at = 8;
+  int64 updated_at = 9;
+  string flow_mode = 10;
+  int32 status = 11;
+  int64 template_id = 12;
+  WorkFlowTemplateConf template_conf = 13;
+  WorkFlowDefaultConf flow_conf = 14;
+
+  StateFlowTemplateConf state_flow_template_conf = 15;
+}
+
+message FlowTemplate {
+  sint64 id = 1;
+  string uuid = 3;
+  sint64 version = 4;
+  sint64 space_id = 5;
+  sint64 work_item_type_id = 6;
+  sint64 work_flow_id = 7;
+  string flow_mode = 8;
+
+  WorkFlowTemplateConf work_flow_template = 9;
+  StateFlowTemplateConf state_flow_template = 10;
+}
+
+
+message WorkFlowTemplate {
+  sint64 id = 1;
+  string uuid = 3;
+  sint64 version = 4;
+  sint64 space_id = 5;
+  sint64 work_item_type_id = 6;
+  sint64 work_flow_id = 7;
+  string flow_mode = 8;
+  WorkFlowTemplateConf conf = 9;
+}
+
+message WorkFlowDefaultConf {
+  message reason_option {
+    string name = 1;
+    repeated string options = 2;
+  }
+  repeated reason_option reasonOptions = 1;
+}
+
+message WorkFlowTemplateConf {
+  string uuid = 1;
+  sint64 version = 2;
+  string key = 3;
+  repeated WorkFlowNode nodes = 4;
+  repeated WorkFlowConnection connections = 5;
+  repeated WorkFlowFormField formFields = 6;
+
+  repeated string terminated_reason_options = 7;
+  bool enable_terminated_reason_other_option = 8;
+  repeated string reboot_reason_options = 9;
+  bool enable_reboot_reason_other_option = 10;
+  repeated string resume_reason_options = 11;
+  bool enable_resume_reason_other_option = 12;
+}
+
+message WorkFlowFormField {
+  string name = 2;
+  string value = 3;
+}
+
+message WorkFlowNode {
+  string name = 1;
+  string key = 2;
+  string start_mode = 3;
+  string belong_status = 4;
+  bool need_done_operator = 5;
+  repeated string done_operation_role = 6;
+  string pass_mode = 7;
+  repeated WorkFlowNodeEvent  on_reach = 8;
+  repeated WorkFlowNodeEvent on_pass = 9;
+  bool enable_rollback = 10;
+  OwnerConf owner = 11;
+  string done_operation_display_name = 12;
+  bool enable_close = 13;
+  int64 startAt = 14; //节点开始时间
+  repeated string rollback_reason_options = 15;
+  bool enable_close_reason_other_option = 16;
+  repeated string restart_reason_options = 17;
+  bool enable_restart_reason_other_option = 19;
+  repeated string close_reason_options = 20;
+  bool enable_rollback_reason_other_option = 21;
+  bool force_plan_time = 22;
+}
+
+message WorkFlowNodeEvent {
+  string event_type = 1;
+  string condition = 2;
+  WorkFlowSubState target_sub_state = 3;
+}
+
+
+message WorkFlowSubState  {
+  int64 id = 1;
+  string key = 2;
+  string uuid = 3;
+  string val = 4;
+}
+
+message WorkFlowConnection  {
+  string start_node = 1;
+  string end_node = 2;
+}
+
+message StateFlowTemplate {
+  sint64 id = 1;
+  string uuid = 3;
+  sint64 version = 4;
+  sint64 space_id = 5;
+  sint64 work_item_type_id = 6;
+  sint64 work_flow_id = 7;
+  string flow_mode = 8;
+
+  StateFlowTemplateConf conf = 9;
+}
+
+message StateFlowTemplateConf {
+  string uuid = 3;
+  sint64 version = 4;
+  string key = 5;
+  repeated StateFlowNode stateFlowNodes = 6;
+  repeated StateFlowConnection stateFlowTransitionRule = 7;
+
+  repeated string terminated_reason_options = 8;
+  repeated string resume_reason_options = 9;
+
+  bool enableTerminatedReasonOtherOption = 10;
+  bool enableResumeReasonOtherOption = 11;
+}
+
+message StateFlowNode {
+  string key = 1;
+  string name = 2;
+
+  string subStateId = 3;
+  string subStateKey = 4;
+  string subStateVal = 5;
+
+  bool is_archived_state = 6;
+  bool is_init_state = 7;
+  repeated string operation_role = 8;
+  OwnerConf owner = 9;
+  int64 startAt = 10;
+}
+
+message StateFlowConnection  {
+  repeated string confirm_form = 1;
+  string sourceStateKey = 2;
+  string targetStateKey = 3;
+}

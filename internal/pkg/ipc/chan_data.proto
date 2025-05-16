@@ -1,0 +1,35 @@
+syntax = "proto3";
+import "google/protobuf/any.proto";
+import "google/protobuf/timestamp.proto";
+
+package kratos.api;
+
+option go_package = "server_go_base/internal/pkg/ipc;ipc";
+
+// 频道数据
+message ChanData {
+  string channel = 1;  // 频道名
+  google.protobuf.Any data = 2;   // 消息内容，使用bytes类型可以接收任何类型的数据，包括二进制和文本
+  optional string id = 3; //消息id
+  optional int64 time = 4; //发包时间戳
+}
+
+// 通过发送这个包计算消息队列延迟
+message TestCheckAlive {
+  int64 random = 1;
+  google.protobuf.Timestamp timestamp = 2;   // 时间戳
+}
+
+// 测试用,聊天消息
+message TestChatMessage {
+  string user_id = 1;    // 用户 ID
+  string content = 2;    // 消息内容
+  int64 timestamp = 3;   // 时间戳
+}
+
+// 测试用,用户信息
+message TestUserInfo {
+  string user_id = 1;    // 用户 ID
+  string username = 2;   // 用户名
+  string avatar_url = 3; // 头像 URL
+}

@@ -1,0 +1,78 @@
+syntax = "proto3";
+//import "google/protobuf/any.proto";
+//import "bean/update_data.proto";
+
+package server_go_base.bean;
+option go_package = "server_go_base/internal/bean;bean";
+
+// 用于模拟http请求的实体
+message Request {
+  enum Method {
+    UNKNOWN = 0;
+    GET = 1;
+    POST = 2;
+    PUT = 3;
+    DELETE = 4;
+  }
+  // 用于标识唯一请求的唯一值
+  uint32 random = 1;
+  // 请求的方法
+  Method method = 2;
+  // 请求的路径
+  string path = 3;
+  // 请求的数据字节
+  bytes data = 4;
+}
+
+// 模拟http请求的响应值
+message Response {
+  // 标识唯一请求, 为0的时候说明是更新包
+  uint32 random = 1;
+
+  bytes body = 2;
+
+  // 对象更新的结构体数组
+  repeated AnyObj creates = 3;
+  repeated UpdateData updates = 4;
+  repeated ReleaseIDs deletes = 5;
+}
+
+
+message AnyObj {
+  uint32 obj_type = 1;
+  bytes obj = 2;
+}
+
+// 所有的类型无非就这么几种
+message FieldValue {
+  oneof value {
+    string str = 2;
+    int32 int32_value = 3;
+    int64 int64_value = 4;
+    uint32 uint32_value = 5;
+    uint64 uint64_value = 6;
+    sint32 sint32_value = 7;
+    sint64 sint64_value = 8;
+    float float_value = 9;
+    double double_value = 10;
+    bool bool_value = 11;
+  }
+}
+
+// 字段更新信息
+message UpdateData {
+  // 更新的表 关联 types.proto enum Table
+  uint32 obj_type = 1;
+  // 对象id
+  sint64 id = 2;
+  // 字段掩码
+  bytes masks = 3;
+  // 更新的字段值
+  repeated FieldValue values = 4;
+}
+
+// 删除的数据信息
+message ReleaseIDs {
+  uint32 obj_type = 1;
+  repeated sint64 ids = 2;
+}

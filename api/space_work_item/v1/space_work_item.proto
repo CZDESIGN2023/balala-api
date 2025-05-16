@@ -1,0 +1,997 @@
+syntax = "proto3";
+
+import "comm/errors.proto";
+import "google/api/annotations.proto";
+import "bean/types.proto";
+import "bean/vo/rsp/work_item.proto";
+import "bean/vo/rsp/work_flow.proto";
+import "bean/vo/rsp/user.proto";
+
+package api.space_work_item.v1;
+
+option go_package = "go-cs/api/space_work_item/v1;v1";
+option java_multiple_files = true;
+option java_package = "api.space.work_item.v1";
+
+service space_work_item {
+
+  rpc CreateWorkItemV2 (CreateWorkItemRequestV2) returns (CreateWorkItemReplyV2) {
+
+    option (google.api.http) = {
+      post: "/v2/my/space/work_item/create",
+      body: "*",
+    };
+  }
+
+  rpc CreateWorkItemSubTask (CreateWorkItemSubTaskRequest) returns (CreateWorkItemSubTaskReply) {
+    option (google.api.http) = {
+      post: "/v2/my/space/work_item/task/create",
+      body: "*",
+    };
+  }
+
+  rpc GetWorkItemDetailV2 (GetWorkItemDetailRequestV2) returns (GetWorkItemDetailReplyV2) {
+    option (google.api.http) = {
+      post: "/v2/my/space/work_item/detail",
+      body: "*",
+    };
+  }
+
+  rpc ConfirmWorkFlowMain (ConfirmWorkFlowMainRequest) returns (ConfirmWorkFlowMainReply) {
+    option (google.api.http) = {
+      post: "/v2/my/space/work_item/nodes/state/confirm",
+      body: "*",
+    };
+  }
+
+  rpc ConfirmStateFlowMain (ConfirmStateFlowMainRequest) returns (ConfirmStateFlowMainReply) {
+    option (google.api.http) = {
+      post: "/v2/my/space/work_item/state/confirm",
+      body: "*",
+    };
+  }
+
+  rpc ConfirmSub (ConfirmSubRequest) returns (ConfirmSubReply) {
+    option (google.api.http) = {
+      post: "/v2/my/space/work_item/task/state/confirm",
+      body: "*",
+    };
+  }
+
+  rpc SetFlowMainDirector (SetFlowMainDirectorRequest) returns (SetFlowMainDirectorReply) {
+    option (google.api.http) = {
+      post: "/v2/my/space/work_item/director/set",
+      body: "*",
+    };
+  }
+
+  rpc SetSubDirector (SetSubDirectorRequest) returns (SetSubDirectorReply) {
+    option (google.api.http) = {
+      post: "/v2/my/space/work_item/task/director/set",
+      body: "*",
+    };
+  }
+
+  rpc SetWorkItemToNewWorkObjectV2 (SetWorkItemToNewWorkObjectRequest) returns (SetWorkItemToNewWorkObjectReply) {
+    option (google.api.http) = {
+      post: "/v2/my/space/work_item/work_object/set",
+      body: "*",
+    };
+  }
+
+
+  rpc ModifyWorkItemPlanTimeV2 (ModifyWorkItemPlanTimeRequest) returns (ModifyWorkItemPlanTimeReply) {
+    option (google.api.http) = {
+      post: "/v2/my/space/work_item/plantime/modify",
+      body: "*",
+    };
+  }
+
+
+  rpc ModifyWorkItemProcessRateV2 (ModifyWorkItemProcessRateRequest) returns (ModifyWorkItemProcessRateReply) {
+    option (google.api.http) = {
+      post: "/v2/my/space/work_item/process_rate/modify",
+      body: "*",
+    };
+  }
+
+  rpc ModifyWorkItemPriorityV2 (ModifyWorkItemPriorityRequest) returns (ModifyWorkItemPriorityReply) {
+    option (google.api.http) = {
+      post: "/v2/my/space/work_item/priority/modify",
+      body: "*",
+    };
+  }
+
+  rpc ModifyWorkItemDescribeV2 (ModifyWorkItemDescribeRequest) returns (ModifyWorkItemDescribeReply) {
+    option (google.api.http) = {
+      post: "/v2/my/space/work_item/describe/modify",
+      body: "*",
+    };
+  }
+
+  rpc ModifyWorkItemNameV2 (ModifyWorkItemNameRequest) returns (ModifyWorkItemNameReply) {
+    option (google.api.http) = {
+      post: "/v2/my/space/work_item/name/modify",
+      body: "*",
+    };
+  }
+
+  rpc SetWorkItemTagV2 (SetWorkItemTagRequest) returns (SetWorkItemTagReply) {
+    option (google.api.http) = {
+      post: "/v2/my/space/work_item/tag/set",
+      body: "*",
+    };
+  }
+
+  rpc SetSpaceWorkItemFileInfoV2 (SetSpaceWorkItemFileInfoRequest) returns (SetSpaceWorkItemFileInfoReply) {
+    option (google.api.http) = {
+      post: "/v2/my/space/work_item/files/set",
+      body: "*",
+    };
+  }
+
+
+  rpc DelSpaceWorkItemV2 (DelSpaceWorkItemRequest) returns (DelSpaceWorkItemReply) {
+    option (google.api.http) = {
+      post: "/v2/my/space/work_item/del",
+      body: "*",
+    };
+  }
+
+  rpc TerminateSpaceWorkItemV2 (TerminateSpaceWorkItemRequest) returns (TerminateSpaceWorkItemReply) {
+    option (google.api.http) = {
+      post: "/v2/my/space/work_item/terminate",
+      body: "*",
+    };
+  }
+
+  rpc RestartSpaceWorkItemV2 (RestartSpaceWorkItemRequest) returns (RestartSpaceWorkItemReply) {
+    option (google.api.http) = {
+      post: "/v2/my/space/work_item/restart",
+      body: "*",
+    };
+  }
+
+  rpc CloseSpaceWorkItemV2 (CloseSpaceWorkItemRequest) returns (CloseSpaceWorkItemReply) {
+    option (google.api.http) = {
+      post: "/v2/my/space/work_item/close",
+      body: "*",
+    };
+  }
+
+  rpc RollbackWorkItemNodeStateV2 (RollbackSpaceWorkItemRequest) returns (RollbackSpaceWorkItemReply) {
+    option (google.api.http) = {
+      post: "/v2/my/space/work_item/nodes/state/rollback",
+      body: "*",
+    };
+  }
+
+  rpc ResumeWorkItemV2 (ResumeSpaceWorkItemRequest) returns (ResumeSpaceWorkItemReply) {
+    option (google.api.http) = {
+      post: "/v2/my/space/work_item/resume",
+      body: "*",
+    };
+  }
+
+  rpc AddWorkItemComment (AddWorkItemCommentRequest) returns (AddWorkItemCommentReply) {
+    option (google.api.http) = {
+      post: "/my/space/work_item/comment/add",
+      body: "*",
+    };
+  }
+
+  rpc UpdateWorkItemComment (UpdateWorkItemCommentRequest) returns (UpdateWorkItemCommentReply) {
+    option (google.api.http) = {
+      post: "/my/space/work_item/comment/update",
+      body: "*",
+    };
+  }
+
+  rpc DeleteWorkItemComment (DeleteWorkItemCommentRequest) returns (DeleteWorkItemCommentReply) {
+    option (google.api.http) = {
+      post: "/my/space/work_item/comment/delete",
+      body: "*",
+    };
+  }
+
+  rpc WorkItemCommentList (WorkItemCommentListRequest) returns (WorkItemCommentListReply) {
+    option (google.api.http) = {
+      post: "/my/space/work_item/comment/list",
+      body: "*",
+    };
+  }
+
+  rpc CommentEmojiAdd (CommentEmojiAddRequest) returns (CommentEmojiAddReply) {
+    option (google.api.http) = {
+      post: "/my/space/work_item/comment/emoji_add",
+      body: "*",
+    };
+  }
+
+  rpc CommentEmojiRemove (CommentEmojiRemoveRequest) returns (CommentEmojiRemoveReply) {
+    option (google.api.http) = {
+      post: "/my/space/work_item/comment/emoji_remove",
+      body: "*",
+    };
+  }
+
+  rpc ChangeWorkItemType (ChangeWorkItemTypeRequest) returns (ChangeWorkItemTypeReply) {
+    option (google.api.http) = {
+      post: "/my/space/work_item/change_type",
+      body: "*",
+    };
+  }
+
+  rpc Follow (FollowRequest) returns (FollowReply) {
+    option (google.api.http) = {
+      post: "/my/space/work_item/follow",
+      body: "*",
+    };
+  }
+
+  rpc ChangeWorkItemVersion (ChangeWorkItemVersionRequest) returns (ChangeWorkItemVersionReply) {
+    option (google.api.http) = {
+      post: "/v2/my/space/work_item/version/change",
+      body: "*",
+    };
+  }
+
+
+  rpc ModifyWorkItemRemark (ModifyWorkItemRemarkRequest) returns (ModifyWorkItemRemarkReply) {
+    option (google.api.http) = {
+      post: "/my/space/work_item/remark/modify",
+      body: "*",
+    };
+  }
+
+  rpc RemindWork (RemindWorkRequest) returns (RemindWorkReply) {
+    option (google.api.http) = {
+      post: "/my/space/work_item/remind",
+      body: "*",
+    };
+  }
+
+  rpc OperationPermissions (OperationPermissionsRequest) returns (OperationPermissionsReply) {
+    option (google.api.http) = {
+      post: "/my/space/work_item/operation_permissions",
+      body: "*",
+    };
+  }
+
+  rpc SetWorkItemFollower (SetWorkItemFollowerRequest) returns (SetWorkItemFollowerReply) {
+    option (google.api.http) = {
+      post: "/v2/my/space/work_item/follower_set",
+      body: "*",
+    };
+  }
+}
+
+message SetStateFlowMainDirectorRequest {
+  int64 workItemId = 1;
+  string role = 2;
+  repeated int64 directors = 3;
+}
+
+message SetStateFlowMainDirectorReply {
+  oneof result {
+    comm.ErrorInfo error = 1;
+  }
+}
+
+message ConfirmStateFlowMainRequest {
+  int64 workItemId = 1;
+  string state = 2;
+  string reason = 3;
+  string remark = 4; //备注
+}
+
+message ConfirmStateFlowMainReply {
+  oneof result {
+    comm.ErrorInfo error = 1;
+  }
+}
+
+message SetWorkItemFollowerRequest {
+  int64 workItemId = 1;
+  repeated int64 userIds = 2;
+}
+
+message SetWorkItemFollowerReply {
+  oneof result {
+    comm.ErrorInfo error = 1;
+  }
+}
+
+message CommentEmojiAddRequest {
+  int64 commentId = 1;
+  string emojiId = 2;
+}
+
+message CommentEmojiAddReply {
+  oneof result {
+    comm.ErrorInfo error = 1;
+  }
+}
+
+message CommentEmojiRemoveRequest {
+  int64 commentId = 1;
+  string emojiId = 2;
+}
+
+message CommentEmojiRemoveReply {
+  oneof result {
+    comm.ErrorInfo error = 1;
+  }
+}
+
+message FollowRequest {
+  int64 workItemId = 1;
+  bool unfollow = 2; //是否取消关注
+}
+
+message FollowReply {
+  oneof result {
+    comm.ErrorInfo error = 1;
+  }
+}
+
+
+message PlanTimeAt {
+  string start = 1;
+  string complete = 2;
+}
+
+
+//-- 子任务状态变化
+message ConfirmSubRequest {
+  int64 workItemId = 1;
+  string state = 2;
+  string reason = 3;
+}
+
+message ConfirmSubReply {
+  oneof result {
+    comm.ErrorInfo error = 1;
+  }
+}
+
+//-- 设置负责人
+
+message SetSubDirectorRequest {
+  int64 workItemId = 1;
+  comm.BatchParams director = 2;
+}
+
+message SetSubDirectorReply {
+  oneof result {
+    comm.ErrorInfo error = 1;
+  }
+}
+
+
+//-- 恢复节点
+message ResumeSpaceWorkItemRequest {
+  int64 space_id = 1; //空间id
+  int64 work_item_id = 2; //任务id
+  string reason = 3; //备注
+}
+
+message ResumeSpaceWorkItemReply {
+  oneof result {
+    comm.ErrorInfo error = 1;
+    ResumeSpaceWorkItemReplyData data = 2;
+  }
+}
+
+message ResumeSpaceWorkItemReplyData {
+  repeated sint64 ids = 1;
+}
+
+
+//-- 回滚节点
+message RollbackSpaceWorkItemRequest {
+  int64 space_id = 1; //空间id
+  int64 work_item_id = 2; //任务id
+  string reason = 3; //备注
+  string node_code = 4;//节点
+}
+
+message RollbackSpaceWorkItemReply {
+  oneof result {
+    comm.ErrorInfo error = 1;
+    RollbackSpaceWorkItemReplyData data = 2;
+  }
+}
+
+message RollbackSpaceWorkItemReplyData {
+  repeated sint64 ids = 1;
+}
+
+//-- 关闭任务V2
+message CloseSpaceWorkItemRequest {
+  int64 space_id = 1; //空间id
+  int64 work_item_id = 2; //任务id
+  string reason = 3; //备注
+  string node_code = 4;//节点
+}
+
+message CloseSpaceWorkItemReply {
+  oneof result {
+    comm.ErrorInfo error = 1;
+    CloseSpaceWorkItemReplyData data = 2;
+  }
+}
+
+message CloseSpaceWorkItemReplyData {
+  repeated sint64 ids = 1;
+}
+
+//-- 重启任务V2
+message RestartSpaceWorkItemRequest {
+  int64 space_id = 1; //空间id
+  int64 work_item_id = 2; //任务id
+  string reason = 3; //原因
+  string node_code = 4;//指定重启的节点
+}
+
+message RestartSpaceWorkItemReply {
+  oneof result {
+    comm.ErrorInfo error = 1;
+    RestartSpaceWorkItemReplyData data = 2;
+  }
+}
+
+message RestartSpaceWorkItemReplyData {
+  repeated sint64 ids = 1;
+}
+
+//-- 终止任务V2
+message TerminateSpaceWorkItemRequest {
+  int64 space_id = 1; //空间id
+  int64 work_item_id = 2; //任务id
+  string reason = 3; //备注
+}
+
+message TerminateSpaceWorkItemReply {
+  oneof result {
+    comm.ErrorInfo error = 1;
+    TerminateSpaceWorkItemReplyData  data = 2;
+  }
+}
+
+message TerminateSpaceWorkItemReplyData {
+  repeated sint64 ids = 1;
+}
+
+//-- 创建任务V2
+
+message CreateWorkItemRequestV2 {
+  int64 space_id = 1;
+  int64 work_object_id = 2;
+  int64 flow_id = 19;
+  string item_name = 3;
+  comm.AnyBatchParams tag = 5; //标签
+  comm.BatchParams file = 6; //附件
+  PlanTimeAt plan_time_at = 7; //计划时间
+  string describe = 8;
+  int32 progress_rate = 9; //进度百分比
+  string priority = 11; //优先级
+  sint64 work_item_type = 14;
+  repeated CreateWorkItemRequestDataOwnerV2 owner = 15;
+  repeated uint32 icon_flags = 16;
+  sint64 work_version_id = 17;
+  string remark = 18;
+  repeated int64 followers = 20; //关注人
+}
+
+message CreateWorkItemRequestDataOwnerV2 {
+  string role = 1; //节点编码
+  repeated string director_id = 2; //负责人
+}
+
+
+message CreateWorkItemReplyV2 {
+  oneof result {
+    comm.ErrorInfo error = 1;
+    string data = 2;
+  }
+}
+
+//-- 创建子任务V2
+
+message CreateWorkItemSubTaskRequest {
+  int64 space_id = 1;
+  string item_name = 2;
+  comm.BatchParams director = 3; //负责人
+  PlanTimeAt plan_time_at = 4; //计划时间
+  int32 progress_rate = 5; //进度百分比
+  sint64 work_item_id = 6;
+}
+
+
+message CreateWorkItemSubTaskReply {
+  oneof result {
+    comm.ErrorInfo error = 1;
+    string data = 2;
+  }
+}
+
+//-- 获取任务详情V2
+
+message GetWorkItemDetailRequestV2 {
+  int64 space_id = 1;
+  int64 work_item_id = 2;
+}
+
+message GetWorkItemDetailReplyV2 {
+  oneof result {
+    comm.ErrorInfo error = 1;
+    rsp.SpaceWorkItemDetail  data = 2;
+  }
+}
+
+//-- 设置任务节点状态V2
+message ConfirmWorkFlowMainRequest {
+  sint64 work_item_id = 2;
+  string node_state = 3;
+}
+
+message ConfirmWorkFlowMainReply {
+  oneof result {
+    comm.ErrorInfo error = 1;
+    ConfirmWorkItemNodeStateReplyV2Data  data = 2;
+  }
+}
+
+message ConfirmWorkItemNodeStateReplyV2Data {
+  repeated sint64 ids = 1;
+}
+
+
+//-- 设置负责人
+
+message SetWorkItemDirectorRequest {
+  int64 space_id = 1;
+  int64 work_item_id = 3;
+  comm.BatchParams director = 4;
+}
+
+message SetWorkItemDirectorReply {
+  oneof result {
+    comm.ErrorInfo error = 1;
+    SetWorkItemDirectorReplyData data = 2;
+  }
+}
+
+message SetWorkItemDirectorReplyData {
+
+}
+
+
+message SetWorkItemTagRequest {
+  int64 space_id = 1;
+  int64 work_item_id = 3;
+  comm.AnyBatchParams tag = 4;
+}
+
+message SetWorkItemTagReply {
+  oneof result {
+    comm.ErrorInfo error = 1;
+    SetWorkItemTagReplyData data = 2;
+  }
+}
+
+message SetWorkItemTagReplyData {
+
+}
+
+// -- 修改任务至新的工作项路径 -- 
+message SetWorkItemToNewWorkObjectRequest {
+  int64 space_id = 1;
+  int64 work_item_id = 3;
+  int64 work_object_id = 4;
+}
+
+message SetWorkItemToNewWorkObjectReply {
+  oneof result {
+    comm.ErrorInfo error = 1;
+    SetWorkItemToNewWorkObjectReplyData data = 2;
+  }
+}
+
+message SetWorkItemToNewWorkObjectReplyData {
+
+}
+
+
+// -- 修改任务名称 --
+message ModifyWorkItemNameRequest {
+  int64 space_id = 1;
+  int64 work_item_id = 2;
+  string work_item_name = 3;
+}
+
+message ModifyWorkItemNameReply {
+  oneof result {
+    comm.ErrorInfo error = 1;
+    ModifyWorkItemNameReplyData data = 2;
+  }
+}
+
+message ModifyWorkItemNameReplyData {
+
+}
+
+
+// -- 修改任务状态 --
+message ModifyWorkItemStatusRequest {
+  int64 space_id = 1;
+  int64 work_item_id = 2;
+  int32 work_item_status = 3;
+}
+
+message ModifyWorkItemStatusReply {
+  oneof result {
+    comm.ErrorInfo error = 1;
+    ModifyWorkItemStatusReplyData data = 2;
+  }
+}
+
+message ModifyWorkItemStatusReplyData {
+
+}
+
+
+
+// -- 修改任务计划任务 --
+message ModifyWorkItemPlanTimeRequest {
+  int64 space_id = 1;
+  int64 work_item_id = 2;
+  PlanTimeAt plan_time_at = 3;
+}
+
+message ModifyWorkItemPlanTimeReply {
+  oneof result {
+    comm.ErrorInfo error = 1;
+    ModifyWorkItemPlanTimeReplyData data = 2;
+  }
+}
+
+message ModifyWorkItemPlanTimeReplyData {
+
+}
+
+
+// -- 修改任务进度 --
+message ModifyWorkItemProcessRateRequest {
+  int64 space_id = 1;
+  int64 work_item_id = 2;
+  int32 process_rate = 3;
+}
+
+message ModifyWorkItemProcessRateReply {
+  oneof result {
+    comm.ErrorInfo error = 1;
+    ModifyWorkItemProcessRateReplyData data = 2;
+  }
+}
+
+message ModifyWorkItemProcessRateReplyData {
+
+}
+
+
+
+// -- 修改任务优先级 --
+message ModifyWorkItemPriorityRequest {
+  int64 space_id = 1;
+  int64 work_item_id = 2;
+  string priority = 3;
+}
+
+message ModifyWorkItemPriorityReply {
+  oneof result {
+    comm.ErrorInfo error = 1;
+    ModifyWorkItemPriorityReplyData data = 2;
+  }
+}
+
+message ModifyWorkItemPriorityReplyData {
+
+}
+
+
+// -- 修改任务描述 --
+message ModifyWorkItemDescribeRequest {
+  int64 space_id = 1;
+  int64 work_item_id = 2;
+  string describe = 3;
+  repeated uint32 icon_flags = 4;
+}
+
+message ModifyWorkItemDescribeReply {
+  oneof result {
+    comm.ErrorInfo error = 1;
+    ModifyWorkItemDescribeReplyData data = 2;
+  }
+}
+
+message ModifyWorkItemDescribeReplyData {
+
+}
+
+
+//-- 设置任务附件 -- 
+
+message SetSpaceWorkItemFileInfoRequest{
+  int64 work_item_id = 1;
+  comm.BatchFileParams file = 2;
+}
+
+message SetSpaceWorkItemFileInfoReply {
+  oneof result {
+    comm.ErrorInfo error = 1;
+    SetSpaceWorkItemFileInfoReplyData data = 2;
+  }
+}
+
+message SetSpaceWorkItemFileInfoReplyData {
+
+}
+
+
+//-- 工作任务删除 --
+message DelSpaceWorkItemRequest {
+  int64 space_id = 1;
+  int64 work_item_id = 2;
+}
+
+message DelSpaceWorkItemReply {
+  oneof result {
+    comm.ErrorInfo error = 1;
+    DelSpaceWorkItemReplyData data = 2;
+  }
+}
+
+message DelSpaceWorkItemReplyData {
+
+}
+
+message SetSpaceWorkItemTaskDirectorRequest {
+  int64 spaceId = 1;
+  int64 workItemId = 3;
+  comm.BatchParams director = 4;
+}
+
+message SetSpaceWorkItemTaskDirectorReply {
+  oneof result {
+    comm.ErrorInfo error = 1;
+    SetSpaceWorkItemTaskDirectorData data = 2;
+  }
+}
+
+message SetSpaceWorkItemTaskDirectorData{
+
+}
+
+message SetFlowMainDirectorRequest {
+  int64 workItemId = 1;
+  string role = 2;
+  comm.BatchParams director = 3;
+}
+
+message SetFlowMainDirectorReply {
+  oneof result {
+    comm.ErrorInfo error = 1;
+  }
+}
+
+message GetWorkItemProgressingNodeRequest {
+  int64 workItemId = 1;
+}
+message GetWorkItemProgressingNodeReply {
+  oneof result {
+    comm.ErrorInfo error = 1;
+    rsp.WorkFlowNode data = 2;
+  }
+}
+
+message AddWorkItemCommentRequest {
+  int64 workItemId = 1;
+  string content = 2;
+  repeated int64 referUserIds = 3;
+  int64 replyCommentId = 4; //被回复的评论id
+}
+
+message AddWorkItemCommentReply {
+  oneof result {
+    comm.ErrorInfo error = 1;
+    AddWorkItemCommentReplyData data = 2;
+  }
+}
+
+message  AddWorkItemCommentReplyData {
+  int64 id = 1;
+}
+
+message UpdateWorkItemCommentRequest {
+  int64 id = 1; //评论id
+  string content = 2;
+  repeated int64 referUserIds = 3;
+}
+
+message UpdateWorkItemCommentReply {
+  oneof result {
+    comm.ErrorInfo error = 1;
+    UpdateWorkItemCommentReplyData data = 2;
+  }
+}
+
+message DeleteWorkItemCommentRequest {
+  int64 id = 1; //评论id
+}
+
+message DeleteWorkItemCommentReply {
+  oneof result {
+    comm.ErrorInfo error = 1;
+  }
+}
+
+message  UpdateWorkItemCommentReplyData {
+  int64 id = 1;
+  string content = 2;
+  int64 createdAt = 3;
+  int64 updatedAt = 4;
+}
+
+message WorkItemCommentListRequest {
+  int64 workItemId = 1;
+  int64 pos = 2;
+  int64 size = 3;
+  string order = 4;
+}
+
+message WorkItemCommentListReply {
+  oneof result {
+    comm.ErrorInfo error = 1;
+    WorkItemCommentListReplyData data = 2;
+  }
+}
+
+message  WorkItemCommentListReplyData {
+  message Emoji {
+    string id = 1;
+    repeated rsp.SimpleUserInfo users = 2;
+  }
+  message Item {
+    int64 id = 1;
+    string content = 2;
+    int64 createdAt = 3;
+    int64 updatedAt = 4;
+    rsp.SimpleUserInfo user = 5;
+    Item replyComment = 6;
+    int64 replyCommentId = 7;
+    repeated Emoji emojis = 8;
+  }
+
+  repeated Item items = 1;
+  bool hasNext = 2;
+  int64 nextPos = 3;
+  string order = 4;
+  int64 total = 5;
+}
+
+//修改工作任务类型
+message ChangeWorkItemTypeRequest {
+  int64 spaceId = 1;
+  int64 workItemId = 2;
+  int32 toWorkItemType = 3;
+}
+
+message ChangeWorkItemTypeReply {
+  oneof result {
+    comm.ErrorInfo error = 1;
+    string data = 2;
+  }
+}
+
+
+//批量删除工作任务
+message BatchDelSpaceWorkItemRequest {
+  repeated int64 work_item_ids = 1;
+}
+
+message BatchDelSpaceWorkItemReply {
+  oneof result {
+    comm.ErrorInfo error = 1;
+    BatchDelSpaceWorkItemReplyData data = 2;
+  }
+}
+
+message BatchDelSpaceWorkItemReplyData {
+  int64 effect_rows = 1;
+}
+
+//批量终止工作任务
+message BatchTerminateSpaceWorkItemRequest {
+  repeated int64 work_item_ids = 1;
+  string reason = 2; //备注
+}
+
+message BatchTerminateSpaceWorkItemReply {
+  oneof result {
+    comm.ErrorInfo error = 1;
+    BatchTerminateSpaceWorkItemReplyData data = 2;
+  }
+}
+
+message BatchTerminateSpaceWorkItemReplyData {
+  int64 effect_rows = 1;
+}
+
+
+// -- 修改任务版本 --
+message ChangeWorkItemVersionRequest {
+  int64 space_id = 1;
+  int64 work_item_id = 2;
+  int64 version_id = 3;
+}
+
+message ChangeWorkItemVersionReply {
+  oneof result {
+    comm.ErrorInfo error = 1;
+    ChangeWorkItemVersionReplyData data = 2;
+  }
+}
+
+message ChangeWorkItemVersionReplyData {
+  repeated sint64 ids = 1;
+}
+
+
+// -- 修改任务备注 --
+message ModifyWorkItemRemarkRequest {
+  int64 space_id = 1;
+  int64 work_item_id = 2;
+  string remark = 3;
+}
+
+message ModifyWorkItemRemarkReply {
+  oneof result {
+    comm.ErrorInfo error = 1;
+    ModifyWorkItemRemarkReplyData data = 2;
+  }
+}
+
+message ModifyWorkItemRemarkReplyData {
+
+}
+
+
+// -- 催单 --
+message RemindWorkRequest {
+  int64 space_id = 1;
+  int64 work_item_id = 2;
+  string node_code = 4;//节点
+}
+
+message RemindWorkReply {
+  oneof result {
+    comm.ErrorInfo error = 1;
+    string data = 2;
+  }
+}
+
+//-- 获取权限信息 --
+message OperationPermissionsRequest {
+  int64 space_id = 1;
+  int64 work_item_id = 2;
+  string scene = 3; //场景
+}
+
+message OperationPermissionsReply {
+  oneof result {
+    comm.ErrorInfo error = 1;
+    string data = 2;
+  }
+}

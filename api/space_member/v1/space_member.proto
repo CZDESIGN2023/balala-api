@@ -1,0 +1,249 @@
+syntax = "proto3";
+
+import "comm/errors.proto";
+import "google/api/annotations.proto";
+import "bean/types.proto";
+import "bean/vo/rsp/user.proto";
+
+package api.space_member.v1;
+
+option go_package = "go-cs/api/space_member/v1;v1";
+option java_multiple_files = true;
+option java_package = "api.space_member.v1";
+
+service space_member {
+
+    rpc AddSpaceMember (AddSpaceMemeberRequest) returns (AddSpaceMemeberReply) {
+        option (google.api.http) = {
+            post: "/my/space/memeber/add",
+            body: "*",
+        };
+    }
+    
+    rpc RemoveSpaceMember (RemoveSpaceMemeberRequest) returns (RemoveSpaceMemeberReply) {
+        option (google.api.http) = {
+            post: "/my/space/memeber/remove",
+            body: "*",
+        };
+    }
+
+
+    rpc SpaceMemberList (SpaceMemeberListRequest) returns (SpaceMemeberListReply) {
+        option (google.api.http) = {
+            post: "/my/space/memeber/list",
+            body: "*",
+        };
+    }
+
+
+    rpc SetSpaceMemberRole (SetSpaceMemberRoleRequest) returns (SetSpaceMemberRoleReply) {
+        option (google.api.http) = {
+            post: "/my/space/memeber/role/set",
+            body: "*",
+        };
+    }
+
+    rpc GetSpaceMemberWorkItemCount (GetSpaceMemberWorkItemCountRequest) returns (GetSpaceMemberWorkItemCountReply) {
+        option (google.api.http) = {
+            post: "/my/space/member/work_item_count",
+            body: "*",
+        };
+    }
+
+
+    rpc SpaceManagerList (SpaceManagerListRequest) returns (SpaceManagerListReply) {
+        option (google.api.http) = {
+            post: "/my/space/manager/list",
+            body: "*",
+        };
+    }
+
+
+    rpc AddSpaceManager (AddSpaceManagerRequest) returns (AddSpaceManagerReply) {
+        option (google.api.http) = {
+            post: "/my/space/manager/add",
+            body: "*",
+        };
+    }
+
+
+    rpc RemoveSpaceManager (RemoveSpaceManagerRequest) returns (RemoveSpaceManagerReply) {
+        option (google.api.http) = {
+            post: "/my/space/manager/remove",
+            body: "*",
+        };
+    }
+
+    rpc SpaceMemberById (SpaceMemberByIdRequest) returns (SpaceMemberByIdReply) {
+        option (google.api.http) = {
+            post: "/my/space/memeber/by_id",
+            body: "*",
+        };
+    }
+
+
+}
+
+//通过id拿成员信息
+message SpaceMemberByIdRequest {
+    sint64 space_id = 1;
+    repeated sint64 user_ids = 2;
+}
+
+message SpaceMemberByIdReply {
+    oneof result {
+        comm.ErrorInfo error = 1;
+        SpaceMemberByIdReplyData data = 2;
+    }
+}
+
+message SpaceMemberByIdReplyData {
+    repeated rsp.SpaceMemberInfo  list = 1;
+}
+
+
+
+//添加项目成员
+message AddSpaceMemeberRequest {
+    sint64 space_id = 1;
+    repeated AddSpaceMemeberDataUsers users =2 ;
+}
+
+message AddSpaceMemeberDataUsers {
+    sint64 user_id = 1;
+    int32 role_id = 2;
+}
+
+message AddSpaceMemeberReply {
+    oneof result {
+        comm.ErrorInfo error = 1;
+        AddSpaceMemeberReplyData data = 2;
+    }
+}
+
+message AddSpaceMemeberReplyData {
+    
+}
+
+
+//移除项目成员
+message RemoveSpaceMemeberRequest {
+    sint64 space_id = 1;
+    sint64 user_id =2 ;
+    sint64 target_user_id = 3; //任务转移到该用户
+}
+
+message RemoveSpaceMemeberReply {
+    oneof result {
+        comm.ErrorInfo error = 1;
+        server_go_base.bean.SpaceMember data = 2;
+    }
+}
+
+//获取项目成员列表
+message SpaceMemeberListRequest {
+    sint64 space_id = 1;
+    string userName = 2; //
+}
+
+message SpaceMemeberListReply {
+    oneof result {
+        comm.ErrorInfo error = 1;
+        SpaceMemeberListReplyData data = 2;
+    }
+}
+
+message SpaceMemeberListReplyData {
+    repeated rsp.SpaceMemberInfo  list = 1;
+}
+
+//设置项目成员权限
+message  SetSpaceMemberRoleRequest {
+    sint64 space_id = 1;
+    sint64 user_id = 2;
+    int32 role_id = 3;
+}
+
+message  SetSpaceMemberRoleReply {
+    oneof result {
+        comm.ErrorInfo error = 1;
+        SetSpaceMemberRoleReplyData data = 2;
+    }
+}
+
+message SetSpaceMemberRoleReplyData {
+}
+
+
+//-- 获取当前项目成员关联的任务数量
+
+message GetSpaceMemberWorkItemCountRequest {
+    sint64 space_id = 1;
+    sint64 user_id = 2;
+}
+
+
+message  GetSpaceMemberWorkItemCountReply {
+    oneof result {
+        comm.ErrorInfo error = 1;
+        GetSpaceMemberWorkItemCountReplyData data = 2;
+    }
+}
+
+message GetSpaceMemberWorkItemCountReplyData {
+    int64 COUNT = 1;
+}
+
+
+//获取项目管理员列表
+message SpaceManagerListRequest {
+    sint64 space_id = 1;
+}
+
+message SpaceManagerListReply {
+    oneof result {
+        comm.ErrorInfo error = 1;
+        SpaceManagerListReplyData data = 2;
+    }
+}
+
+message SpaceManagerListReplyData {
+    repeated rsp.SpaceMemberInfo  list = 1;
+}
+
+
+//添加项目管理员
+message AddSpaceManagerRequest {
+    sint64 space_id = 1;
+    repeated sint64 user_ids = 2;
+}
+
+message AddSpaceManagerReply {
+    oneof result {
+        comm.ErrorInfo error = 1;
+        AddSpaceManagerReplyData data = 2;
+    }
+}
+
+message AddSpaceManagerReplyData {
+    
+}
+
+
+
+//移除项目管理员
+message RemoveSpaceManagerRequest {
+    sint64 space_id = 1;
+    repeated  sint64 user_ids = 2;
+}
+
+message RemoveSpaceManagerReply {
+    oneof result {
+        comm.ErrorInfo error = 1;
+        RemoveSpaceManagerReplyData data = 2;
+    }
+}
+
+message RemoveSpaceManagerReplyData {
+    
+}

@@ -1,0 +1,199 @@
+syntax = "proto3";
+import "comm/errors.proto";
+import "google/api/annotations.proto";
+import "bean/types.proto";
+package api.work_item_role.v1;
+
+option go_package = "/api/work_item_role/v1;v1";
+option java_multiple_files = true;
+option java_package = "api.work_item_role.v1";
+
+service WorkItemRole {
+  rpc QSpaceRoleList (SpaceRoleListQueryRequest) returns (SpaceRoleListQueryReply) {
+    option (google.api.http) = {
+      post: "/my/space/work_item_role/list",
+      body: "*",
+    };
+  }
+
+  rpc SetSpaceWorkItemRoleRanking (SetSpaceWorkItemRoleRankingRequest) returns (SetSpaceWorkItemRoleRankingReply) {
+    option (google.api.http) = {
+      post: "/my/space/work_item_role/ranking/set",
+      body: "*",
+    };
+  }
+
+  rpc SetSpaceWorkItemRoleName (SetSpaceWorkItemRoleNameRequest) returns (SetSpaceWorkItemRoleNameReply) {
+    option (google.api.http) = {
+      post: "/my/space/work_item_role/name/set",
+      body: "*",
+    };
+  }
+
+  rpc DelSpaceWorkItemRole (DelSpaceWorkItemRoleRequest) returns (DelSpaceWorkItemRoleReply) {
+    option (google.api.http) = {
+      post: "/my/space/work_item_role/del",
+      body: "*",
+    };
+  }
+
+  rpc CreateSpaceWorkItemRole (CreateSpaceWorkItemRoleRequest) returns (CreateSpaceWorkItemRoleReply) {
+    option (google.api.http) = {
+      post: "/my/space/work_item_role/create",
+      body: "*",
+    };
+  }
+
+  rpc GetWorkItemRelationCount (GetWorkItemRelationCountRequest) returns (GetWorkItemRelationCountReply) {
+    option (google.api.http) = {
+      post: "/my/space/work_item_role/work_item_relation_count",
+      body: "*",
+    };
+  }
+
+  rpc GetTemplateRelationCount (GetTemplateRelationCountRequest) returns (GetTemplateRelationCountReply) {
+    option (google.api.http) = {
+      post: "/my/space/work_item_role/template_relation_count",
+      body: "*",
+    };
+  }
+}
+
+
+
+
+//获取关联的任务数量
+message GetTemplateRelationCountRequest {
+  int64 spaceId = 1;
+  int64 id = 2;
+}
+
+message GetTemplateRelationCountReply {
+  oneof result {
+    comm.ErrorInfo error = 1;
+    GetTemplateRelationCountReplyData data = 2;
+  }
+}
+
+message GetTemplateRelationCountReplyData  {
+  int64   total = 1;
+}
+
+
+
+//获取关联的任务数量
+message GetWorkItemRelationCountRequest {
+  int64 spaceId = 1;
+  int64 id = 2;
+}
+
+message GetWorkItemRelationCountReply {
+  oneof result {
+    comm.ErrorInfo error = 1;
+    GetWorkItemRelationCountReplyData data = 2;
+  }
+}
+
+message GetWorkItemRelationCountReplyData  {
+  int64   total = 1;
+}
+
+
+
+//-- 创建角色
+message CreateSpaceWorkItemRoleRequest {
+  int64 space_id = 1;
+  string name = 2;
+  // state_flow:状态流 | work_flow:节点流
+  string flow_scope = 3;
+}
+
+message CreateSpaceWorkItemRoleReply {
+  oneof result {
+    comm.ErrorInfo error = 1;
+    string data = 2;
+  }
+}
+
+
+//-- 删除角色
+message DelSpaceWorkItemRoleRequest {
+  int64 space_id = 1;
+  int64 id = 2;
+}
+
+message DelSpaceWorkItemRoleReply {
+  oneof result {
+    comm.ErrorInfo error = 1;
+    string data = 2;
+  }
+}
+
+
+//-- 修改名称
+message SetSpaceWorkItemRoleNameRequest {
+  int64 space_id = 1;
+  int64 id = 2;
+  string name = 3;
+}
+
+message SetSpaceWorkItemRoleNameReply {
+  oneof result {
+    comm.ErrorInfo error = 1;
+    string data = 2;
+  }
+}
+
+//---设置排序
+message SetSpaceWorkItemRoleRankingRequest {
+
+  message List {
+    int64 id = 2;
+    int64 ranking = 3;
+  }
+
+  int64 space_id = 1;
+  string flow_scope = 2;
+  repeated List list = 3;
+}
+
+message SetSpaceWorkItemRoleRankingReply {
+  oneof result {
+    comm.ErrorInfo error = 1;
+    string data = 2;
+  }
+}
+
+
+message SpaceRoleListQueryRequest {
+  int64 space_id = 1;
+  // state_flow:状态流 | work_flow:节点流
+  string flow_scope = 2;
+}
+
+message SpaceRoleListQueryReply {
+  oneof result {
+    comm.ErrorInfo error = 1;
+    SpaceRoleListQueryResult data = 2;
+  }
+}
+
+message SpaceRoleListQueryResult {
+  message ListItem {
+    uint64 id = 1;
+    string uuid = 2 ;
+    uint64 space_id = 3;
+    uint64 work_item_type_id = 4;
+    string key = 5;
+    string name = 6;
+    uint32 status = 7;
+    uint32 is_sys = 11;
+    uint64 ranking = 8;
+    uint64 created_at = 9;
+    uint64 updated_at = 10;
+    string flow_scope = 12;
+  }
+
+  repeated ListItem list = 1;
+  int32 total = 2;
+}

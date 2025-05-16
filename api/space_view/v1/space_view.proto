@@ -1,0 +1,183 @@
+syntax = "proto3";
+
+import "comm/errors.proto";
+import "google/api/annotations.proto";
+import "bean/types.proto";
+import "search/v1/search.proto";
+
+package api.space_view.v1;
+
+option go_package = "go-cs/api/space_view/v1;v1";
+option java_multiple_files = true;
+option java_package = "api.space.space_view.v1";
+
+service space_view {
+
+  rpc CreateView (CreateViewRequest) returns (CreateViewReply) {
+    option (google.api.http) = {
+      post: "/my/space/view/create",
+      body: "*",
+    };
+  }
+
+  rpc ViewList (ViewListRequest) returns (ViewListReply) {
+    option (google.api.http) = {
+      post: "/my/space/view/list",
+      body: "*",
+    };
+  }
+
+  rpc DelView (DelViewRequest) returns (DelViewReply) {
+    option (google.api.http) = {
+      post: "/my/space/view/del",
+      body: "*",
+    };
+  }
+
+  rpc SetViewRanking (SetViewRankingRequest) returns (SetViewRankingReply) {
+    option (google.api.http) = {
+      post: "/my/space/view/set/ranking",
+      body: "*",
+    };
+  }
+
+  rpc SetViewName (SetViewNameRequest) returns (SetViewNameReply) {
+    option (google.api.http) = {
+      post: "/my/space/view/set/name",
+      body: "*",
+    };
+  }
+
+  rpc SetViewStatus (SetViewStatusRequest) returns (SetViewStatusReply) {
+    option (google.api.http) = {
+      post: "/my/space/view/set/status",
+      body: "*",
+    };
+  }
+
+  rpc SetViewQueryConfig (SetViewQueryConfigRequest) returns (SetViewQueryConfigReply) {
+    option (google.api.http) = {
+      post: "/my/space/view/set/query_config",
+      body: "*",
+    };
+  }
+
+  rpc SetViewTableConfig (SetViewTableConfigRequest) returns (SetViewTableConfigReply) {
+    option (google.api.http) = {
+      post: "/my/space/view/set/table_config",
+      body: "*",
+    };
+  }
+}
+
+message SetViewRankingRequest {
+  message Item {
+    int64 id = 2;
+    int64 ranking = 3;
+  }
+
+  int64 spaceId = 1;
+  repeated Item list = 2;
+}
+
+message SetViewRankingReply {
+  comm.ErrorInfo error = 1;
+
+}
+
+enum SpaceViewType {
+  SpaceViewType_Unknown = 0;
+  SpaceViewType_System = 1;
+  SpaceViewType_Public = 2;
+  SpaceViewType_Personal = 3;
+}
+
+
+// 创建 项目空间-工作项版本
+message CreateViewRequest {
+  string name = 1;  //版本名称
+  sint64 spaceId = 2; //用户id
+  string queryConfig = 3;
+  string tableConfig = 4;
+  SpaceViewType type = 5;
+}
+
+message CreateViewReply {
+  comm.ErrorInfo error = 1;
+}
+
+
+//工作项版本-列表
+message ViewListRequest {
+  int64 userId = 1;
+  repeated int64  spaceIds = 2;
+  string key = 4;
+}
+
+message ViewListReply {
+  message Item {
+    sint64 id = 1;
+    sint64 spaceId = 2;
+    string key = 4;
+    string name = 5;
+    sint64 type = 6;
+    sint64 outerId = 7;
+    string queryConfig = 8;
+    string tableConfig = 9;
+    sint64 ranking = 10;
+    sint64 status = 11;
+  }
+  comm.ErrorInfo error = 1;
+  repeated Item data = 2;
+}
+
+message DelViewRequest {
+  sint64 id = 1;
+}
+
+message DelViewReply {
+  comm.ErrorInfo error = 1;
+}
+
+message SetViewNameRequest {
+  sint64 id = 1 ;
+  string name = 2 ;
+}
+
+message SetViewNameReply {
+  comm.ErrorInfo error = 1;
+}
+
+message SetViewStatusRequest {
+  sint64 id = 1 ;
+  int64 status = 2 ;
+}
+
+message SetViewStatusReply {
+  comm.ErrorInfo error = 1;
+}
+
+message SetViewQueryConfigRequest {
+  sint64 id = 1 ;
+  string config = 2 ;
+}
+
+message SetViewQueryConfigReply {
+  comm.ErrorInfo error = 1;
+}
+
+message SetViewTableConfigRequest {
+  sint64 id = 1 ;
+  string config = 2 ;
+}
+
+message SetViewTableConfigReply {
+  comm.ErrorInfo error = 1;
+}
+
+message QueryConfig {
+  search.v1.ConditionGroup conditionGroup = 1;
+  repeated search.v1.GroupBy groups = 2;
+  repeated search.v1.Sort sorts = 3;
+  string version = 4;
+}

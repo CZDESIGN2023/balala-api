@@ -1,0 +1,461 @@
+syntax = "proto3";
+
+import "comm/errors.proto";
+import "google/api/annotations.proto";
+import "bean/vo/rsp/work_flow.proto";
+package api.work_flow.v1;
+
+option go_package = "go-cs/api/work_flow/v1;v1";
+option java_multiple_files = true;
+option java_package = "api.space.work_flow.v1";
+
+service work_flow {
+
+
+  rpc SpaceWorkFlowPageList (SpaceWorkFlowPageListRequest) returns (SpaceWorkFlowPageListReply) {
+    option (google.api.http) = {
+      post: "/my/space/work_flow/page_list",
+      body: "*",
+    };
+  }
+
+  rpc SpaceWorkFlowList (SpaceWorkFlowListRequest) returns (SpaceWorkFlowListReply) {
+    option (google.api.http) = {
+      post: "/my/space/work_flow/list",
+      body: "*",
+    };
+  }
+
+  rpc SpaceWorkFlowById (SpaceWorkFlowByIdRequest) returns (SpaceWorkFlowByIdReply) {
+    option (google.api.http) = {
+      post: "/my/space/work_flow/by_id",
+      body: "*",
+    };
+  }
+
+  rpc SetWorkFlowRanking (SetWorkFlowRankingRequest) returns (SetWorkFlowRankingReply) {
+    option (google.api.http) = {
+      post: "/my/space/work_flow/ranking/set",
+      body: "*",
+    };
+  }
+
+  rpc SaveWorkFlowTemplateConfig (SaveWorkFlowTemplateConfigRequest) returns (SaveWorkFlowTemplateConfigReply) {
+    option (google.api.http) = {
+      post: "/my/space/work_flow/template_config/save",
+      body: "*",
+    };
+  }
+
+  rpc CreateWorkFlow (CreateWorkFlowRequest) returns (CreateWorkFlowReply) {
+    option (google.api.http) = {
+      post: "/my/space/work_flow/create",
+      body: "*",
+    };
+  }
+
+  rpc GetWorkFlow (GetWorkFlowRequest) returns (GetWorkFlowReply) {
+    option (google.api.http) = {
+      post: "/my/space/work_flow",
+      body: "*",
+    };
+  }
+
+  rpc DelWorkFlow (DelWorkFlowRequest) returns (DelWorkFlowReply) {
+    option (google.api.http) = {
+      post: "/my/space/work_flow/del",
+      body: "*",
+    };
+  }
+
+  rpc SetWorkFlowStatus (SetWorkFlowStatusRequest) returns (SetWorkFlowStatusReply) {
+    option (google.api.http) = {
+      post: "/my/space/work_flow/status/set",
+      body: "*",
+    };
+  }
+
+  rpc CopyWorkFlow (CopyWorkFlowRequest) returns (CopyWorkFlowReply) {
+    option (google.api.http) = {
+      post: "/my/space/work_flow/copy",
+      body: "*",
+    };
+  }
+
+  rpc SetWorkFlowName (SetWorkFlowNameRequest) returns (SetWorkFlowNameReply) {
+    option (google.api.http) = {
+      post: "/my/space/work_flow/name/set",
+      body: "*",
+    };
+  }
+
+
+  rpc GetWorkFlowTemplate (GetWorkFlowTemplateRequest) returns (GetWorkFlowTemplateReply) {
+    option (google.api.http) = {
+      post: "/my/space/work_flow/template",
+      body: "*",
+    };
+  }
+
+  rpc GetWorkItemRelationCount (GetWorkItemRelationCountRequest) returns (GetWorkItemRelationCountReply) {
+    option (google.api.http) = {
+      post: "/my/space/work_flow/work_item_relation_count",
+      body: "*",
+    };
+  }
+
+  rpc GetOwnerRuleRelationTemplate (GetOwnerRuleRelationTemplateRequest) returns (GetOwnerRuleRelationTemplateReply) {
+    option (google.api.http) = {
+      post: "/my/space/work_flow/template/owner_rule_relation",
+      body: "*",
+    };
+  }
+
+}
+
+//获取负责人关
+message GetOwnerRuleRelationTemplateRequest {
+  int64 spaceId = 1;
+  int64 ownerUid = 2;
+}
+
+message GetOwnerRuleRelationTemplateReply {
+  oneof result {
+    comm.ErrorInfo error = 1;
+    GetOwnerRuleRelationTemplateReplyData data = 2;
+  }
+}
+
+message GetOwnerRuleRelationTemplateReplyData  {
+  message Template {
+    int64 id = 1;
+    string name = 2;
+  }
+  repeated Template list = 1;
+}
+
+//获取关联的任务数量
+message GetWorkItemRelationCountRequest {
+  int64 spaceId = 1;
+  int64 id = 2;
+  string scene = 3;
+}
+
+message GetWorkItemRelationCountReply {
+  oneof result {
+    comm.ErrorInfo error = 1;
+    GetWorkItemRelationCountReplyData data = 2;
+  }
+}
+
+message GetWorkItemRelationCountReplyData  {
+  int64   total = 1;
+}
+
+
+//工作流列表
+message SpaceWorkFlowByIdRequest {
+  int64 spaceId = 1;
+  repeated int64 ids = 2;
+}
+
+message SpaceWorkFlowByIdReply {
+  oneof result {
+    comm.ErrorInfo error = 1;
+    SpaceWorkFlowByIdReplyData data = 2;
+  }
+}
+
+message SpaceWorkFlowByIdReplyData  {
+  repeated  SpaceWorkFlowByIdReplyData_Item list = 1;
+  int32   total = 2;
+}
+
+
+message SpaceWorkFlowByIdReplyData_Item  {
+  sint64 id = 1;
+  sint64 space_id = 4;
+  sint64 work_item_type_id = 5;
+  string name = 6;
+  string key = 7;
+  string flow_mode = 8;
+  sint64 version = 9;
+  sint64 template_id = 10;
+  sint64 ranking = 11;
+  sint64 created_at = 12;
+  sint64 updated_at = 13;
+}
+
+
+
+//修改工作流名称
+message SetWorkFlowNameRequest {
+  int64 space_id = 1;
+  int64 flow_id = 2;
+  string name = 3;
+}
+
+message SetWorkFlowNameReply {
+  oneof result {
+    comm.ErrorInfo error = 1;
+    string Data = 2;
+  }
+}
+
+
+//工作流列表
+message SpaceWorkFlowListRequest {
+  int64 spaceId = 1;
+  string flowMode = 2; // state_flow | work_flow
+}
+
+message SpaceWorkFlowListReply {
+  oneof result {
+    comm.ErrorInfo error = 1;
+    SpaceWorkFlowListReplyReplyData data = 2;
+  }
+}
+
+message SpaceWorkFlowListReplyReplyData  {
+  repeated  SpaceWorkFlowListReplyReplyData_Item list = 1;
+  int32   total = 2;
+}
+
+
+message SpaceWorkFlowListReplyReplyData_Item  {
+  sint64 id = 1;
+  sint64 space_id = 4;
+  sint64 work_item_type_id = 5;
+  string name = 6;
+  string key = 7;
+  string flow_mode = 8;
+  sint64 version = 9;
+  sint64 template_id = 10;
+  sint64 ranking = 11;
+  sint64 created_at = 12;
+  sint64 updated_at = 13;
+  sint64 status = 14;
+}
+
+
+//-- 拷贝流程
+message CopyWorkFlowRequest {
+  int64 space_id = 1;
+  int64 flow_id = 2;
+  string name = 3;
+  int32 status = 4;
+}
+
+message CopyWorkFlowReply {
+  oneof result {
+    comm.ErrorInfo error = 1;
+    CopyWorkFlowReplyData data = 2;
+  }
+}
+
+message CopyWorkFlowReplyData {
+  int64 flow_id = 1;
+}
+
+
+//-- 启用/禁用流程
+message SetWorkFlowStatusRequest {
+  int64 space_id = 1;
+  int64 flow_id = 2;
+  int32 status = 3;
+}
+
+message SetWorkFlowStatusReply {
+  oneof result {
+    comm.ErrorInfo error = 1;
+    string Data = 2;
+  }
+}
+
+
+//-- 删除工作流程
+message DelWorkFlowRequest {
+  int64 space_id = 1;
+  int64 flow_id = 2;
+}
+
+message DelWorkFlowReply {
+  oneof result {
+    comm.ErrorInfo error = 1;
+    string Data = 2;
+  }
+}
+
+
+
+//-- 获取工作流程详情
+message GetWorkFlowTemplateRequest {
+  int64 space_id = 1;
+  int64 template_id = 2;
+}
+
+message GetWorkFlowTemplateReply {
+  oneof result {
+    comm.ErrorInfo error = 1;
+    rsp.WorkFlowInfo data = 2;
+  }
+}
+
+//-- 获取工作流程详情
+message GetWorkFlowRequest {
+  int64 space_id = 1;
+  int64 flow_id = 2;
+}
+
+message GetWorkFlowReply {
+  oneof result {
+    comm.ErrorInfo error = 1;
+    rsp.WorkFlowInfo data = 2;
+  }
+}
+
+//-- 创建工作流程
+message CreateWorkFlowRequest {
+  int64 space_id = 1;
+  //int64 work_item_type_id = 2;  以后扩展
+  string name = 2;
+  int32 status = 3;
+  string flow_mode = 4;
+}
+
+message CreateWorkFlowReply {
+  oneof result {
+    comm.ErrorInfo error = 1;
+    CreateWorkFlowReplyData data = 2;
+  }
+}
+
+message CreateWorkFlowReplyData {
+  int64 flow_id = 1;
+}
+
+//--保存流程模版配置
+message SaveWorkFlowTemplateConfigRequest {
+  int64 space_id = 1;
+  int64 flow_id = 2;
+  string config = 3;
+}
+
+message SaveWorkFlowTemplateConfigReply {
+  oneof result {
+    comm.ErrorInfo error = 1;
+    string data = 2;
+  }
+}
+
+
+//--保存状态流程模版配置
+message SaveStateFlowTemplateConfigRequest {
+  int64 space_id = 1;
+  int64 flow_id = 2;
+  string config = 3;
+}
+
+message SaveStateFlowTemplateConfigReply {
+  oneof result {
+    comm.ErrorInfo error = 1;
+    string data = 2;
+  }
+}
+
+
+//---设置工作流排序
+message SetWorkFlowRankingRequest {
+
+  message List {
+    int64 id = 2;
+    int64 ranking = 3;
+  }
+
+  int64 space_id = 1;
+  repeated List list = 2;
+}
+
+message SetWorkFlowRankingReply {
+  oneof result {
+    comm.ErrorInfo error = 1;
+    string data = 2;
+  }
+}
+
+
+//工作流列表(视图)
+message SpaceWorkFlowPageListRequest {
+  int64 spaceId = 1;
+  int32 status = 2;
+}
+
+message SpaceWorkFlowPageListReply {
+  oneof result {
+    comm.ErrorInfo error = 1;
+    SpaceWorkFlowPageListReplyResult data = 2;
+  }
+}
+
+
+message SpaceWorkFlowPageListReplyResult  {
+  message Item  {
+    int64 id = 1;
+    string name = 2  ;
+    int64 status = 3;
+    int64  version = 4;
+    int64  template_id = 5;
+    int64  space_id = 6;
+    int64  created_at = 7;
+    int64  updated_at = 8;
+    int64  user_id = 9;
+    int64 is_sys = 11;
+    int64 ranking = 12;
+    string flow_mode = 13;
+
+    WorkFlowConf work_flow_conf = 10;
+    StateFlowConf state_flow_conf = 14;
+  }
+
+  repeated  Item list = 1;
+  int32   total = 2;
+}
+
+
+
+message WorkFlowConf  {
+  message Node {
+    string name = 1;
+    string key = 2;
+  }
+
+  message Connection  {
+    //开始节点编码
+    string start_node = 1;
+    //结束节点编码
+    string end_node = 2;
+  }
+
+  repeated Node       nodes = 1;
+  repeated Connection connections = 2;
+}
+
+message StateFlowConf  {
+  message Node {
+    string name = 1;
+    string key = 2;
+    int64 status_type = 3;
+    bool is_init_state = 4;
+    bool is_archived_state = 5;
+  }
+
+  message Connection  {
+    //开始节点编码
+    string sourceStateKey = 1;
+    //结束节点编码
+    string targetStateKey = 2;
+  }
+
+  repeated Node       stateFlowNodes = 1;
+  repeated Connection StateFlowTransitionRule = 2;
+}

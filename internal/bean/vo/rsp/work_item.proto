@@ -1,0 +1,156 @@
+syntax = "proto3";
+package rsp;
+option go_package = "go-cs/internal/bean/vo/rsp;rsp";
+
+import "bean/types.proto";
+import "bean/vo/rsp/work_flow.proto";
+import "bean/vo/rsp/tag.proto";
+import "bean/vo/rsp/file.proto";
+import "bean/vo/rsp/user.proto";
+
+message SpaceWorkItemPlanTime {
+  sint64 start_at = 1;
+  sint64 complete_at = 2;
+}
+
+message SpaceWorkItemStatus {
+  message Last {
+    int64 id = 1; //最后一次状态id
+    string key = 2; //最后一次状态key
+    string val = 3; //历史状态
+    string name = 4; //
+    sint64 updated_at = 5; //历史状态更新时间
+    string type = 6;
+  }
+
+  int64 id = 1; //工作项状态id
+  string key = 2; //工作项状态key
+  string val = 3;//任务状态
+  string name = 4;
+  int64 type = 6;
+  Last last = 5;
+}
+
+message SpaceWorkItemDetail {
+
+  message Template {
+    sint64 template_id = 1;//流程模板id
+    sint64 template_version = 2;//流程模板版本
+    sint64 last_template_version = 3; //流程模版最新版本
+    bool is_latest_version = 4;
+
+    sint64 work_flow_id = 5;//流程Id
+    string work_flow_key = 6;//流程key
+    string work_flow_name = 7;
+    string work_flow_mode = 8; //模式类型
+  }
+
+  message ParentWorkItem {
+
+    message Status {
+      int64 id = 1; //工作项状态id
+      string key = 2; //工作项状态key
+      string val = 3;//任务状态
+      string name = 4;
+      string type = 6;
+    }
+
+    sint64 id = 1;
+    Status status = 2; //状态
+  }
+
+  sint64 id = 1;
+  sint64 pid = 2; //上级任务id, >0 表示当前为子任务
+  sint64 space_id = 3;//空间id
+  sint64 version_id = 4; //版本id -> 版本表
+
+  rsp.SimpleUserInfo creator = 5;
+
+  sint64 work_object_id = 6;//模块id
+  string work_item_guid = 7;//任务Guid
+  string work_item_name = 8;//任务名称
+  int64 resume_at = 10; //恢复时间
+  uint32 icon_flags = 11;//图标标记
+  Template template = 14; //模版信息
+  SpaceWorkItemStatus work_item_status = 15;//工作项状态
+  SpaceWorkItemPlanTime plan_time = 16; //计划时间
+  repeated rsp.SimpleUserInfo owners = 17;
+  repeated SpaceWorkItemOwnerRole role_owners = 18;
+  sint32 process_rate = 19;
+  string describe = 20;
+  string priority = 21;
+  string remark = 22;
+  repeated rsp.TagInfo tags = 23;
+  repeated rsp.FileInfo files = 24;
+  repeated SpaceWorkFlowNode nodes = 25;
+  int64 comment_num = 26; //评论数
+  int64 unread_comment_num = 27; //未读评论数
+  string operation_permissions = 28; //任务功能操作权限角色
+  ParentWorkItem parent_work_item = 29;
+  bool followed = 30;//是否已关注
+  sint64 restart_at = 34;
+  rsp.SimpleUserInfo restart_by = 35;
+  bool is_restart = 36; //是否为重启任务
+  sint64 work_item_type_id = 37;//工作项类型Id
+  string work_item_type_key = 38; //工作项类型key
+  string work_item_type_name = 39;
+  repeated int64 followers = 40; // 关注者
+
+  repeated SpaceWorkItemSubTaskListItem sub_tasks = 31;
+
+  int64 countAt = 41; // 统计时间
+
+  sint64 created_at = 32;//创建时间
+  sint64 updated_at = 33;//更新时间
+
+}
+
+
+message SpaceWorkItemOwnerRole {
+  sint64 role_id = 1;
+  string role_key = 2;
+  string role_name = 4;
+  repeated rsp.SimpleUserInfo owners = 3; //节点负责人
+}
+
+message SpaceWorkFlowNode {
+  sint64 id = 1;
+  string flow_node_uuid = 2; //节点uuid
+  sint32 flow_node_status = 3; //节点状态; 0:未定义 , 1: 未开启 2: 进行中 3:已完成
+  string flow_node_code = 4; //节点编码
+  sint32 flow_node_passed = 5; //节点是否通过
+  sint32 flow_node_reached = 6; //节点是否到达
+  sint64 start_at = 7; //开始时间
+  sint64 finish_at = 8; //结束时间
+  sint64 role_id = 9;
+  string role = 10;
+  repeated rsp.SimpleUserInfo owners = 11; //节点负责人
+  SpaceWorkItemPlanTime plan_time = 12; //计 划开始时间
+  sint64 created_at = 13; //创建时间
+  sint64 updated_at = 14; //更新时间
+}
+
+message SpaceWorkItemSubTaskListItem {
+
+  sint64  id = 1;
+  sint64  pid = 2;
+  sint64  space_id = 3;
+  rsp.SimpleUserInfo creator = 4;
+  string  work_item_guid = 7;
+  string  work_item_name = 8;
+  SpaceWorkItemStatus  work_item_status = 9;
+
+  // 以下为doc内字段
+  sint32  process_rate = 10;
+  string  priority = 11;
+  SpaceWorkItemPlanTime plan_time = 12; //计划时间
+
+  repeated rsp.SimpleUserInfo owners = 13; //节点负责人
+  string operation_permissions = 14; //任务功能操作权限角色
+}
+
+message SearchModel {
+  //@go_tags json:"name,omitempty" yaml:"name" bson:"name" db:"name" gorm:"name" validate:"required"
+  string id = 1;
+}
+

@@ -1,0 +1,87 @@
+env: docker
+
+server:
+  http:
+    addr: 0.0.0.0:18001
+    timeout: 60s
+  grpc:
+    addr: 0.0.0.0:19001
+    timeout: 60s
+
+data:
+  database:
+    dsn: "root:${MYSQL_ROOT_PASSWORD}@tcp(mysql:3306)/balala?charset=utf8mb4&parseTime=True&loc=Local"
+
+  database_ro:
+    dsn: "root:${MYSQL_ROOT_PASSWORD}@tcp(mysql:3306)/balala?charset=utf8mb4&parseTime=True&loc=Local"
+
+  redis:
+    addr: "redis:6379"
+    password: ""
+    read_timeout: 30
+    write_timeout: 30
+    pool_size: 20
+    db_index: 0
+
+  es:
+    addresses: [ "http://es7:9200" ]
+    username: "elastic"
+    password: ""
+    enable_debug_logger: false
+    index: "space_work_item_v2"
+
+  sessions:
+    driver: "cookie"
+    session_secure: "u2KOrOJp4TK0VN&Y" # 16位
+    redis:
+      addr: "redis:6379"
+      password: ""
+      read_timeout: 30
+      write_timeout: 30
+      pool_size: 20
+      db_index: 0
+    cookie:
+      path: '/'
+
+  qqwry:
+    dat_path: "configs/qqwry.dat" # 相对 /cmd/go-cs/main.go 的位置
+
+# 数仓 配置
+dwh:
+  #数仓设置
+  database:
+    dsn: "root:${MYSQL_ROOT_PASSWORD}@tcp(mysql:3306)/balala?charset=utf8mb4&parseTime=True&loc=Local"
+  #数据来源设置
+  externalDataSource:
+    database:
+      dsn: "root:${MYSQL_ROOT_PASSWORD}@tcp(mysql:3306)/balala?charset=utf8mb4&parseTime=True&loc=Local"
+
+
+# JWT 配置
+jwt:
+  key: "oLS&*mLJrl#874m%"     # JWT 密钥
+  dev_mode: true
+
+# log配置
+log:
+  log_path: "./log/"
+  #  log_filename: "access.log" # 注释掉，日志就会打印在stdout
+  log_format: "json"
+  log_level: "info" # 必須輸入小寫字串: debug、info、warn、error
+  trace_sampling: 0.05  # 採樣率0.0 ~ 1.0之間, 正式環境應設為0.0 ~ 0.05避免影響效能
+  trace_export_addr: "0.0.0.0:0000"  # 測試環境0.0.0.0:0000, 正式環境0.0.0.0:0000
+  trace_skip_tls: true  # true: 不使用TLS加密連線, false: 使用TLS, 此設定取決於server端有無支援
+
+# i18n配置
+i18n:
+  i18n_path: "./resource/i18n"
+
+# 檔案上傳配置
+file_config:
+  local_path: "./upload_files"
+
+# IM推送
+tea_im:
+  domain: "${TEA_IM_DOMAIN}"
+  private_key: "${TEA_IM_PRIVATE_KEY}"
+  platform_code: "${TEA_IM_PLATFORM_CODE}"

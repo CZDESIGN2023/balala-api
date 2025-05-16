@@ -1,0 +1,344 @@
+syntax = "proto3";
+
+package comm;
+option go_package = "go-cs/api/comm;comm";
+
+// ErrorReply represents an error reply from the server.
+message ErrorInfo {
+  // The error code.
+  int32 code = 1;
+
+  // The detailed error message.
+  string message = 2;
+}
+
+message CommonReply {
+  oneof result {
+    ErrorInfo error = 1;
+    string data = 2;
+  }
+}
+
+message BatchParams {
+  repeated int64 new = 1;
+  repeated int64 add = 2;
+  repeated int64 remove = 3;
+}
+
+message BatchFileParams {
+  repeated BatchFileParamsFileInfo new = 1;
+  repeated int64 add = 2;
+  repeated int64 remove = 3;
+}
+
+message BatchFileParamsFileInfo {
+  string id = 1;
+  string name = 2;
+  string uri = 3;
+}
+
+
+message AnyBatchParams {
+  repeated string new = 1;
+  repeated int64 add = 2;
+  repeated int64 remove = 3;
+}
+
+message Pagination {
+  sint32 page_num = 1;
+  sint32 page_size = 2;
+}
+
+message ServiceError{
+  int32 code = 1;
+  string reason = 2;
+  string message = 3;
+  map<string, string> metadata = 4;
+}
+
+
+message SearchOptGroup {
+  string field = 1;
+  string field_type = 2;
+  bool  need_empty = 3;
+}
+
+message SearchOptConditionGroup {
+  string conjunction = 1;
+  SearchOptConditionGroupGroup group = 2;
+}
+
+message SearchOptConditionGroupGroup {
+  string conjunction = 1;
+  repeated SearchOptConditionGroupGroupCondition conditions = 2;
+  SearchOptConditionGroup condition_group = 3;
+}
+
+message SearchOptConditionGroupGroupCondition {
+  string field = 1;
+  repeated string value_list = 2;
+  string operator = 3;
+  string field_type = 4;
+  sint64 space_id = 5; //限定查询条件项目范围
+}
+
+message SearchOptConditionSort {
+  string field = 1;
+  string field_type = 2;
+  string order = 3;
+}
+
+
+// 应用编码
+enum AppCode {
+  UNKNOWN1 = 0;
+  GO_TALK = 3;
+
+}
+
+// 服务编码
+enum ServiceCode {
+  UNKNOWN2 = 0;
+  // 会话服务
+  CHAT = 1;
+  // 消息服务
+  MESSAGE = 2;
+  // 用户
+  USER = 3;
+  // 登入
+  LOGIN = 4;
+  // 權限類
+  PERMISSION = 5;
+  // DB
+  DB = 6;
+  // File & Upload
+  FILE = 7;
+  // 通用業務類
+  COMMON = 8;
+  // 文件夾(主播作品)
+  FOLDER = 9;
+  //关系
+  RELATIONSHIP = 10;
+  //项目空间
+  SPACE = 11;
+}
+
+// 错误定义格式 根据业务来定义,总的6位 xyyzzz, app-service-num
+// ErrorCode represents a specific error code in the system
+enum ErrorCode {
+  // Unspecified error.
+  ERROR_REASON_UNSPECIFIED = 0;
+
+  // [Test]
+  // --------------------------------------
+  ERROR_MSG_TEST = 300001;
+  ERROR_MSG_FORMAT_TEST = 300002;
+
+  // [GLOBAL]
+  //--------------------------------------
+  ERROR_INTERNAL = 301000;
+  ERROR_BUSINESS = 301001;
+  ERROR_RES_NOT_EXIST = 301002; //资源不存在
+
+  // [USER]
+  // --------------------------------------
+  // 查詢用戶信息失敗
+  USER_GET_FAIL = 303001;
+  // 查詢用戶列表失敗
+  USER_LIST_FAIL = 303002;
+  // 用户账号已存在
+  USER_NAME_IS_EXIST = 303003;
+  //用户昵称已存在
+  USER_NICKNAME_IS_EXIST = 303004;
+  //二次验证密码错误
+  USER_WORONG_CONFIG_PASSWORD = 303005;
+  //用户名格式错误
+  USER_WRONG_RULE_USERNAME = 303007;
+  //用户密码格式错误
+  USER_WRONG_RULE_PASSWORD = 303008;
+  //用户昵称格式错误
+  USER_WRONG_RULE_NICKNAME = 303009;
+
+
+  // [LOGIN]
+  // --------------------------------------
+  // 登入失敗
+  LOGIN_FAIL = 304001;
+
+  // 用戶未登入
+  LOGIN_USER_NOT_LOGIN = 304002;
+
+  // 帳號或密碼錯誤
+  LOGIN_WRONG_ACCOUNT_OR_PASSWORD = 304003;
+
+  // 驗證碼錯誤
+  LOGIN_WRONG_VERIFICATION_CODE = 304004;
+
+  // 帳號已存在
+  LOGIN_ACCOUNT_ALREADY_EXISTS = 304005;
+
+  // 帳號不存在
+  LOGIN_ACCOUNT_NOT_EXISTS = 304006;
+
+  // 帳號已被禁用
+  LOGIN_ACCOUNT_DISABLED = 304007;
+
+  // 帳號尚未啟用
+  LOGIN_ACCOUNT_NOT_ACTIVATED = 304008;
+
+  // 登入狀態已過期
+  LOGIN_STATUS_EXPIRED = 304009;
+
+  // 初始化失敗
+  LOGIN_INIT_FAIL = 304010;
+
+  // 登出失败
+  LOGIN_USER_LOGOUT_FAIL = 304011;
+
+  // [DB]
+  // --------------------------------------
+  // 添加失敗
+  DB_ADD_FAIL = 306001;
+
+  // 查詢失敗
+  DB_QUERY_FAIL = 306002;
+
+  // 修改失敗
+  DB_MODIFY_FAIL = 306003;
+
+  // 删除失败
+  DB_DELETE_FAIL = 306004;
+
+
+  // [FILE]
+  // --------------------------------------
+  // 上傳檔案失敗
+  FILE_UPLOAD_FAIL = 307001;
+
+  // 檔案大小超過限制
+  FILE_SIZE_EXCEED_LIMIT = 307002;
+
+  // 檔案類型不支援
+  FILE_TYPE_NOT_SUPPORTED = 307003;
+
+  // 檔案名稱過長
+  FILE_FILENAME_TOO_LONG = 307004;
+
+  // 取得檔案資訊失敗
+  FILE_GET_INFO_FAIL = 307005;
+
+
+  // [COMMON]
+  // --------------------------------------
+  // 參數錯誤，請檢查時間區間
+  COMMON_WRONG_TIME_INTERVAL = 308001;
+
+  // 時間跨度太大
+  COMMON_EXCEED_TIME_SPAN = 308002;
+
+  // 字串過長
+  COMMON_EXCEED_STRING_LENGTH = 308003;
+
+  // 參數錯誤
+  COMMON_WRONG_PARAMETER = 308004;
+
+  // 參數錯誤(附加format value)
+  COMMON_WRONG_PARAMETER_FMT = 308005;
+
+  // http method錯誤
+  COMMON_WRONG_HTTP_METHOD = 308006;
+
+  // [PERMISSION]
+  // --------------------------------------
+  // 權限不足
+  PERMISSION_INSUFFICIENT_PERMISSIONS = 305001;
+
+  // 非法操作
+  PERMISSION_ILLEGAL_OPERATION = 305002;
+
+  // 數據權限不足
+  PERMISSION_INSUFFICIENT_DATA_PERMISSIONS = 305003;
+
+  // ip白名單不通過
+  PERMISSION_NOT_IN_IP_WHITELIST = 305004;
+
+  // 用戶被禁言
+  PERMISSION_USER_SPEAK_FORBIDDEN = 305005;
+
+  // 用戶被黑名單
+  PERMISSION_USER_BANNED = 305006;
+
+  // 用戶權限異常
+  PERMISSION_USER_PERMISSIONS_UNUSUAL = 305007;
+
+  // [SPACE]
+  // --------------------------------------
+  // 项目空间-创建失败
+  SPACE_CREATE_FAIL = 311001;
+  // 项目空间-名称已存在
+  SPACE_NAME_EXIST = 311002;
+  // 项目空间-创建者信息错误
+  SPACE_CREATOR_WRONG = 311003;
+  // 项目空间-信息错误
+  SPACE_INFO_WRONG = 311004;
+  // 项目空间-名称校验错误
+  SPACE_NAME_CHECK_WRONG = 311005;
+  // 项目空间-删除失败
+  SPACE_DEL_FAIL = 311006;
+  // 项目空间-不存在
+  SPACE_NOT_EXIST = 311007;
+
+  // 项目空间-成员信息错误
+  SPACE_MEMBER_WRONG = 311101;
+  // 项目空间-成员 已存在
+  SPACE_MEMBER_EXSIT = 311102;
+  // 项目空间-成员添加失败
+  SPACE_MEMBER_ADD_FAIL = 311103;
+  // 项目空间-成员移除失败
+  SPACE_MEMBER_REMOVE_FAIL = 311104;
+  // 项目空间-工作项 创建失败
+  SPACE_WORK_OBJECT_CREATE_FAIL = 312001;
+  // 项目空间-工作项  创建者信息错误
+  SPACE_WORK_OBJECT_CREATOR_WRONG = 312002;
+  //项目空间-工作项 名称已存在
+  SPACE_WORK_OBJECT_NAME_EXIST = 312003;
+  //项目空间-工作项 信息错误
+  SPACE_WORK_OBJECT_INFO_WRONG = 312004;
+  //项目空间-工作项 模块名长度为2-50个字符
+  SPACE_WORK_OBJECT_NAME_RULE_WRONG = 312005;
+
+  // [SPACE_TAG]
+  // --------------------------------------
+  SPACE_TAG_NAME_IS_EXIST = 301101;
+  SPACE_TAG_CREATE_FAIL = 301102;
+  SPACE_TAG_INFO_WRONG = 301103;
+  SPACE_TAG_DEL_FAIL = 301104;
+  SPACE_TAG_RELATION_EXIST = 301105;
+  SPACE_TAG_RELATION_NOT_EXIST = 301106;
+
+  // [SPACE_WORK_ITEM]
+  //项目空间-工作用例
+  // --------------------------------------
+  SPACE_WORK_ITEM_CREATE_FAIL = 301202;
+  //任务指定负责人信息错误
+  SPACE_WORK_ITEM_DIRECTOR_WRONG = 301203;
+  //子任务指定负责人信息错误
+  SPACE_WORK_TASK_DIRECTOR_WRONG = 301204;
+  //设置负责人信息失败
+  SPACE_WORK_SET_DIRECTOR_FAIL = 301205;
+  //设置负责人已存在
+  SPACE_WORK_DIRECTOR_EXIST = 301207;
+  //设置负责人不存在
+  SPACE_WORK_DIRECTOR_NOT_EXIST = 301208;
+  //设置工作任务-TAG失败
+  SPACE_WORK_SET_TAG_FAIL = 301209;
+  //工作任务Tag信息错误
+  SPACE_WORK_ITEM_TAG_WRONG = 301211;
+  //设置负责人不能为空
+  SPACE_WORK_SET_DIRECTOR_MUST_HASONE = 301212;
+  //任务名称不合法 模块名长度为2-200个字符
+  SPACE_WORK_ITEM_NAME_RULE_WRONG = 301213;
+
+  //工作流状态不可用
+  WORK_FLOW_STATUS_NOT_ENABLE = 301300;
+}

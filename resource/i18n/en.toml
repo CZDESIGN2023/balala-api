@@ -1,0 +1,116 @@
+[system]
+lang = "en"
+
+[info]
+msg_success = "Success"
+msg_fail    = "Fail"
+
+[error]
+#Test
+ERROR_MSG_TEST                  = "This is a ErrorCode i18n test!"
+ERROR_MSG_FORMAT_TEST           = "This is a ErrorCode i18n variable string: %s"
+
+#Global
+ERROR_BUSINESS                  = "%s"
+ERROR_INTERNAL                  = "Internal error"
+
+#Chat
+CHAT_NOT_FOUND                  = "Chat conversation does not exist"
+CHAT_FULL                       = "Reached the maximum number of chat participants"
+CHAT_GET_FAIL                   = "Failed to load chat conversation"
+CHAT_CREATE_FAIL                = "Failed to create chat conversation"
+CHAT_DELETE_FAIL                = "Failed to delete chat conversation"
+CHAT_DELETE_USER_CHAT_FAIL      = "Failed to delete user's chat conversation"
+CHAT_SET_SORT_FAIL              = "Failed to set order"
+CHAT_SET_MUTE_FAIL              = "Failed to set do not disturb"
+CHAT_SET_AUTO_CLEAN_FAIL        = "Failed to set automatic message cleanup"
+CHAT_SET_DEVELOP_FAIL           = "Failed to set adaptation mode"
+
+#Message
+MESSAGE_INVALID_CONTENT         = "Invalid message content"
+MESSAGE_MSG_QUERY_FAIL          = "Message query failed"
+MESSAGE_MSG_SEND_FAIL           = "Message send failed"
+MESSAGE_MSG_LIST_FAIL           = "Message list failed"
+MESSAGE_MSG_DELETE_FAIL         = "Message delete failed"
+MESSAGE_MSG_EDIT_FAIL           = "Message edit failed"
+MESSAGE_MSG_RECALL_FAIL         = "Message recall failed"
+MESSAGE_MSG_FORWARD_FAIL        = "Message forward failed"
+MESSAGE_NOT_IN_CHAT_FAIL        = "Message send failed, because you're not in the chat"
+
+#User
+USER_GET_FAIL                   = "Failed to query user information."
+USER_LIST_FAIL                  = "Failed to query user list."
+
+#Login
+LOGIN_FAIL                      = "Login failed."
+LOGIN_USER_NOT_LOGIN            = "User not logged in."
+LOGIN_WRONG_ACCOUNT_OR_PASSWORD = "Account or password incorrect."
+LOGIN_WRONG_VERIFICATION_CODE   = "Verification code error."
+LOGIN_ACCOUNT_ALREADY_EXISTS    = "Account already exists."
+LOGIN_ACCOUNT_NOT_EXISTS        = "Account does not exists."
+LOGIN_ACCOUNT_DISABLED          = "Account has been disabled."
+LOGIN_ACCOUNT_NOT_ACTIVATED     = "Account is not activated."
+LOGIN_STATUS_EXPIRED            = "The login status has expired."
+LOGIN_INIT_FAIL                 = "Init info failed"
+LOGIN_WRONG_FORMAT              = "Wrong format."
+LOGIN_MOBILE_USED               = "Mobile number already in use."
+LOGIN_EMAIL_USED                = "Email address already in use."
+LOGIN_EXCEED_MAX_LOGIN_TIMES    = "Exceeded maximum number of login attempts."
+LOGIN_OPERATION_FREQUENTLY      = "The operation is too frequent, please try again later."
+LOGIN_OPERATION_TIMEOUTS        = "Operation timed out, please try again."
+LOGIN_NEED_BIND_BOIN_DUN        = "Please find a superior to bind the BOIN DUN."
+#Permission
+PERMISSION_INSUFFICIENT_PERMISSIONS      = "Insufficient permissions."
+PERMISSION_ILLEGAL_OPERATION             = "Illegal operation."
+PERMISSION_INSUFFICIENT_DATA_PERMISSIONS = "Insufficient data permissions."
+PERMISSION_NOT_IN_IP_WHITELIST           = "Not in the ip whitelist"
+PERMISSION_USER_SPEAK_FORBIDDEN          = "User banned from speaking."
+PERMISSION_USER_BANNED                   = "User is blacklisted."
+PERMISSION_USER_PERMISSIONS_UNUSUAL      = "User permissions unusual."
+#DB error
+DB_ADD_FAIL    = "Add failed."
+DB_QUERY_FAIL  = "Query failed."
+DB_MODIFY_FAIL = "Edit failed."
+DB_DELETE_FAIL = "Delete failed."
+#File&Upload
+FILE_UPLOAD_FAIL        = "Failed to upload file."
+FILE_SIZE_EXCEED_LIMIT  = "File size exceeds limit."
+FILE_TYPE_NOT_SUPPORTED = "File type not supported."
+FILE_FILENAME_TOO_LONG  = "File name is too long."
+FILE_OPEN_FAIL          = "File open failed."
+FILE_GET_INFO_FAIL      = "Failed to get file info."
+#Common
+COMMON_USER_NOT_EXIST       = "User does not exist."
+COMMON_CHANNEL_NOT_EXIST    = "Channel does not exist."
+COMMON_WRONG_TIME_INTERVAL  = "Parameter error, please check the time interval."
+COMMON_EXCEED_TIME_SPAN     = "The time span is too large."
+COMMON_EXCEED_STRING_LENGTH = "String length limit exceeded."
+COMMON_WRONG_PARAMETER      = "Parameter error."
+COMMON_WRONG_PARAMETER_FMT  = "Parameter error: %v"
+COMMON_WRONG_HTTP_METHOD    = "Http method error."
+#Folder
+FOLDER_CREATE_FAIL           = "Add new collection failed."
+FOLDER_UPDATE_FAIL           = "Edit collection failed."
+FOLDER_UPDATE_FAIL_NOT_EXIST = "Edit failed, the collection no longer exists."
+FOLDER_DELETE_FAIL           = "Delete collection failed."
+FOLDER_VIEW_FAIL             = "View collection failed."
+FOLDER_LIST_FAIL             = "Load collection list failed."
+
+#Relationship
+RELATIONSHIP_ADD_FOLLOW_FAIL                    = "Failed to add folow."
+RELATIONSHIP_REMOVE_FOLLOW_FAIL                 = "Failed to remove folow."
+RELATIONSHIP_DELETE_USER_CONNECTIONS_FAIL       = "Failed to delete user connections folow."
+RELATIONSHIP_GET_FOLLOWEES_FAIL                 = "Failed to get followees."
+RELATIONSHIP_GET_FOLLOWERS_FAIL                 = "Failed to get followers."
+RELATIONSHIP_GET_FOLLOWERCOUNT_FAIL             = "Failed to get followercount."
+RELATIONSHIP_GET_FOLLOWEECOUNT_FAIL             = "Failed to get followeecount."
+RELATIONSHIP_IS_FOLLOWING_FAIL                  = "Failed to know is following."
+RELATIONSHIP_ADD_USER_MIGRATION_FAIL            = "Failed to add user migration record."
+RELATIONSHIP_GET_USER_MIGRATION_FAIL            = "Failed to get user migration record."
+
+[test]
+msg_i18n_test  = "This is a i18n test!"
+msg_i18n_test2 = "This is a i18n test2!"
+msg_i18n_test3 = "This is a i18n variable string: %s"
+msg_i18n_test4 = "This is a i18n variable number: %d"
+msg_i18n_test5 = "This is a i18n variable float: %f"

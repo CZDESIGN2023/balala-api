@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package server3;
+
+option go_package = "go-cs/internal/pkg/server3;";
+
+message SendGiftRequest {
+    sint64 from_user_id = 1;
+    sint64 to_user_id = 2;
+    sint64 item_id = 3;
+    sint32 count = 4;
+}
+message SendGiftReply {
+    int32 code = 1;
+    string msg = 2;
+}

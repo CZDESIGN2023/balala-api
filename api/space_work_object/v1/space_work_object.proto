@@ -1,0 +1,236 @@
+syntax = "proto3";
+
+import "comm/errors.proto";
+import "google/api/annotations.proto";
+import "bean/types.proto";
+
+package api.space_work_object.v1;
+
+option go_package = "go-cs/api/space_work_object/v1;v1";
+option java_multiple_files = true;
+option java_package = "api.space.space_work_object.v1";
+
+service space_work_object {
+
+    rpc CreateSpaceWorkObject (CreateSpaceWorkObjectRequest) returns (CreateSpaceWorkObjectReply) {
+        option (google.api.http) = {
+            post: "/my/space/work_object/create",
+            body: "*",
+        };
+    }
+
+    rpc SpaceWorkObjectList (SpaceWorkObjectListRequest) returns (SpaceWorkObjectListReply) {
+        option (google.api.http) = {
+            post: "/my/space/work_object/list",
+            body: "*",
+        };
+    }
+
+    rpc SpaceWorkObjectById (SpaceWorkObjectByIdRequest) returns (SpaceWorkObjectByIdReply) {
+        option (google.api.http) = {
+            post: "/my/space/work_object/by_id",
+            body: "*",
+        };
+    }
+
+    rpc ModifySpaceWorkObjectName (ModifySpaceWorkObjectNameRequest) returns (ModifySpaceWorkObjectNameReply) {
+        option (google.api.http) = {
+            post: "/my/space/work_object/modify/name",
+            body: "*",
+        };
+    }
+
+    rpc DelSpaceWorkObject (DelSpaceWorkObjectRequest) returns (DelSpaceWorkObjectReply) {
+        option (google.api.http) = {
+            post: "/my/space/work_object/del",
+            body: "*",
+        };
+    }
+
+
+    rpc DelSpaceWorkObject2 (DelSpaceWorkObjectRequest2) returns (DelSpaceWorkObjectReply) {
+        option (google.api.http) = {
+            post: "/my/space/work_object/del2",
+            body: "*",
+        };
+    }
+
+    rpc SetOrder (SetWorkObjectOrderRequest) returns (SetWorkObjectOrderReply) {
+        option (google.api.http) = {
+            post: "/my/space/work_object/set_order",
+            body: "*",
+        };
+    }
+
+
+    rpc SetSpaceWorkObjectRanking (SetSpaceWorkObjectRankingRequest) returns (SetSpaceWorkObjectRankingReply) {
+        option (google.api.http) = {
+          post: "/my/space/work_object/ranking/set",
+          body: "*",
+        };
+      }
+}
+
+//---设置工作流排序
+message SetSpaceWorkObjectRankingRequest {
+
+    message List {
+      int64 id = 2;
+      int64 ranking = 3;
+    }
+  
+    int64 space_id = 1;
+    repeated List list =  2;
+  }
+  
+  message SetSpaceWorkObjectRankingReply {
+    oneof result {
+      comm.ErrorInfo error = 1;
+      string data = 2;
+    }
+  }
+  
+
+message SetWorkObjectOrderRequest {
+    int64 spaceId = 1;
+    int64 workObjectId = 2;
+    int64 fromIdx = 3;
+    int64 toIdx = 4;
+}
+
+message SetWorkObjectOrderReply {
+    oneof result {
+        comm.ErrorInfo error = 1;
+    }
+}
+
+
+// 创建 项目空间-工作项
+message CreateSpaceWorkObjectRequest {
+    string work_object_name = 1;  // 项目空间名称
+    string describe = 2;    // 描述
+    sint64 space_id = 3; //用户id
+    string scene = 4; // 场景类型 work_item
+    CreateSpaceWorkObjectRequestWorkItemSceneData  work_item_scene = 5;
+}
+
+message CreateSpaceWorkObjectRequestWorkItemSceneData {
+    sint64 work_item_id = 1;  // 项目空间名称
+}
+
+message CreateSpaceWorkObjectReply {
+    oneof result {
+        comm.ErrorInfo error = 1;
+        server_go_base.bean.SpaceWorkObject  data = 2;
+    }
+}
+
+
+//工作项-列表
+message SpaceWorkObjectByIdRequest {
+    sint64 space_id = 1;
+    repeated sint64 ids = 2;
+}
+
+message SpaceWorkObjectByIdReply {
+    oneof result {
+        comm.ErrorInfo error = 1;
+        SpaceWorkObjectByIdReplyData  data = 2;
+    }
+}
+
+message SpaceWorkObjectByIdReplyData {
+    repeated SpaceWorkObjectByIdReplyData_Item list = 1;
+}
+
+message SpaceWorkObjectByIdReplyData_Item {
+    sint64 id = 1;
+    sint64 space_id = 2;//空间id
+    sint64 user_id = 3;//创建用户id
+    string work_object_guid = 4;//空间Guid
+    string work_object_name = 5;//空间名称
+    sint32 work_object_status = 6;//空间状态;0:禁用,1:正常,2:未验证
+    int64 ranking = 9;//排序值
+    sint64 created_at = 10;//创建时间
+    sint64 updated_at = 11;//更新时间
+  }
+  
+
+
+//工作项-列表
+message SpaceWorkObjectListRequest {
+    sint64 space_id = 1;
+}
+
+message SpaceWorkObjectListReply {
+    oneof result {
+        comm.ErrorInfo error = 1;
+        SpaceWorkObjectListReplyData  data = 2;
+    }
+}
+
+message SpaceWorkObjectListReplyData {
+    repeated SpaceWorkObjectListReplyData_Item list = 1;
+}
+
+message SpaceWorkObjectListReplyData_Item {
+    sint64 id = 1;
+    sint64 space_id = 2;//空间id
+    sint64 user_id = 3;//创建用户id
+    string work_object_guid = 4;//空间Guid
+    string work_object_name = 5;//空间名称
+    sint32 work_object_status = 6;//空间状态;0:禁用,1:正常,2:未验证
+    int64 ranking = 9;//排序值
+    sint64 created_at = 10;//创建时间
+    sint64 updated_at = 11;//更新时间
+  }
+  
+
+//工作项-名称修改
+message ModifySpaceWorkObjectNameRequest {
+    sint64 space_id =1 ;
+    sint64 work_object_id = 2;
+    string work_object_name =3;
+    string scene = 4; // 场景类型 work_item
+    ModifySpaceWorkObjectNameRequestWorkItemSceneData  work_item_scene = 5;
+}
+
+message ModifySpaceWorkObjectNameRequestWorkItemSceneData {
+    sint64 work_item_id = 1;  // 项目空间名称
+}
+
+message ModifySpaceWorkObjectNameReply {
+    oneof result {
+        comm.ErrorInfo error = 1;
+        ModifySpaceWorkObjectNameReplyData  data = 2;
+    }
+}
+
+message ModifySpaceWorkObjectNameReplyData {
+}
+
+
+//工作项-删除
+
+message DelSpaceWorkObjectRequest {
+    sint64 space_id =1 ;
+    sint64 work_object_id = 2;
+}
+
+
+message DelSpaceWorkObjectRequest2 {
+    sint64 space_id =1 ;
+    sint64 work_object_id = 2;
+    sint64 to_work_object_id = 3;
+}
+
+
+message DelSpaceWorkObjectReply {
+    oneof result {
+        comm.ErrorInfo error = 1;
+        DelSpaceWorkObjectReplyData  data = 2;
+    }
+}
+
+message DelSpaceWorkObjectReplyData {
+}

@@ -1,0 +1,100 @@
+[system]
+lang = "zh-TW"
+
+[info]
+msg_success = "成功"
+msg_fail    = "失敗"
+
+[error]
+#Test
+ERROR_MSG_TEST                  = "這是ErrorCode i18n測試!"
+ERROR_MSG_FORMAT_TEST           = "這是ErrorCode i18n字串變數測試: %s"
+
+#Global
+ERROR_BUSINESS                  = "%s"
+ERROR_INTERNAL                  = "Internal error"
+
+#Chat
+CHAT_NOT_FOUND                  = "聊天會話不存在"
+CHAT_FULL                       = "已達聊天人數上限"
+CHAT_GET_FAIL                   = "讀取聊天會話失敗"
+CHAT_CREATE_FAIL                = "創建聊天會話失敗"
+CHAT_DELETE_FAIL                = "刪除聊天會話失敗"
+CHAT_DELETE_USER_CHAT_FAIL      = "刪除用戶聊天會話失敗"
+CHAT_SET_SORT_FAIL              = "設置排序失敗"
+CHAT_SET_MUTE_FAIL              = "設置免打擾失敗"
+CHAT_SET_AUTO_CLEAN_FAIL        = "設置自動清理消息失敗"
+CHAT_SET_DEVELOP_FAIL           = "設置調適模式失敗"
+
+#Message
+MESSAGE_INVALID_CONTENT         = "消息內容不合法"
+MESSAGE_MSG_QUERY_FAIL          = "獲取消息失敗"
+MESSAGE_MSG_SEND_FAIL           = "發送消息失敗"
+MESSAGE_MSG_LIST_FAIL           = "獲取消息列表失敗"
+MESSAGE_MSG_DELETE_FAIL         = "刪除消息失敗"
+MESSAGE_MSG_EDIT_FAIL           = "編輯消息失敗"
+MESSAGE_MSG_RECALL_FAIL         = "撤回消息失敗"
+MESSAGE_MSG_FORWARD_FAIL        = "轉發消息失敗"
+MESSAGE_NOT_IN_CHAT_FAIL        = "您不在聊天會話中, 無法發送訊息"
+
+#User
+USER_GET_FAIL                   = "查詢用戶信息失敗"
+USER_LIST_FAIL                  = "查詢用戶列表失敗"
+
+#登入類
+LOGIN_FAIL                      = "登入失敗"
+LOGIN_USER_NOT_LOGIN            = "用戶未登入"
+LOGIN_WRONG_ACCOUNT_OR_PASSWORD = "帳號或密碼錯誤"
+LOGIN_WRONG_VERIFICATION_CODE   = "驗證碼錯誤"
+LOGIN_ACCOUNT_ALREADY_EXISTS    = "帳號已存在"
+LOGIN_ACCOUNT_NOT_EXISTS        = "帳號不存在"
+LOGIN_ACCOUNT_DISABLED          = "帳號已被禁用"
+LOGIN_ACCOUNT_NOT_ACTIVATED     = "帳號尚未啟用"
+LOGIN_STATUS_EXPIRED            = "登入狀態已過期"
+LOGIN_INIT_FAIL                 = "初始化信息失敗"
+LOGIN_WRONG_FORMAT              = "格式錯誤"
+LOGIN_MOBILE_USED               = "手機號碼已被使用"
+LOGIN_EMAIL_USED                = "郵箱地址已被使用"
+LOGIN_EXCEED_MAX_LOGIN_TIMES    = "超過最大登入嘗試次數"
+LOGIN_OPERATION_FREQUENTLY      = "操作過於頻繁，請稍後重試"
+LOGIN_OPERATION_TIMEOUTS        = "操作超時，請重新嘗試"
+LOGIN_NEED_BIND_BOIN_DUN        = "請找上級綁定波音盾"
+#權限類
+PERMISSION_INSUFFICIENT_PERMISSIONS      = "權限不足"
+PERMISSION_ILLEGAL_OPERATION             = "非法操作"
+PERMISSION_INSUFFICIENT_DATA_PERMISSIONS = "數據權限不足"
+PERMISSION_NOT_IN_IP_WHITELIST           = "ip白名單不通過"
+PERMISSION_USER_SPEAK_FORBIDDEN          = "用戶被禁言"
+PERMISSION_USER_BANNED                   = "用戶被黑名單"
+PERMISSION_USER_PERMISSIONS_UNUSUAL      = "用戶權限異常"
+#DB錯誤
+DB_ADD_FAIL    = "添加失敗"
+DB_QUERY_FAIL  = "查詢失敗"
+DB_MODIFY_FAIL = "修改失敗"
+DB_DELETE_FAIL = "删除失败"
+#File&Upload
+FILE_UPLOAD_FAIL        = "上傳檔案失敗"
+FILE_SIZE_EXCEED_LIMIT  = "檔案大小超過限制"
+FILE_TYPE_NOT_SUPPORTED = "檔案類型不支援"
+FILE_FILENAME_TOO_LONG  = "檔案名稱過長"
+FILE_OPEN_FAIL          = "檔案開啟失敗"
+FILE_GET_INFO_FAIL      = "取得檔案資訊失敗"
+#通用業務類
+COMMON_USER_NOT_EXIST       = "用戶不存在"
+COMMON_CHANNEL_NOT_EXIST    = "商戶不存在"
+COMMON_WRONG_TIME_INTERVAL  = "參數錯誤，請檢查時間區間"
+COMMON_EXCEED_TIME_SPAN     = "時間跨度太大"
+COMMON_EXCEED_STRING_LENGTH = "字串過長"
+COMMON_WRONG_PARAMETER      = "參數錯誤"
+COMMON_WRONG_PARAMETER_FMT  = "參數錯誤: %s"
+COMMON_WRONG_HTTP_METHOD    = "Http method錯誤"
+#Folder
+FOLDER_CREATE_FAIL           = "新增作品失敗"
+FOLDER_UPDATE_FAIL           = "編輯作品失敗"
+FOLDER_UPDATE_FAIL_NOT_EXIST = "編輯作品失敗，作品已不存在"
+FOLDER_DELETE_FAIL           = "刪除作品失敗"
+FOLDER_VIEW_FAIL             = "檢視作品失敗"
+FOLDER_LIST_FAIL             = "讀取作品清單失敗"
+
+[test]
+msg_i18n_test = "這是i18n測試!"

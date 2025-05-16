@@ -1,0 +1,241 @@
+syntax = "proto3";
+import "comm/errors.proto";
+import "google/api/annotations.proto";
+import "bean/types.proto";
+package api.work_item_status.v1;
+
+option go_package = "/api/work_item_status/v1;v1";
+option java_multiple_files = true;
+option java_package = "api.work_item_status.v1";
+
+
+service WorkItemStatus {
+  rpc QSpaceWorkItemStatusList (SpaceWorkItemStatusListRequest) returns (SpaceWorkItemStatusListReply) {
+    option (google.api.http) = {
+      post: "/my/space/work_item_status/list",
+      body: "*",
+    };
+  }
+
+  rpc SetSpaceWorkItemStatusRanking (SetSpaceWorkItemStatusRankingRequest) returns (SetSpaceWorkItemStatusRankingReply) {
+    option (google.api.http) = {
+      post: "/my/space/work_item_status/ranking/set",
+      body: "*",
+    };
+  }
+
+  rpc SetSpaceWorkItemStatusName (SetSpaceWorkItemStatusNameRequest) returns (SetSpaceWorkItemStatusNameReply) {
+    option (google.api.http) = {
+      post: "/my/space/work_item_status/name/set",
+      body: "*",
+    };
+  }
+
+  rpc DelSpaceWorkItemStatus (DelSpaceWorkItemStatusRequest) returns (DelSpaceWorkItemStatusReply) {
+    option (google.api.http) = {
+      post: "/my/space/work_item_status/del",
+      body: "*",
+    };
+  }
+
+  rpc CreateSpaceWorkItemStatus (CreateSpaceWorkItemStatusRequest) returns (CreateSpaceWorkItemStatusReply) {
+    option (google.api.http) = {
+      post: "/my/space/work_item_status/create",
+      body: "*",
+    };
+  }
+
+  rpc QSpaceWorkItemStatusById (QSpaceWorkItemStatusByIdRequest) returns (QSpaceWorkItemStatusByIdReply) {
+    option (google.api.http) = {
+      post: "/my/space/work_item_status/by_id",
+      body: "*",
+    };
+  }
+
+  rpc GetWorkItemRelationCount (GetWorkItemRelationCountRequest) returns (GetWorkItemRelationCountReply) {
+    option (google.api.http) = {
+      post: "/my/space/work_item_status/work_item_relation_count",
+      body: "*",
+    };
+  }
+
+
+  rpc GetTemplateRelationCount (GetTemplateRelationCountRequest) returns (GetTemplateRelationCountReply) {
+    option (google.api.http) = {
+      post: "/my/space/work_item_status/template_relation_count",
+      body: "*",
+    };
+  }
+}
+
+
+//获取关联的任务数量
+message GetTemplateRelationCountRequest {
+  int64 spaceId = 1;
+  int64 id = 2;
+}
+
+message GetTemplateRelationCountReply {
+  oneof result {
+    comm.ErrorInfo error = 1;
+    GetTemplateRelationCountReplyData data = 2;
+  }
+}
+
+message GetTemplateRelationCountReplyData  {
+  int64   total = 1;
+}
+
+
+
+//获取关联的任务数量
+message GetWorkItemRelationCountRequest {
+  int64 spaceId = 1;
+  int64 id = 2;
+}
+
+message GetWorkItemRelationCountReply {
+  oneof result {
+    comm.ErrorInfo error = 1;
+    GetWorkItemRelationCountReplyData data = 2;
+  }
+}
+
+message GetWorkItemRelationCountReplyData  {
+  int64   total = 1;
+}
+
+
+//--查询列表
+
+message QSpaceWorkItemStatusByIdRequest {
+  int64 space_id = 1;
+  repeated int64 ids = 2;
+}
+
+message QSpaceWorkItemStatusByIdReply {
+  oneof result {
+    comm.ErrorInfo error = 1;
+    QSpaceWorkItemStatusByIdReplyData data = 2;
+  }
+}
+
+message QSpaceWorkItemStatusByIdReplyData  {
+  repeated  QSpaceWorkItemStatusByIdReplyData_ListItem list = 1;
+  int32   total = 2;
+}
+
+message QSpaceWorkItemStatusByIdReplyData_ListItem {
+  int64 id = 1;
+  string name = 2  ;
+  string key = 3;
+  int64 work_item_type_id = 4;
+  int32 is_sys = 5;
+  int64 ranking = 6;
+  int32 status_type = 9;
+  int64  created_at = 7;
+  int64  updated_at = 8;
+  string flow_scope = 10;
+}
+
+
+//-- 创建任务状态
+message CreateSpaceWorkItemStatusRequest {
+  int64 space_id = 1;
+  string name = 2;
+  // state_flow:状态流 | work_flow:节点流
+  string flow_scope = 3;
+  // 状态类型 1:起始 2:过程 3:归档
+  int64 status_type = 4;
+}
+
+message CreateSpaceWorkItemStatusReply {
+  oneof result {
+    comm.ErrorInfo error = 1;
+    string data = 2;
+  }
+}
+
+
+//-- 删除任务状态
+message DelSpaceWorkItemStatusRequest {
+  int64 space_id = 1;
+  int64 id = 2;
+}
+
+message DelSpaceWorkItemStatusReply {
+  oneof result {
+    comm.ErrorInfo error = 1;
+    string data = 2;
+  }
+}
+
+
+//-- 修改名称
+message SetSpaceWorkItemStatusNameRequest {
+  int64 space_id = 1;
+  int64 id = 2;
+  string name = 3;
+}
+
+message SetSpaceWorkItemStatusNameReply {
+  oneof result {
+    comm.ErrorInfo error = 1;
+    string data = 2;
+  }
+}
+
+//---设置工作流排序
+message SetSpaceWorkItemStatusRankingRequest {
+
+  message List {
+    int64 id = 2;
+    int64 ranking = 3;
+  }
+
+  int64 space_id = 1;
+  repeated List list = 2;
+}
+
+message SetSpaceWorkItemStatusRankingReply {
+  oneof result {
+    comm.ErrorInfo error = 1;
+    string data = 2;
+  }
+}
+
+
+//--查询列表
+
+message SpaceWorkItemStatusListRequest {
+  int64 space_id = 1;
+  // state_flow:状态流 | work_flow:节点流
+  string flow_scope = 2;
+}
+
+message SpaceWorkItemStatusListReply {
+  oneof result {
+    comm.ErrorInfo error = 1;
+    SpaceWorkItemStatusListReplyResult data = 2;
+  }
+}
+
+message SpaceWorkItemStatusListReplyResult  {
+  message Item {
+    int64 id = 1;
+    string name = 2  ;
+    string key = 3;
+    string val = 4;
+    int64 work_item_type_id = 5;
+    int32 is_sys = 6;
+    int64 ranking = 7;
+    int32 status_type = 8;
+    int64  created_at = 9;
+    int64  updated_at = 10;
+    string flow_scope = 11;
+  }
+
+  repeated  Item list = 1;
+  int32   total = 2;
+}
+

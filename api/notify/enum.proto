@@ -1,0 +1,88 @@
+syntax = "proto3";
+
+package notify;
+option go_package = "go-cs/api/notify;notify";
+
+enum InternalEvent {
+  I_NONE = 0;
+  BeforeAddCommentSendEvent = 1;
+  WsConnected = 2;
+}
+
+enum MsgType {
+  mt_none = 0;
+  mt_Notify = 1; //通知
+  mt_Cooperation = 2; //协同
+}
+
+
+// 通知事件类型
+enum Event {
+  NONE = 0;
+  AddMember = 1; //添加成员
+  RemoveMember = 2; //移除成员
+  QuitSpace = 3; //离开空间
+  ChangeRole = 4; //权限变更
+  ChangeSpaceName = 5; //空间名称变更
+  ChangeSpaceDescribe = 6; //空间描述变更
+  DeleteSpace = 7; //删除空间
+  TransferSpace = 8; //转让空间
+  ChangeSpaceNotify = 9;//修改项目通知
+
+  RollbackWorkItem = 10; //回滚工作项
+  CloseWorkItem = 11; //关闭工作项
+  TerminateWorkItem = 12; //终止工作项
+  CompleteWorkItem = 13; //完成工作项
+  RestartWorkItem = 14; //重启工作项
+  AddCommentEvent = 15; //添加评论
+  ResumeWorkItem = 17; //恢复工作项
+  DeleteWorkItem = 18; //删除工作项
+  TransferWorkItem = 19; //工作项转移
+  DeleteComment = 20; //删除评论
+  UpdateComment = 21; //更新评论
+  AddCommentEmoji = 22; //添加评论表情
+  DeleteTag = 23; //删除标签
+
+  AdminChangeUserNickname = 80;// 管理员修改用户昵称
+  AdminChangeUserRole = 81;// 管理员修改用户角色
+  AdminCancelUser = 82;// 管理员注销用户
+
+  ChangeWorkItemField = 102;//工作项名称变更
+  ChangeWorkItemDirector = 104;//工作项负责人变更
+  ChangeWorkItemTag = 107;//工作项标签变更
+  CreateChildWorkItem = 112;//创建子工作项
+  ChangeWorkItemFlowNode = 114;//工作项流程节点变更
+  SetWorkItemFile = 113;//删除工作项附件
+  CreateWorkItem = 115; //创建工作项
+  CreateSpace = 116; //创建空间
+
+  SetSpaceNotify = 117; //设置空间通知
+  SetSpaceWorkingDay = 118;//设置空间工作日
+  SpaceAbnormal = 120;//空间异常
+  RemindWork = 121;//提醒工作项负责人
+  ChangeWorkFlowNodePlanTime = 122;// 设置节点排期
+  SetCommentDeletable = 123;//设置评论删除权限
+  SetCommentDeletableWhenArchived = 124;// 设置评论可删除当任务归档
+  SetCommentShowPos = 125;//设置评论展示位置
+
+  AddSpaceManager = 130; //添加空间管理员
+  RemoveSpaceManager = 131; //移除空间管理员
+
+  CreateMemberCategory = 140; //创建自定义用户组
+  DeleteMemberCategory = 141; //移除自定义用户组
+
+  CreateWorkFlow = 150; //创建流程
+  DeleteWorkFlow = 151; //删除流程
+  ChangeWorkFlowField = 152; //修改流程字段
+  SaveWorkFlowTemplate = 153; //保存流程模板
+
+  DisableWorkFlow = 154;
+  UpgradeTaskWorkFlow = 155; //升级任务流程
+  UpdateWorkFlow = 156; //更新流程
+
+  WorkItemExpired = 200;//工作项过期
+  WorkItemFlowNodeExpired = 201;//工作项流程节点过期
+
+  UpdateSpaceView = 202; //更新空间视图
+}
+

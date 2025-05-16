@@ -1,0 +1,36 @@
+syntax = "proto3";
+
+package comm;
+option go_package = "go-cs/api/comm;comm";
+
+
+enum VerifyType {
+  None = 0;
+  Login = 1;
+  Register = 2;
+  SetPwd = 3;
+  SetEmail = 4;
+  SetMobile = 5;
+}
+
+
+enum ThirdPlatformCode {
+  pf_None = 0;
+  //  pf_Email = 1;
+  //  pf_Mobile = 2;
+  pf_IM = 3; //IM
+  pf_QL = 4;
+  pf_Halala = 5;
+}
+
+enum CanalEvent {
+  ce_none = 0;
+  ce_SpaceWorkItem = 1;
+  ce_SpaceWorkObject = 5;
+  ce_SpaceMember = 3;
+  ce_SpaceTag = 4;
+  ce_Space = 6;
+  ce_User = 2;
+  ce_SpaceWorkVersion = 7;
+}
+

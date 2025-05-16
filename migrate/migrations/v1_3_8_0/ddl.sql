@@ -1,0 +1,1 @@
+UPDATE `job_variables` SET `variable_value` = '{\"last_dwd_date\":\"2024-08-28 00:00:00\"}' WHERE `job_name` = 'dwd_to_dws_1h_job:dws1h:dwd_to_dws_member_witem_1h:dwsMbrWitem1h' AND `variable_name` = 'val';

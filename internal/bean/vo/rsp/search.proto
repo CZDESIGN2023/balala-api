@@ -1,0 +1,91 @@
+syntax = "proto3";
+package rsp;
+option go_package = "go-cs/internal/bean/vo/rsp;rsp";
+
+import "bean/vo/rsp/user.proto";
+import "bean/vo/rsp/work_flow.proto";
+import "google/protobuf/any.proto";
+
+message FlowNode {
+  message PlanTime {
+    sint64 start_at = 1; //计划任务开始时间
+    sint64 complete_at = 2; //计划任务完成时间
+  }
+
+  string flow_node_name = 1;
+  string flow_node_code = 2; //节点编码
+  repeated string directors = 3; //节点负责人
+  PlanTime plan_time = 4;
+}
+
+message SearchWorkItemInfo {
+
+  message StatusInfo {
+    int64 id = 1; //工作项状态id
+    string key = 2; //工作项状态key
+    string val = 3;//任务状态
+    string name = 4; //状态名称
+    int64 type = 5; //状态类型
+  }
+
+  message PlanTime {
+    sint64 start_at = 1; //计划任务开始时间
+    sint64 complete_at = 2; //计划任务完成时间
+  }
+
+  sint64 id = 1;
+  sint64 space_id = 2;//空间id
+  sint64 user_id = 3;//创建用户id
+  sint64 work_object_id = 4;//工作项id
+  string work_object_name = 38;//工作项id
+  string work_item_guid = 5;//空间Guid
+  string work_item_name = 6;//空间名称
+  PlanTime plan_time = 8; //  排期
+  int32 process_rate = 10; //完成进度比例
+  sint64 created_at = 13;//创建时间
+  sint64 updated_at = 14;//更新时间
+  sint64 deleted_at = 15;//删除时间
+  string priority = 16; //优先级
+  sint64 pid = 17; //上级任务id, >0 表示当前为子任务
+  string space_name = 18;
+  sint64 last_status_at = 25; //历史状态更新时间
+  int32 is_restart = 27; //是否为重启任务
+  int64 restart_at = 28; //重启时间
+  repeated uint32 iconFlags = 29;//图标标记
+  int64 space_role_id = 30;
+  int64 restart_user_id = 31;
+  int32 unread_comment_num = 32; //参与人未读评论数
+  int64 resume_at = 33; //恢复时间
+  StatusInfo parentStatus = 34;//父级任务状态
+  bool followed = 35;//是否已关注
+  int64 versionId = 36;//版本id -> 版本表
+  string versionName = 37;//版本名称 -> 版本表
+  int32 commentNum = 39; //评论数
+  int64 flow_id = 40; // 流程id
+  int64 work_flow_template_id = 41; // 流程模版id
+  string flow_name = 42; // 流程名
+  string flow_mode = 43; // 流程
+  string work_item_type_key = 44;
+
+  repeated SimpleUserInfo directors = 50;
+  SimpleUserInfo creator = 51;
+  google.protobuf.Any flowNode = 49;
+  rsp.SimpleUserInfo restartUser = 53;
+  repeated rsp.SimpleUserInfo participators = 54; //任务参与人
+  string operation_permissions = 55; //任务功能操作权限角色
+  StatusInfo work_item_status = 56;
+  PlanTime node_plan_time = 9; //  当前节点排期
+  repeated FlowNode nodes = 57;
+}
+
+
+message QSpaceWorkItemByPidResult {
+  message Item {
+    int64 id = 1;
+    sint64 space_id = 2;//空间id
+    sint64 user_id = 3;//创建用户id
+    string work_item_name = 6;//空间名称
+    sint32 work_item_status = 7;//空间状态;0:禁用,1:正常
+  }
+  repeated Item list = 1;
+}

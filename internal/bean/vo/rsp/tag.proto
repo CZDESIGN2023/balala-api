@@ -1,0 +1,10 @@
+syntax = "proto3";
+package rsp;
+option go_package = "go-cs/internal/bean/vo/rsp;rsp";
+
+
+message TagInfo {
+  sint64 id = 1;
+  string tag_name = 5;//tag名称
+  int64  tag_relation_num = 9; //tag关联使用的次数
+}

@@ -1,0 +1,67 @@
+services:
+  es7:
+    image: elasticsearch:7.17.22
+    mem_limit: 4g
+    networks:
+      - bridge-net
+    ports:
+      - '${ES_PORT}:9200'
+    environment:
+      - discovery.type=single-node
+
+  kib7:
+    image: kibana:7.17.22
+    networks:
+      - bridge-net
+    ports:
+      - '${KIBANA_PORT}:5601'
+    environment:
+      ELASTICSEARCH_HOSTS: '["http://es7:9200"]'
+    depends_on:
+      - es7
+
+  mysql2es:
+    image: czdesign2023/mysql2es
+    restart: always
+    networks:
+      - bridge-net
+    volumes:
+      - $PWD/etc/river.toml:/app/etc/river.toml
+    depends_on:
+      - es7
+      - mysql
+
+  mysql:
+    image: mysql:8.0.35
+    networks:
+      - bridge-net
+    ports:
+      - '${MYSQL_PORT}:3306'
+    environment:
+      MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD}" # root账号密码
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  redis:
+    image: redis:7.2.3
+    networks:
+      - bridge-net
+    ports:
+      - '${REDIS_PORT}:6379'
+
+  nginx:
+    image: nginx:1.23.1
+    networks:
+      - bridge-net
+    ports:
+      - '${NGINX_PORT}:80'
+    volumes:
+      - /www/wwwroot/qa.v4.balala.eatdesk.net/:/usr/share/nginx/html/
+
+
+networks:
+  bridge-net:
+    driver: bridge
+
+volumes:
+  mysql_data:

@@ -1,0 +1,1 @@
+UPDATE work_item_status SET status_type = 2 WHERE status_type = 1;
